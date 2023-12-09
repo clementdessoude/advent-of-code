@@ -10,7 +10,7 @@ public class Day8 {
         return network.navigate(instructions.toCharArray());
     }
 
-    public int part2(List<String> lines) {
+    public long part2(List<String> lines) {
         String instructions = lines.get(0);
         NetworkPart2 network = new NetworkPart2(lines.subList(2, lines.size()));
 

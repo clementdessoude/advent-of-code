@@ -41,14 +41,7 @@ class Day8Test {
     void should_solve_part_2() {
         List<String> lines = getLines("day8/input.txt");
 
-        // cycles
-        // 13201
-        // 18113
-        // 22411
-        // 20569
-        // 21797
-        // 24253
-        var result = 21_366_921_060_721L;
+        var result = day.part2(lines);
 
         assertThat(result).isEqualTo(21_366_921_060_721L);
     }

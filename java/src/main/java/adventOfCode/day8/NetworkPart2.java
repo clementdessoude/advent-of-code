@@ -27,50 +27,31 @@ class NetworkPart2 {
         this.lefts = lefts;
         this.rights = rights;
     }
-
-    // 13201
-    // 18113
-    // 22411
-    // 20569
-    // 21797
-    // 24253
-    public int navigate(char[] instructions) {
+    
+    public long navigate(char[] instructions) {
         List<String> positions = rights.keySet().stream().filter(s -> s.endsWith("A")).toList();
 
-        int moves = 0;
-        StringBuilder sb = new StringBuilder();
-        boolean flag = false;
-        while (!hasEnded(positions)) {
-            if (flag) {
-//                sb.append(positions.get(4)).append("-");
-            }
-            if (positions.get(5).endsWith("Z")) {
-                if (flag) {
-                    sb.append(positions.get(5));
-                    break;
-                } else {
-                    System.out.println(moves);
-                    System.out.println(moves % instructions.length);
-                    sb.append(positions.get(5)).append("-");
-                    flag = true;
-                }
-            }
-            char instruction = instructions[moves % instructions.length];
+        List<Long> cycles = positions
+            .stream()
+            .map(initialPosition -> getCycle(initialPosition, instructions))
+            .toList();
+
+        return Utils.lcm(cycles.toArray(new Long[0]));
+    }
+
+    private Long getCycle(String initialPosition, char[] instructions) {
+        String position = initialPosition;
+        long moves = 0L;
+        while (!position.endsWith("Z")) {
+            char instruction = instructions[(int)(moves % instructions.length)];
             if (instruction == 'R') {
-                positions = positions.stream().map(rights::get).toList();
+                position = rights.get(position);
             } else {
-                positions = positions.stream().map(lefts::get).toList();
+                position = lefts.get(position);
             }
             moves++;
         }
 
-        System.out.println(moves);
-        System.out.println(moves % instructions.length);
-        System.out.println(sb.toString());
         return moves;
-    }
-
-    static boolean hasEnded(List<String> positions) {
-        return positions.stream().filter(s -> s.endsWith("Z")).count() > 1;
     }
 }
