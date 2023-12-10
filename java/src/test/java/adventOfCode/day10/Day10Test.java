@@ -48,12 +48,39 @@ class Day10Test {
     }
 
     @Test
-    void should_solve_part_2_example() {
-        List<String> lines = getLines("day10/example.txt");
+    void should_solve_part_2_example_1() {
+        List<String> lines = getLines("day10/part2_example_1.txt");
 
         var result = day.part2(lines);
 
-        assertThat(result).isEqualTo(2);
+        assertThat(result).isEqualTo(4);
+    }
+
+    @Test
+    void should_solve_part_2_example_2() {
+        List<String> lines = getLines("day10/part2_example_2.txt");
+
+        var result = day.part2(lines);
+
+        assertThat(result).isEqualTo(4);
+    }
+
+    @Test
+    void should_solve_part_2_example_3() {
+        List<String> lines = getLines("day10/part2_example_3.txt");
+
+        var result = day.part2(lines);
+
+        assertThat(result).isEqualTo(8);
+    }
+
+    @Test
+    void should_solve_part_2_example_4() {
+        List<String> lines = getLines("day10/part2_example_4.txt");
+
+        var result = day.part2(lines);
+
+        assertThat(result).isEqualTo(10);
     }
 
     @Test
@@ -62,6 +89,6 @@ class Day10Test {
 
         var result = day.part2(lines);
 
-        assertThat(result).isEqualTo(977);
+        assertThat(result).isEqualTo(285);
     }
 }
