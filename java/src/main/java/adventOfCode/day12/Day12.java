@@ -1,9 +1,7 @@
 
 package adventOfCode.day12;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -28,21 +26,42 @@ public class Day12 {
                 .map(Integer::parseInt)
                 .toList();
 
+        System.out.println(row);
+        System.out.println(pattern.length() - sources.stream().mapToLong(s -> s + 1).sum() + 1);
         return numberOfArrangements(pattern, sources);
     }
+
+    record Cache(
+            String pattern,
+            List<Integer> brokenSources
+    ) {}
+    private static final Map<Cache, Long> cache = new HashMap<>();
 
     private static long numberOfArrangements(
             String pattern,
             List<Integer> brokenSources
     ) {
+        var cacheKey = new Cache(pattern, brokenSources);
+        if (cache.containsKey(cacheKey)) {
+            return cache.get(cacheKey);
+        }
+
+
         int idxOfBrokenSource = pattern.indexOf('#');
         if (brokenSources.isEmpty()) {
-            return idxOfBrokenSource == -1 ? 1 : 0;
+            int result = idxOfBrokenSource == -1 ? 1 : 0;
+
+            cache.put(cacheKey, (long) result);
+
+            return result;
         }
 
         if (pattern.length()
                 < brokenSources.stream().mapToInt(i -> i).sum()
                 + brokenSources.size() - 1) {
+
+            cache.put(cacheKey, 0L);
+
             return 0;
         }
 
@@ -54,11 +73,13 @@ public class Day12 {
         if (idxOfUnknownSource == -1 || (idxOfBrokenSource < idxOfUnknownSource
                 && idxOfBrokenSource != -1
         )) {
-            return considerNextAsBrokenSource(
+            long result = considerNextAsBrokenSource(
                     pattern,
                     brokenSources,
                     idxOfBrokenSource
             );
+            cache.put(cacheKey, result);
+            return result;
         }
 
         // Consider as brokenSource
@@ -67,10 +88,19 @@ public class Day12 {
                 brokenSources,
                 idxOfUnknownSource
         );
-        var optionIfNotBrokenSource = numberOfArrangements(pattern.substring(
-                idxOfUnknownSource + 1), brokenSources);
 
-        return optionIfBrokenSource + optionIfNotBrokenSource;
+        Cache key1 = new Cache(
+                pattern.substring(idxOfUnknownSource + 1),
+                brokenSources
+        );
+
+        var optionIfNotBrokenSource = cache.containsKey(key1) ? cache.get(key1) : numberOfArrangements(pattern.substring(
+                idxOfUnknownSource + 1), brokenSources);
+        cache.put(key1, optionIfNotBrokenSource);
+
+        long result = optionIfBrokenSource + optionIfNotBrokenSource;
+        cache.put(cacheKey, result);
+        return result;
     }
 
     private static long considerNextAsBrokenSource(
@@ -101,13 +131,17 @@ public class Day12 {
             return 0;
         }
 
-        return numberOfArrangements(
-                pattern.substring(i + 1),
-                brokenSources.subList(
-                        1,
-                        brokenSources.size()
-                )
+        String substring = pattern.substring(i + 1);
+        List<Integer> brokenSources1 = brokenSources.subList(
+                1,
+                brokenSources.size()
         );
+        long result = numberOfArrangements(
+                substring,
+                brokenSources1
+        );
+        cache.put(new Cache(substring, brokenSources1), result);
+        return result;
     }
 
     public Long part2(List<String> lines) {
@@ -115,13 +149,18 @@ public class Day12 {
                 .stream()
                 .map(Day12::unfold)
                 .toList();
+
+        var sum = 0L;
         for (int i = 0; i < lines.size(); i++) {
+            long l = numberOfArrangements(unfolds.get(i));
             System.out.println("Line "
                                        + i
                                        + ": "
-                                       + numberOfArrangements(unfolds.get(i)));
+                                       + l);
+            sum += l;
         }
-        return null;
+
+        return sum;
     }
 
     public Long part2Threads(List<String> lines) {

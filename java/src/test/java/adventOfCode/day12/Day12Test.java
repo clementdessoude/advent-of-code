@@ -34,7 +34,8 @@ class Day12Test {
                 Arguments.of("?#?#?#?#?#?#?#? 1,3,1,6", 1),
                 Arguments.of("????.#...#... 4,1,1", 1),
                 Arguments.of("????.######..#####. 1,6,5", 4),
-                Arguments.of("?###???????? 3,2,1", 10)
+                Arguments.of("?###???????? 3,2,1", 10),
+                Arguments.of(".??????????#.??.? 4,1,1,1,1", 32)
         );
     }
 
@@ -53,7 +54,7 @@ class Day12Test {
 
         var result = day.part1(lines);
 
-        assertThat(result).isEqualTo(1980437560);
+        assertThat(result).isEqualTo(7084);
     }
 
     @ParameterizedTest
@@ -92,15 +93,6 @@ class Day12Test {
         List<String> lines = getLines("day12/input.txt");
 
         var result = day.part2(lines);
-
-        assertThat(result).isEqualTo(977);
-    }
-
-    @Test
-    void should_solve_part_2_threads() {
-        List<String> lines = getLines("day12/input.txt");
-
-        var result = day.part2Threads(lines);
 
         assertThat(result).isEqualTo(977);
     }
