@@ -30,12 +30,35 @@ class Day14Test {
     }
 
     @Test
+    void should_cycle_example() {
+        List<String> lines = getLines("day14/example.txt");
+
+        var result = Day14.cycle(lines, 0);
+
+        List<String> expected = List.of(
+            ".....#....",
+            "....#...O#",
+            "...OO##...",
+            ".OO#......",
+            ".....OOO#.",
+            ".O#...O#.#",
+            "....O#....",
+            "......OOOO",
+            "#...O###..",
+            "#..OO#...."
+        );
+        for (int i = 0; i < result.result().size(); i++) {
+            assertThat(result.result().get(i)).isEqualTo(expected.get(i));
+        }
+    }
+
+    @Test
     void should_solve_part_2_example() {
         List<String> lines = getLines("day14/example.txt");
 
         var result = day.part2(lines);
 
-        assertThat(result).isEqualTo(2);
+        assertThat(result).isEqualTo(64);
     }
 
     @Test
