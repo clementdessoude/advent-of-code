@@ -26,8 +26,6 @@ public class Day12 {
                 .map(Integer::parseInt)
                 .toList();
 
-        System.out.println(row);
-        System.out.println(pattern.length() - sources.stream().mapToLong(s -> s + 1).sum() + 1);
         return numberOfArrangements(pattern, sources);
     }
 
@@ -153,51 +151,10 @@ public class Day12 {
         var sum = 0L;
         for (int i = 0; i < lines.size(); i++) {
             long l = numberOfArrangements(unfolds.get(i));
-            System.out.println("Line "
-                                       + i
-                                       + ": "
-                                       + l);
             sum += l;
         }
 
         return sum;
-    }
-
-    public Long part2Threads(List<String> lines) {
-        var unfolds = lines
-                .stream()
-                .map(Day12::unfold)
-                .toList();
-
-        List<Future<String>> futureTasks = new ArrayList<>();
-        // Executor (Chaque nouvelle Task démarre un nouveau Virtual Thread)
-        try (ExecutorService executorService = Executors.newVirtualThreadPerTaskExecutor()) {
-
-            IntStream.range(50, lines.size()).parallel()
-                    .filter(i -> lines.get(i).startsWith("#") || lines.get(i).endsWith("#"))
-                     .forEach(i -> {
-
-                // Submit Task + Démarre nouveau Virtual Thread
-                Future<String> futureTask = executorService.submit(() -> "Line "
-                        + i
-                        + ": "
-                        + numberOfArrangements(unfolds.get(i)));
-
-                futureTasks.add(futureTask);
-            });
-
-            futureTasks.forEach(futureTask -> {
-                try {
-
-                    System.out.println(futureTask.get());
-
-                } catch (InterruptedException | ExecutionException e) {
-                    throw new RuntimeException(e);
-                }
-            });
-        }
-
-        return null;
     }
 
     private static String unfold(String row) {

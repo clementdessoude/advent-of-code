@@ -75,7 +75,7 @@ class Day12Test {
                 Arguments.of("????.#...#... 4,1,1", 16),
                 Arguments.of("????.######..#####. 1,6,5", 2500),
                 Arguments.of("?###???????? 3,2,1", 506250),
-                Arguments.of(".??????????#.??.? 4,1,1,1,1", 506250)
+                Arguments.of(".??????????#.??.? 4,1,1,1,1", 1883226112)
         );
     }
 
@@ -94,7 +94,7 @@ class Day12Test {
 
         var result = day.part2(lines);
 
-        assertThat(result).isEqualTo(977);
+        assertThat(result).isEqualTo(8414003326821L);
     }
 
     @Test
