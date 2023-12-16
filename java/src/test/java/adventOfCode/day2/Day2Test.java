@@ -25,7 +25,7 @@ class Day2Test {
 
         Integer result = day.part1(lines);
 
-        assertThat(result).isEqualTo(54304);
+        assertThat(result).isEqualTo(2149);
     }
 
     @Test

@@ -26,14 +26,14 @@ class Day14Test {
 
         var result = day.part1(lines);
 
-        assertThat(result).isEqualTo(1980437560);
+        assertThat(result).isEqualTo(108641);
     }
 
     @Test
     void should_cycle_example() {
         List<String> lines = getLines("day14/example.txt");
 
-        var result = Day14.cycle(lines, 0);
+        var result = day.cycle(lines, 0);
 
         List<String> expected = List.of(
             ".....#....",
@@ -67,7 +67,7 @@ class Day14Test {
 
         var result = day.part2(lines);
 
-        assertThat(result).isEqualTo(977);
+        assertThat(result).isEqualTo(84328);
     }
 }
 

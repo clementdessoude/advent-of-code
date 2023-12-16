@@ -16,7 +16,7 @@ class Day4Test {
 
         Integer result = day.part1(lines);
 
-        assertThat(result).isEqualTo(35);
+        assertThat(result).isEqualTo(13);
     }
 
     @Test

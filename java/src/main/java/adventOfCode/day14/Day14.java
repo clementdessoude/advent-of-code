@@ -35,10 +35,10 @@ public class Day14 {
 
     record CycleCache(List<String> result, int setInCacheAt) {}
     record Cycle(List<String> result, Integer cycleSize) {}
-    static Map<List<String>, CycleCache> roll = new HashMap<>();
+    private Map<List<String>, CycleCache> roll = new HashMap<>();
 
 
-    static Cycle cycle(List<String> lines, int cycleNumber) {
+    Cycle cycle(List<String> lines, int cycleNumber) {
         if (roll.containsKey(lines)) {
             return new Cycle(roll.get(lines).result(), cycleNumber - roll.get(lines).setInCacheAt());
         }
@@ -53,7 +53,7 @@ public class Day14 {
         return new Cycle(tmp, null);
     }
 
-    private static List<String> roll(List<String> lines) {
+    private List<String> roll(List<String> lines) {
         return IntStream
             .range(0, lines.get(0).length())
             .mapToObj(j -> {

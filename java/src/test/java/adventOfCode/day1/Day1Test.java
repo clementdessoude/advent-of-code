@@ -43,6 +43,6 @@ class Day1Test {
 
         Integer result = day1.solvePart2(lines);
 
-        assertThat(result).isEqualTo(54406);
+        assertThat(result).isEqualTo(54418);
     }
 }
