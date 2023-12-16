@@ -115,7 +115,7 @@ class Day16Test {
         List<String> directions = expected.lines().filter(s -> !s.isBlank()).toList();
 
         var grid = new Grid(lines);
-        grid.solve();
+        grid.solve(new Position(0, -1), BeamDirection.RIGHT);
 
         assertThat(grid.showDirections()).isEqualTo(directions);
     }
@@ -126,7 +126,7 @@ class Day16Test {
         List<String> directions = getLines("day16/example_energized.txt");
 
         var grid = new Grid(lines);
-        grid.solve();
+        grid.solve(new Position(0, -1), BeamDirection.RIGHT);
 
         assertThat(grid.showEnergized()).isEqualTo(directions);
     }
@@ -145,12 +145,13 @@ class Day16Test {
         List<String> lines = getLines("day16/input.txt");
 
         var grid = new Grid(lines);
-        grid.solve();
+        grid.solve(new Position(0, -1), BeamDirection.RIGHT);
         System.out.println(
             String.join("\n", grid.showDirections())
         );
 
-        assertThat(grid.energizedCount()).isEqualTo(8901);
+        assertThat(grid.energizedCount(new Position(0, -1),
+                                       BeamDirection.RIGHT)).isEqualTo(8901);
     }
 
     @Test
@@ -159,7 +160,7 @@ class Day16Test {
 
         var result = day.part2(lines);
 
-        assertThat(result).isEqualTo(2);
+        assertThat(result).isEqualTo(51);
     }
 
     @Test
@@ -168,7 +169,7 @@ class Day16Test {
 
         var result = day.part2(lines);
 
-        assertThat(result).isEqualTo(977);
+        assertThat(result).isEqualTo(9064);
     }
 }
 

@@ -28,8 +28,8 @@ final class Grid {
         return lines.get(0).length();
     }
 
-    public Long energizedCount() {
-        solve();
+    public Long energizedCount(Position startupPosition, BeamDirection startupDirection) {
+        solve(startupPosition, startupDirection);
 
         return IntStream
             .range(0, lines.size())
@@ -47,11 +47,10 @@ final class Grid {
         }
     }
 
-    void solve() {
+    void solve(Position startupPosition, BeamDirection startupDirection) {
         Queue<WaitingBeam> waitingBeams = new LinkedList<>();
-        Position startupPosition = new Position(0, -1);
-        waitingBeams.add(new WaitingBeam(startupPosition, BeamDirection.RIGHT));
-        beamDirections.add(startupPosition, BeamDirection.RIGHT);
+        waitingBeams.add(new WaitingBeam(startupPosition, startupDirection));
+        beamDirections.add(startupPosition, startupDirection);
 
         while (!waitingBeams.isEmpty()) {
             WaitingBeam waitingBeam = waitingBeams.poll();
