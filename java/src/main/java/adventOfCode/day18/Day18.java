@@ -117,20 +117,45 @@ public class Day18 {
 
     private static Instruction parse(String row) {
         var split = row.split(" ");
-        var color = split[2].replace("(", "").replace(")", "");
 
-        return new Instruction(split[0].charAt(0), Integer.parseInt(split[1]), color);
+        return new Instruction(split[0].charAt(0), Integer.parseInt(split[1]));
     }
 
     record Hole(int i, int j) {}
     record Instruction(
         char direction,
-        int count,
-        String color
+        long count
     ) {}
 
     public Long part2(List<String> lines) {
-        return null;
+        var instructions = lines
+            .stream()
+            .map(Day18::parsePart2)
+            .toList();
+
+        List<Hole> holes = getHoles(instructions);
+        List<List<String>> map = getMap(holes);
+        fillInner(map);
+
+        return countHoles(map);
+    }
+
+    static Instruction parsePart2(String row) {
+        var split = row.split(" ");
+        var instruction = split[2].replace("(", "").replace(")", "");
+
+        var direction = switch (instruction.charAt(instruction.length() - 1)) {
+            case '0' -> 'R';
+            case '1' -> 'D';
+            case '2' -> 'L';
+            case '3' -> 'U';
+            default -> throw new RuntimeException();
+        };
+
+        var hexadecimalString = instruction.substring(1, instruction.length() - 1);
+        long hexadecimal = Long.parseLong(hexadecimalString, 16);
+
+        return new Instruction(direction, hexadecimal);
     }
 }
 
