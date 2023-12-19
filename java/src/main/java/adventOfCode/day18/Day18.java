@@ -125,7 +125,11 @@ public class Day18 {
     record Instruction(
         char direction,
         long count
-    ) {}
+    ) {
+        boolean isVertical() {
+            return direction == 'U' || direction == 'D';
+        }
+    }
 
     public Long part2(List<String> lines) {
         var instructions = lines
@@ -133,11 +137,53 @@ public class Day18 {
             .map(Day18::parsePart2)
             .toList();
 
-        List<Hole> holes = getHoles(instructions);
-        List<List<String>> map = getMap(holes);
-        fillInner(map);
+        return count(instructions);
+    }
 
-        return countHoles(map);
+    static long count(List<Instruction> instructions) {
+        long currentX = -1;
+        long value = 0;
+        for (int i = 0; i < instructions.size(); i++) {
+            var instruction = instructions.get(i);
+            if (instruction.isVertical()) {
+                var nextInstruction = instructions.get((i + 1) % instructions.size());
+                var previousInstruction = instructions.get(i - 1);
+                var sign1 = instruction.direction == 'U' ? 1 : -1;
+                var sign2 = currentX < 0 ? 1 : -1;
+                var sign3 = sign1 * sign2;
+
+                long x = currentX < 0 ? Math.abs(currentX) : currentX + 1;
+                long y = instruction.count();
+
+                if (currentX > 0) {
+                    if (previousInstruction.direction == 'R' && nextInstruction.direction == 'L') {
+                        y += 1;
+                    } else if (previousInstruction.direction == 'L' && nextInstruction.direction == 'R') {
+                        y -= 1;
+                    }
+                } else {
+                    if (sign3 < 0) {
+                        x -= 1;
+                    }
+                    if (previousInstruction.direction == 'L' && nextInstruction.direction == 'R') {
+                        y += 1;
+                    } else if (previousInstruction.direction == 'R' && nextInstruction.direction == 'L') {
+                        y -= 1;
+                    }
+                }
+
+                long tmp = sign3 * x * y;
+                System.out.println(currentX + " - " + instruction + " - " + tmp);
+                value += tmp;
+            } else {
+                if (instruction.direction == 'L') {
+                    currentX -= instruction.count();
+                } else {
+                    currentX += instruction.count();
+                }
+            }
+        }
+        return Math.abs(value);
     }
 
     static Instruction parsePart2(String row) {

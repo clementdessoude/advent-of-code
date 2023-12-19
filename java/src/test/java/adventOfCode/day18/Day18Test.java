@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
 class Day18Test {
@@ -56,6 +57,38 @@ class Day18Test {
     @MethodSource("providePart2Examples")
     void should_parse_instructions(String row, Day18.Instruction expected) {
         var result = Day18.parsePart2(row);
+
+        assertThat(result).isEqualTo(expected);
+    }
+
+    @Test
+    void should_solve_part_2_example_cubic() {
+        List<String> lines = getLines("day18/cubic.txt");
+
+        var result = day.part2(lines);
+
+        assertThat(result).isEqualTo(461938L * 461938L);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+        "one, 41",
+        "two, 26",
+        "three, 48",
+        "four, 50",
+    })
+    void should_solve_part_2_example_one(String fileName, long expected) {
+        List<String> lines = getLines("day18/%s.txt".formatted(fileName));
+
+        var instructions = lines
+            .stream()
+            .map(r -> {
+                String[] split = r.split(" ");
+                return new Day18.Instruction(split[0].charAt(0), Integer.parseInt(split[1]));
+            })
+            .toList();
+
+        var result = Day18.count(instructions);
 
         assertThat(result).isEqualTo(expected);
     }
