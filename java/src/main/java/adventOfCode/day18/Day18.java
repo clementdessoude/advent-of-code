@@ -7,6 +7,10 @@ import org.jetbrains.annotations.NotNull;
 
 public class Day18 {
 
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_RESET = "\u001B[0m";
+
     public Long part1(List<String> lines) {
         var instructions = lines
             .stream()
@@ -110,7 +114,7 @@ public class Day18 {
         return holes;
     }
 
-    private void printHoles(List<List<String>> map) {
+    static void printHoles(List<List<String>> map) {
         String printed = map.stream().map(r -> String.join("", r)).collect(Collectors.joining("\n"));
         System.out.println(printed);
     }
@@ -137,12 +141,17 @@ public class Day18 {
             .map(Day18::parsePart2)
             .toList();
 
-        List<List<String>> map = mapPart2(instructions);
+        var map = mapPart2(instructions);
 
-        return count(instructions);
+        long count = count(map, instructions);
+
+        System.out.println("Result:");
+        printHoles(map.map);
+        return count;
     }
 
-    private List<List<String>> mapPart2(List<Instruction> instructions) {
+    record Map(List<Long> xs, List<Long> ys, List<List<String>> map) {}
+     static Map mapPart2(List<Instruction> instructions) {
         List<Long> xs = new ArrayList<>();
         List<Long> ys = new ArrayList<>();
 
@@ -158,8 +167,12 @@ public class Day18 {
                 case 'L' -> currentX -= instruction.count;
             }
 
-            xs.add(currentX);
-            ys.add(currentY);
+            if(!xs.contains(currentX)) {
+                xs.add(currentX);
+            }
+            if(!ys.contains(currentY)) {
+                ys.add(currentY);
+            }
         }
         xs.sort(Comparator.comparing(l -> l));
         ys.sort(Comparator.comparing(l -> l));
@@ -223,15 +236,17 @@ public class Day18 {
             currentY = newY;
         }
 
-        return map;
+        return new Map(xs, ys, map);
     }
 
-    static long count(List<Instruction> instructions) {
+    static long count(Map map, List<Instruction> instructions) {
         long currentX = -1;
+        long currentY = 0;
         long value = 0;
         for (int i = 0; i < instructions.size(); i++) {
             var instruction = instructions.get(i);
             if (instruction.isVertical()) {
+
                 var nextInstruction = instructions.get((i + 1) % instructions.size());
                 var previousInstruction = instructions.get(i - 1);
                 var sign1 = instruction.direction == 'U' ? 1 : -1;
@@ -260,8 +275,55 @@ public class Day18 {
                 }
 
                 long tmp = sign3 * x * y;
-//                System.out.println(currentX + " - " + instruction + " - " + tmp);
+                System.out.println(currentX + " - " + instruction + " - " + tmp);
                 value += tmp;
+
+//                String color = ANSI_GREEN;
+//                if (sign3 < 0) {
+//                    color = ANSI_RED;
+//                }
+//
+//                var nextY = currentY - sign1 * instruction.count;
+//
+//                long diffX = x - Math.abs(currentX);
+//                int indexXStart = map.xs.indexOf(-1L);
+//                int currentIndexX = map.xs.indexOf(currentX) + (int) diffX;
+//
+//                var xStart = Math.min(indexXStart + 1, currentIndexX);
+//                var xEnd = Math.max(indexXStart + 1, currentIndexX);
+//
+//                long diffY = y - instruction.count;
+//                int indexYCurrent = map.ys.indexOf(currentY);
+//                int indexYNext = map.ys.indexOf(nextY);
+//
+//                var yStart = Math.min(indexYCurrent, indexYNext);
+//                var yEnd = Math.max(indexYCurrent, indexYNext);
+//
+//                if (instruction.direction == 'U') {
+//                    yStart -= (int) diffY;
+//                } else {
+//                    yEnd += (int) diffY;
+//                }
+//
+//                int addY = 0;
+//                if (yStart >= 0 && map.map.get(yStart).get(xStart).contains(color)) {
+//                    addY += 1;
+//                }
+//
+//                if (yEnd < map.ys.size() && map.map.get(yEnd).get(xStart).contains(color)) {
+//                    addY -= 1;
+//                }
+//
+//                for (int j = xStart; j < xEnd; j++) {
+//                    for (int k = yStart + 1 + addY; k < yEnd + addY; k++) {
+//                        map.map.get(k).set(j, color(map.map.get(k).get(j), color));
+//                    }
+//                    map.map.get(indexYCurrent + addY).set(j, color(map.map.get(indexYCurrent + addY).get(j), color));
+//                }
+
+//                printHoles(map.map);
+//                System.out.println();
+                currentY -= sign1 * instruction.count;
             } else {
                 if (instruction.direction == 'L') {
                     currentX -= instruction.count();
@@ -271,6 +333,21 @@ public class Day18 {
             }
         }
         return Math.abs(value);
+    }
+
+    private static String color(String s, String color) {
+        String opposite = color.equals(ANSI_GREEN) ? ANSI_RED : ANSI_GREEN;
+        if (s.contains(opposite)) {
+            return stripColor(s);
+        }
+        if (s.contains(color)) {
+            throw new RuntimeException();
+        }
+        return color + stripColor(s) + ANSI_RESET;
+    }
+
+    private static String stripColor(String s) {
+        return s.replace(ANSI_RESET, "").replace(ANSI_GREEN, "").replace(ANSI_RED, "");
     }
 
     static Instruction parsePart2(String row) {

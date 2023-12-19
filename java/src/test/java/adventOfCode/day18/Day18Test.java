@@ -88,7 +88,10 @@ class Day18Test {
             })
             .toList();
 
-        var result = Day18.count(instructions);
+        Day18.Map map = Day18.mapPart2(instructions);
+        var result = Day18.count(map, instructions);
+
+        Day18.printHoles(map.map());
 
         assertThat(result).isEqualTo(expected);
     }
