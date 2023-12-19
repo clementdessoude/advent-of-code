@@ -39,7 +39,7 @@ public class Day18 {
     }
 
 
-    private void fillInner(List<List<String>> map) {
+    static void fillInner(List<List<String>> map) {
         Location inner = new Location(1, map.get(0).indexOf("#") + 1);
         map.get(inner.i()).set(inner.j(), "O");
 
@@ -143,6 +143,8 @@ public class Day18 {
 
         var map = mapPart2(instructions);
 
+        fillInner(map.map);
+
         long count = count(map, instructions);
 
         System.out.println("Result:");
@@ -177,10 +179,10 @@ public class Day18 {
         xs.sort(Comparator.comparing(l -> l));
         ys.sort(Comparator.comparing(l -> l));
 
-        List<List<String>> map = new ArrayList<>(ys.size());
-        for (int i = 0; i < ys.size(); i++) {
+        List<List<String>> map = new ArrayList<>(2 * ys.size());
+        for (int i = 0; i <  2 * ys.size(); i++) {
             map.add(new ArrayList<>(xs.size()));
-            for (int j = 0; j < xs.size(); j++) {
+            for (int j = 0; j < 2 * xs.size(); j++) {
                 map.get(i).add(".");
             }
         }
@@ -224,13 +226,13 @@ public class Day18 {
                 }
             }
 
-            for (int i = Math.min(indexY, indexNextY); i <= Math.max(indexY, indexNextY); i++) {
-                for (int j = Math.min(indexX, indexNextX); j <= Math.max(indexX, indexNextX); j++) {
+            for (int i = 2 * Math.min(indexY, indexNextY); i <= 2 * Math.max(indexY, indexNextY); i++) {
+                for (int j = 2 * Math.min(indexX, indexNextX); j <= 2 * Math.max(indexX, indexNextX); j++) {
                     map.get(i).set(j, sign);
                 }
             }
-            map.get(indexY).set(indexX, "#");
-            map.get(indexNextY).set(indexNextX, "#");
+            map.get(2 * indexY).set(2 * indexX, "#");
+            map.get(2 * indexNextY).set(2 * indexNextX, "#");
 
             currentX = newX;
             currentY = newY;
@@ -240,99 +242,25 @@ public class Day18 {
     }
 
     static long count(Map map, List<Instruction> instructions) {
-        long currentX = -1;
-        long currentY = 0;
-        long value = 0;
-        for (int i = 0; i < instructions.size(); i++) {
-            var instruction = instructions.get(i);
-            if (instruction.isVertical()) {
-
-                var nextInstruction = instructions.get((i + 1) % instructions.size());
-                var previousInstruction = instructions.get(i - 1);
-                var sign1 = instruction.direction == 'U' ? 1 : -1;
-                var sign2 = currentX < 0 ? 1 : -1;
-                var sign3 = sign1 * sign2;
-
-                long x = currentX < 0 ? Math.abs(currentX) : currentX + 1;
-                long y = instruction.count();
-
-                if (sign3 < 0) {
-                    x -= 1;
-                }
-
-                if (currentX > 0) {
-                    if (previousInstruction.direction == 'R' && nextInstruction.direction == 'L') {
-                        y += 1;
-                    } else if (previousInstruction.direction == 'L' && nextInstruction.direction == 'R') {
-                        y -= 1;
+        long result = 0;
+        List<List<String>> lists = map.map;
+        for (int i = 0; i < lists.size() - 1; i++) {
+            var row = lists.get(i);
+            long factor = i % 2 == 0 ? 1 : (map.ys.get((i + 1) / 2) - map.ys.get((i - 1) / 2) - 1);
+            long rowResult = 0;
+            for (int j = 0; j < row.size(); j++) {
+                if (!row.get(j).equals(".")) {
+                    int k = j + 1;
+                    while (!row.get(k).equals(".")) {
+                        k++;
                     }
-                } else {
-                    if (previousInstruction.direction == 'L' && nextInstruction.direction == 'R') {
-                        y += 1;
-                    } else if (previousInstruction.direction == 'R' && nextInstruction.direction == 'L') {
-                        y -= 1;
-                    }
-                }
-
-                long tmp = sign3 * x * y;
-                System.out.println(currentX + " - " + instruction + " - " + tmp);
-                value += tmp;
-
-//                String color = ANSI_GREEN;
-//                if (sign3 < 0) {
-//                    color = ANSI_RED;
-//                }
-//
-//                var nextY = currentY - sign1 * instruction.count;
-//
-//                long diffX = x - Math.abs(currentX);
-//                int indexXStart = map.xs.indexOf(-1L);
-//                int currentIndexX = map.xs.indexOf(currentX) + (int) diffX;
-//
-//                var xStart = Math.min(indexXStart + 1, currentIndexX);
-//                var xEnd = Math.max(indexXStart + 1, currentIndexX);
-//
-//                long diffY = y - instruction.count;
-//                int indexYCurrent = map.ys.indexOf(currentY);
-//                int indexYNext = map.ys.indexOf(nextY);
-//
-//                var yStart = Math.min(indexYCurrent, indexYNext);
-//                var yEnd = Math.max(indexYCurrent, indexYNext);
-//
-//                if (instruction.direction == 'U') {
-//                    yStart -= (int) diffY;
-//                } else {
-//                    yEnd += (int) diffY;
-//                }
-//
-//                int addY = 0;
-//                if (yStart >= 0 && map.map.get(yStart).get(xStart).contains(color)) {
-//                    addY += 1;
-//                }
-//
-//                if (yEnd < map.ys.size() && map.map.get(yEnd).get(xStart).contains(color)) {
-//                    addY -= 1;
-//                }
-//
-//                for (int j = xStart; j < xEnd; j++) {
-//                    for (int k = yStart + 1 + addY; k < yEnd + addY; k++) {
-//                        map.map.get(k).set(j, color(map.map.get(k).get(j), color));
-//                    }
-//                    map.map.get(indexYCurrent + addY).set(j, color(map.map.get(indexYCurrent + addY).get(j), color));
-//                }
-
-//                printHoles(map.map);
-//                System.out.println();
-                currentY -= sign1 * instruction.count;
-            } else {
-                if (instruction.direction == 'L') {
-                    currentX -= instruction.count();
-                } else {
-                    currentX += instruction.count();
+                    rowResult += factor * (map.xs.get((k - 1) / 2) - map.xs.get(j / 2) + 1);
+                    j = k;
                 }
             }
+            result += rowResult;
         }
-        return Math.abs(value);
+        return result;
     }
 
     private static String color(String s, String color) {

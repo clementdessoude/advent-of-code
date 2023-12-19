@@ -89,9 +89,9 @@ class Day18Test {
             .toList();
 
         Day18.Map map = Day18.mapPart2(instructions);
+        Day18.fillInner(map.map());
         var result = Day18.count(map, instructions);
 
-        Day18.printHoles(map.map());
 
         assertThat(result).isEqualTo(expected);
     }
@@ -110,7 +110,6 @@ class Day18Test {
         List<String> lines = getLines("day18/input.txt");
 
         var result = day.part2(lines);
-
         assertThat(result).isEqualTo(977);
     }
 }
