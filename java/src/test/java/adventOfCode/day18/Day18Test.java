@@ -31,7 +31,7 @@ class Day18Test {
 
         var result = day.part1(lines);
 
-        assertThat(result).isEqualTo(42859);
+        assertThat(result).isEqualTo(39194);
     }
 
     public static Stream<Arguments> providePart2Examples() {

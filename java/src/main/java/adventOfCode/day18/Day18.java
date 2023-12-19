@@ -137,7 +137,93 @@ public class Day18 {
             .map(Day18::parsePart2)
             .toList();
 
+        List<List<String>> map = mapPart2(instructions);
+
         return count(instructions);
+    }
+
+    private List<List<String>> mapPart2(List<Instruction> instructions) {
+        List<Long> xs = new ArrayList<>();
+        List<Long> ys = new ArrayList<>();
+
+        long currentX = -1;
+        long currentY = 0;
+        xs.add(currentX);
+        ys.add(currentY);
+        for (var instruction: instructions) {
+            switch (instruction.direction) {
+                case 'U' -> currentY -= instruction.count;
+                case 'D' -> currentY += instruction.count;
+                case 'R' -> currentX += instruction.count;
+                case 'L' -> currentX -= instruction.count;
+            }
+
+            xs.add(currentX);
+            ys.add(currentY);
+        }
+        xs.sort(Comparator.comparing(l -> l));
+        ys.sort(Comparator.comparing(l -> l));
+
+        List<List<String>> map = new ArrayList<>(ys.size());
+        for (int i = 0; i < ys.size(); i++) {
+            map.add(new ArrayList<>(xs.size()));
+            for (int j = 0; j < xs.size(); j++) {
+                map.get(i).add(".");
+            }
+        }
+
+        currentX = -1;
+        currentY = 0;
+        for (var instruction: instructions) {
+            var newY = switch (instruction.direction) {
+                case 'U' -> currentY - instruction.count;
+                case 'D' -> currentY + instruction.count;
+                default -> currentY;
+            };
+
+            var newX = switch (instruction.direction) {
+                case 'R' -> currentX + instruction.count;
+                case 'L' -> currentX - instruction.count;
+                default -> currentX;
+            };
+
+            var indexX = xs.indexOf(currentX);
+            var indexY = ys.indexOf(currentY);
+
+            var indexNextX = xs.indexOf(newX);
+            var indexNextY = ys.indexOf(newY);
+
+
+            String sign = ".";
+
+            switch (instruction.direction) {
+                case 'U' -> {
+                    sign = "^";
+                }
+                case 'D' -> {
+                    sign = "v";
+                }
+                case 'L' -> {
+                    sign = "<";
+                }
+                case 'R' -> {
+                    sign = ">";
+                }
+            }
+
+            for (int i = Math.min(indexY, indexNextY); i <= Math.max(indexY, indexNextY); i++) {
+                for (int j = Math.min(indexX, indexNextX); j <= Math.max(indexX, indexNextX); j++) {
+                    map.get(i).set(j, sign);
+                }
+            }
+            map.get(indexY).set(indexX, "#");
+            map.get(indexNextY).set(indexNextX, "#");
+
+            currentX = newX;
+            currentY = newY;
+        }
+
+        return map;
     }
 
     static long count(List<Instruction> instructions) {
@@ -155,6 +241,10 @@ public class Day18 {
                 long x = currentX < 0 ? Math.abs(currentX) : currentX + 1;
                 long y = instruction.count();
 
+                if (sign3 < 0) {
+                    x -= 1;
+                }
+
                 if (currentX > 0) {
                     if (previousInstruction.direction == 'R' && nextInstruction.direction == 'L') {
                         y += 1;
@@ -162,9 +252,6 @@ public class Day18 {
                         y -= 1;
                     }
                 } else {
-                    if (sign3 < 0) {
-                        x -= 1;
-                    }
                     if (previousInstruction.direction == 'L' && nextInstruction.direction == 'R') {
                         y += 1;
                     } else if (previousInstruction.direction == 'R' && nextInstruction.direction == 'L') {
@@ -173,7 +260,7 @@ public class Day18 {
                 }
 
                 long tmp = sign3 * x * y;
-                System.out.println(currentX + " - " + instruction + " - " + tmp);
+//                System.out.println(currentX + " - " + instruction + " - " + tmp);
                 value += tmp;
             } else {
                 if (instruction.direction == 'L') {
