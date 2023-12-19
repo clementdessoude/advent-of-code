@@ -1,7 +1,6 @@
 package adventOfCode.day19;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 class Workflow {
     private final List<WorkflowFilter> filters;
@@ -38,5 +37,22 @@ class Workflow {
             }
         }
         throw new RuntimeException();
+    }
+
+    public Map<String, List<PartRange>> next(PartRange partRange) {
+        Map<String, List<PartRange>> result = new HashMap<>();
+
+        var current = partRange;
+        for (var filter: filters) {
+            Split<PartRange> split = filter.split(current);
+
+            List<PartRange> orDefault = result.getOrDefault(filter.destination(), new ArrayList<>());
+            orDefault.add(split.matched());
+            result.put(filter.destination(), orDefault);
+
+            current = split.notMatched();
+        }
+
+        return result;
     }
 }
