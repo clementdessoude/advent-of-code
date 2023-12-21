@@ -55,7 +55,6 @@ class Day20Test {
         var t = 2_742_049_843_200L;
 //        var result = day.test();
 
-        2048 + 1691
         var s = "011111111111111111010111011111111111111111111111";
         int k = 0;
         for (int i = 0; i < s.length(); i++) {
