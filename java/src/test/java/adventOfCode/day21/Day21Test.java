@@ -33,7 +33,7 @@ class Day21Test {
     void should_solve_part_2_example() {
         List<String> lines = getLines("day21/example.txt");
 
-        var result = day.part2(lines, 10, 2000);
+        var result = day.part2(lines, 100);
 
         assertThat(result).isEqualTo(2);
     }
@@ -42,7 +42,7 @@ class Day21Test {
     void should_solve_part_2() {
         List<String> lines = getLines("day21/input.txt");
 
-        var result = day.part2(lines, 26501365, 5);
+        var result = day.part2(lines, 26501365);
 
         assertThat(result).isEqualTo(977);
     }
