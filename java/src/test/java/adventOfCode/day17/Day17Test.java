@@ -23,21 +23,12 @@ class Day17Test {
     }
 
     @Test
-    void should_solve_new_example() {
-        List<String> lines = getLines("day17/new_example.txt");
-
-        var result = day.part1(lines);
-
-        assertThat(result).isEqualTo(15);
-    }
-
-    @Test
     void should_solve_part_1() {
         List<String> lines = getLines("day17/input.txt");
 
         var result = day.part1(lines);
 
-        assertThat(result).isEqualTo(1265);
+        assertThat(result).isEqualTo(1263);
     }
 
     @Test

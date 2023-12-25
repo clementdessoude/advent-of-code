@@ -14,4 +14,21 @@ enum Direction {
             case LEFT -> RIGHT;
         };
     }
+
+    static Direction direction(Location from, Location to) {
+        if (to.i() == from.i()) {
+            if (to.j() > from.j()) {
+                return Direction.RIGHT;
+            } else {
+                return Direction.LEFT;
+            }
+        } else {
+            if (to.i() > from.i()) {
+                return Direction.DOWN;
+            } else {
+                return Direction.UP;
+            }
+        }
+    }
+
 }
