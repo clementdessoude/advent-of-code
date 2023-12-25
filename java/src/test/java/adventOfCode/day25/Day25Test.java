@@ -28,23 +28,5 @@ class Day25Test {
 
         assertThat(result).isEqualTo(562978);
     }
-
-    @Test
-    void should_solve_part_2_example() {
-        List<String> lines = getLines("day25/example.txt");
-
-        var result = day.part2(lines);
-
-        assertThat(result).isEqualTo(2);
-    }
-
-    @Test
-    void should_solve_part_2() {
-        List<String> lines = getLines("day25/input.txt");
-
-        var result = day.part2(lines);
-
-        assertThat(result).isEqualTo(977);
-    }
 }
 

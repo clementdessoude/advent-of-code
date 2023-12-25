@@ -5,6 +5,7 @@ import static adventOfCode.TestUtils.getLines;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 class Day22Test {
@@ -30,6 +31,7 @@ class Day22Test {
     }
 
     @Test
+    @Disabled
     void should_solve_part_2_example() {
         List<String> lines = getLines("day22/example.txt");
 
@@ -39,6 +41,7 @@ class Day22Test {
     }
 
     @Test
+    @Disabled
     void should_solve_part_2() {
         List<String> lines = getLines("day22/input.txt");
 

@@ -44,7 +44,7 @@ class Day19Test {
 
         var result = day.part2(lines);
 
-        assertThat(result).isEqualTo(977);
+        assertThat(result).isEqualTo(125455345557345L);
     }
 }
 

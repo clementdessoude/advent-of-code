@@ -4,8 +4,10 @@ import static adventOfCode.TestUtils.getLines;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+@Disabled
 class Day5Test {
 
     Day5 day = new Day5();

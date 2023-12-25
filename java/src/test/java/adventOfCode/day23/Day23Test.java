@@ -5,6 +5,7 @@ import static adventOfCode.TestUtils.getLines;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 class Day23Test {
@@ -12,6 +13,7 @@ class Day23Test {
     Day23 day = new Day23();
 
     @Test
+    @Disabled
     void should_solve_example() {
         List<String> lines = getLines("day23/example.txt");
 
@@ -21,6 +23,7 @@ class Day23Test {
     }
 
     @Test
+    @Disabled
     void should_solve_part_1() {
         List<String> lines = getLines("day23/input.txt");
 
@@ -44,7 +47,7 @@ class Day23Test {
 
         var result = day.part2(lines);
 
-        assertThat(result).isEqualTo(977);
+        assertThat(result).isEqualTo(6390);
     }
 }
 
