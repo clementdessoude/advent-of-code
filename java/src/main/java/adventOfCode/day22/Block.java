@@ -11,6 +11,22 @@ final class Block {
     private final Set<Block> supportedBy;
     private final Set<Block> supports;
 
+    public Block(
+        int id,
+        Range xs,
+        Range ys,
+        Range zs,
+        Set<Block> supportedBy,
+        Set<Block> supports
+    ) {
+        this.id = id;
+        this.xs = xs;
+        this.ys = ys;
+        this.zs = zs;
+        this.supportedBy = supportedBy;
+        this.supports = supports;
+    }
+
     private Block(
             int id,
             Range xs,
@@ -90,9 +106,7 @@ final class Block {
     }
 
     public long disintegrates(List<Block> pile) {
-        var copy = copy(pile);
-
-        Set<Block> fall = fall(copy, copy.get(copy.indexOf(this)));
+        Set<Block> fall = fall(pile, pile.get(pile.indexOf(this)));
 
         return fall.size();
     }
@@ -117,6 +131,13 @@ final class Block {
     }
 
     private List<Block> copy(List<Block> pile) {
-        return new ArrayList<>(pile);
+        return pile.stream().map(block -> new Block(
+            id,
+            xs,
+            ys,
+            zs,
+            new HashSet<>(supportedBy),
+            new HashSet<>(supports)
+        )).toList();
     }
 }

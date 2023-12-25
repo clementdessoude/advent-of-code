@@ -3,16 +3,12 @@ package adventOfCode.day22;
 
 import java.util.*;
 import java.util.stream.IntStream;
+import org.jetbrains.annotations.NotNull;
 
 public class Day22 {
 
     public int part1(List<String> lines) {
-        List<Block> blocks = IntStream.range(0, lines.size())
-            .mapToObj(i -> Block.from(i + 1, lines.get(i)))
-            .sorted(Comparator.comparing(block -> block.zs().start()))
-            .toList();
-
-        var pile = getPile(blocks);
+        List<Block> blocks = getBlocks(lines);
 
         var notDisintegrables = blocks
             .stream()
@@ -72,12 +68,7 @@ public class Day22 {
     }
 
     public long part2(List<String> lines) {
-        List<Block> blocks = IntStream.range(0, lines.size())
-              .mapToObj(i -> Block.from(i + 1, lines.get(i)))
-              .sorted(Comparator.comparing(block -> block.zs().start()))
-              .toList();
-
-        var pile = getPile(blocks);
+        List<Block> blocks = getBlocks(lines);
 
         var notDisintegrables = blocks
             .stream()
@@ -86,8 +77,22 @@ public class Day22 {
 
         return notDisintegrables
             .stream()
-            .mapToLong(block -> block.disintegrates(blocks))
+            .mapToLong(block -> block.disintegrates(getBlocks(lines)))
             .sum();
+    }
+
+    private static List<Block> getBlocks(List<String> lines) {
+        List<Block> blocks = IntStream.range(0, lines.size())
+                                      .mapToObj(i -> Block.from(
+                                          i + 1,
+                                          lines.get(i)
+                                      ))
+                                      .sorted(Comparator.comparing(block -> block
+                                          .zs()
+                                          .start()))
+                                      .toList();
+        var pile = getPile(blocks);
+        return blocks;
     }
 }
 
