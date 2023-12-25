@@ -3,7 +3,7 @@ package adventOfCode.day17;
 import java.util.*;
 import java.util.stream.Collectors;
 
-class Djikstra {
+class SolverPart1 {
 
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_RED = "\u001B[31m";
@@ -12,7 +12,7 @@ class Djikstra {
     private final List<List<Position>> positions;
     public final Map<Location, Map<Direction, Map<Integer, LocationWithDirection>>> heatLosses;
 
-    public Djikstra(List<List<Position>> positions) {
+    public SolverPart1(List<List<Position>> positions) {
         this.positions = positions;
         heatLosses = positions
             .stream()

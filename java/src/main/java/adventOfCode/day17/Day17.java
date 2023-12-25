@@ -23,13 +23,13 @@ public class Day17 {
             )
             .toList();
 
-        Djikstra djikstra = new Djikstra(positions);
-        djikstra.calculateShortestPathFromSource();
+        SolverPart1 solverPart1 = new SolverPart1(positions);
+        solverPart1.calculateShortestPathFromSource();
 
         var destination = positions.getLast().getLast();
 //        var destination = new Location(0, 5);
 
-        LocationWithDirection locationWithDirection = djikstra.heatLosses
+        LocationWithDirection locationWithDirection = solverPart1.heatLosses
             .get(new Location(destination.i(), destination.j()))
             .values()
             .stream()
