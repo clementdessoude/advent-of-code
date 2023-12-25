@@ -47,7 +47,7 @@ public class Day17 {
         List<List<String>> map = new ArrayList<>();
         for (int i = 0; i < lines.size(); i++) {
             var rowList = new ArrayList<String>();
-            for (int j = 0; j < lines.size(); j++) {
+            for (int j = 0; j < lines.get(0).length(); j++) {
                 rowList.add(ANSI_RED + lines.get(i).charAt(j) + ANSI_RESET);
             }
             map.add(rowList);
@@ -74,7 +74,37 @@ public class Day17 {
     }
 
     public Long part2(List<String> lines) {
-        return null;
+        List<List<Position>> positions = IntStream
+            .range(0, lines.size())
+            .mapToObj(i -> IntStream
+                .range(0, lines.get(0).length())
+                .mapToObj(j -> new Position(
+                    i,
+                    j,
+                    Integer.parseInt(String.valueOf(lines.get(i).charAt(j))))
+                )
+                .toList()
+            )
+            .toList();
+
+        SolverPart2 solverPart2 = new SolverPart2(positions);
+        solverPart2.calculateShortestPathFromSource();
+
+        var destination = positions.getLast().getLast();
+
+        LocationWithDirection locationWithDirection = solverPart2.heatLosses
+            .get(new Location(destination.i(), destination.j()))
+            .values()
+            .stream()
+            .map(Map::values)
+            .flatMap(Collection::stream)
+            .filter(l -> l.count() >= 4)
+            .min(Comparator.comparing(LocationWithDirection::heatLoss))
+            .orElseThrow();
+
+        displayPath(locationWithDirection.path(), lines);
+
+        return locationWithDirection.heatLoss();
     }
 }
 

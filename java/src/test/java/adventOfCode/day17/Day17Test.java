@@ -37,7 +37,16 @@ class Day17Test {
 
         var result = day.part2(lines);
 
-        assertThat(result).isEqualTo(2);
+        assertThat(result).isEqualTo(94);
+    }
+
+    @Test
+    void should_solve_part_2_example_2() {
+        List<String> lines = getLines("day17/example_2.txt");
+
+        var result = day.part2(lines);
+
+        assertThat(result).isEqualTo(71);
     }
 
     @Test
@@ -46,7 +55,7 @@ class Day17Test {
 
         var result = day.part2(lines);
 
-        assertThat(result).isEqualTo(977);
+        assertThat(result).isEqualTo(1411);
     }
 }
 
