@@ -40,7 +40,7 @@ class Day$1Test {
 
     @Test
     void should_solve_example() {
-        List<String> lines = getLines(\"day$1/example.txt\");
+        List<String> lines = getLines(\"year$year/day$1/example.txt\");
 
         var result = day.part1(lines);
 
@@ -49,7 +49,7 @@ class Day$1Test {
 
     @Test
     void should_solve_part_1() {
-        List<String> lines = getLines(\"day$1/input.txt\");
+        List<String> lines = getLines(\"year$year/day$1/input.txt\");
 
         var result = day.part1(lines);
 
@@ -58,7 +58,7 @@ class Day$1Test {
 
     @Test
     void should_solve_part_2_example() {
-        List<String> lines = getLines(\"day$1/example.txt\");
+        List<String> lines = getLines(\"year$year/day$1/example.txt\");
 
         var result = day.part2(lines);
 
@@ -67,7 +67,7 @@ class Day$1Test {
 
     @Test
     void should_solve_part_2() {
-        List<String> lines = getLines(\"day$1/input.txt\");
+        List<String> lines = getLines(\"year$year/day$1/input.txt\");
 
         var result = day.part2(lines);
 
