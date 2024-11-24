@@ -1,10 +1,11 @@
 #!/bin/bash
 cd $(dirname $0)
 
+year=2022
 # Source
-mkdir -p "src/main/java/adventOfCode/day$1"
+mkdir -p "src/main/java/advent_of_code/year$year/day$1"
 echo "
-package adventOfCode.day$1;
+package advent_of_code.year$year.day$1;
 
 import java.util.List;
 
@@ -18,16 +19,16 @@ public class Day$1 {
         return null;
     }
 }
-" >> "src/main/java/adventOfCode/day$1/Day$1.java"
+" >> "src/main/java/advent_of_code/year$year/day$1/Day$1.java"
 
-sed -i '' "s/XX/$1/g" "src/main/java/adventOfCode/day$1/Day$1.java"
+sed -i '' "s/XX/$1/g" "src/main/java/advent_of_code/year$year/day$1/Day$1.java"
 
 # Tests
-mkdir -p "src/test/java/adventOfCode/day$1"
+mkdir -p "src/test/java/advent_of_code/year$year/day$1"
 echo "
-package adventOfCode.day$1;
+package advent_of_code.year$year.day$1;
 
-import static adventOfCode.TestUtils.getLines;
+import static advent_of_code.TestUtils.getLines;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
@@ -73,11 +74,11 @@ class Day$1Test {
         assertThat(result).isEqualTo(977);
     }
 }
-" >> "src/test/java/adventOfCode/day$1/Day$1Test.java"
+" >> "src/test/java/advent_of_code/year$year/day$1/Day$1Test.java"
 
-sed -i '' "s/XX/$1/g" "src/test/java/adventOfCode/day$1/Day$1Test.java"
+sed -i '' "s/XX/$1/g" "src/test/java/advent_of_code/year$year/day$1/Day$1Test.java"
 
 # Input files
-mkdir -p "src/test/resources/day$1"
-touch "src/test/resources/day$1/example.txt"
-touch "src/test/resources/day$1/input.txt"
+mkdir -p "src/test/resources/year$year/day$1"
+touch "src/test/resources/year$year/day$1/example.txt"
+touch "src/test/resources/year$year/day$1/input.txt"
