@@ -11,7 +11,9 @@ public class Day1 {
     }
 
     public Long part2(List<String> lines) {
-        return null;
+        var elves = parse(lines);
+
+        return elves.stream().map(Elf::totalCalories).sorted((a, b) -> Long.compare(b, a)).limit(3).mapToLong(Long::longValue).sum();
     }
 
     private static List<Elf> parse(List<String> lines) {
@@ -25,6 +27,7 @@ public class Day1 {
                 elf.addCalories(Integer.parseInt(line));
             }
         }
+        elves.add(elf);
 
         return elves;
     }
