@@ -1,4 +1,3 @@
-
 package advent_of_code.year2022.day5;
 
 import static advent_of_code.TestUtils.getLines;
@@ -17,7 +16,7 @@ class Day5Test {
 
         var result = day.part1(lines);
 
-        assertThat(result).isEqualTo(114);
+        assertThat(result).isEqualTo("CMZ");
     }
 
     @Test
@@ -26,7 +25,7 @@ class Day5Test {
 
         var result = day.part1(lines);
 
-        assertThat(result).isEqualTo(1980437560);
+        assertThat(result).isEqualTo("JRVNHHCSJ");
     }
 
     @Test
@@ -35,7 +34,7 @@ class Day5Test {
 
         var result = day.part2(lines);
 
-        assertThat(result).isEqualTo(2);
+        assertThat(result).isEqualTo("2");
     }
 
     @Test
@@ -44,7 +43,6 @@ class Day5Test {
 
         var result = day.part2(lines);
 
-        assertThat(result).isEqualTo(977);
+        assertThat(result).isEqualTo("977");
     }
 }
-

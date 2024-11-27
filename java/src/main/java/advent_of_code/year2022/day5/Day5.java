@@ -1,16 +1,32 @@
-
 package advent_of_code.year2022.day5;
 
-import java.util.List;
+import java.util.*;
 
-public class Day5 {
+class Day5 {
 
-    public Long part1(List<String> lines) {
-        return null;
+    String part1(List<String> lines) {
+        var splitIndex = getSplitIndex(lines);
+        var cratesCount = Integer.parseInt(Arrays.stream(lines.get(splitIndex - 1).split(" ")).toList().getLast());
+        var crates = new Crates(lines, cratesCount, splitIndex);
+        var instructions = lines.subList(splitIndex + 1, lines.size()).stream().map(Instruction::of).toList();
+
+        crates.apply(instructions);
+
+        return crates.top();
     }
 
-    public Long part2(List<String> lines) {
+    private static int getSplitIndex(List<String> lines) {
+        int splitIndex = 0;
+        for (String line : lines) {
+            if (line.isBlank()) {
+                break;
+            }
+            splitIndex++;
+        }
+        return splitIndex;
+    }
+
+    public String part2(List<String> lines) {
         return null;
     }
 }
-
