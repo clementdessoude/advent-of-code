@@ -43,4 +43,19 @@ final class Crates {
     public String top() {
         return crates.stream().map(List::getLast).collect(Collectors.joining());
     }
+
+    public void applyKeepingOrder(List<Instruction> instructions) {
+        instructions.forEach(this::applyKeepingOrder);
+    }
+
+    private void applyKeepingOrder(Instruction instruction) {
+        Stack<String> tmp = new Stack<>();
+        for (int i = 0; i < instruction.quantity(); i++) {
+            tmp.add(crates.get(instruction.source() - 1).pop());
+        }
+
+        for (int i = 0; i < instruction.quantity(); i++) {
+            crates.get(instruction.destination() - 1).add(tmp.pop());
+        }
+    }
 }
