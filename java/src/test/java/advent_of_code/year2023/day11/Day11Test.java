@@ -1,4 +1,3 @@
-
 package advent_of_code.year2023.day11;
 
 import static advent_of_code.TestUtils.getLines;
@@ -13,7 +12,7 @@ class Day11Test {
 
     @Test
     void should_solve_example() {
-        List<String> lines = getLines("day11/example.txt");
+        List<String> lines = getLines("year2023/day11/example.txt");
 
         var result = day.part1(lines);
 
@@ -22,7 +21,7 @@ class Day11Test {
 
     @Test
     void should_solve_part_1() {
-        List<String> lines = getLines("day11/input.txt");
+        List<String> lines = getLines("year2023/day11/input.txt");
 
         var result = day.part1(lines);
 
@@ -31,7 +30,7 @@ class Day11Test {
 
     @Test
     void should_solve_part_2_example() {
-        List<String> lines = getLines("day11/example.txt");
+        List<String> lines = getLines("year2023/day11/example.txt");
 
         var result = day.part2(lines, 10);
 
@@ -40,7 +39,7 @@ class Day11Test {
 
     @Test
     void should_solve_part_2_example_2() {
-        List<String> lines = getLines("day11/example.txt");
+        List<String> lines = getLines("year2023/day11/example.txt");
 
         var result = day.part2(lines, 100);
 
@@ -49,11 +48,10 @@ class Day11Test {
 
     @Test
     void should_solve_part_2() {
-        List<String> lines = getLines("day11/input.txt");
+        List<String> lines = getLines("year2023/day11/input.txt");
 
         var result = day.part2(lines, 1000000);
 
         assertThat(result).isEqualTo(363293506944L);
     }
 }
-

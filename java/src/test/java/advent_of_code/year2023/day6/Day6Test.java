@@ -12,7 +12,7 @@ class Day6Test {
 
     @Test
     void should_solve_example() {
-        List<String> lines = getLines("day6/example.txt");
+        List<String> lines = getLines("year2023/day6/example.txt");
 
         var result = day.part1(lines);
 
@@ -21,7 +21,7 @@ class Day6Test {
 
     @Test
     void should_solve_part_1() {
-        List<String> lines = getLines("day6/input.txt");
+        List<String> lines = getLines("year2023/day6/input.txt");
 
         var result = day.part1(lines);
 
@@ -30,7 +30,7 @@ class Day6Test {
 
     @Test
     void should_solve_part_2_example() {
-        List<String> lines = getLines("day6/example.txt");
+        List<String> lines = getLines("year2023/day6/example.txt");
 
         var result = day.part2(lines);
 
@@ -39,11 +39,10 @@ class Day6Test {
 
     @Test
     void should_solve_part_2() {
-        List<String> lines = getLines("day6/input.txt");
+        List<String> lines = getLines("year2023/day6/input.txt");
 
         var result = day.part2(lines);
 
         assertThat(result).isEqualTo(23654842);
     }
-
 }

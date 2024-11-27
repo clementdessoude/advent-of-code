@@ -12,7 +12,7 @@ class Day4Test {
 
     @Test
     void should_solve_example() {
-        List<String> lines = getLines("day4/example.txt");
+        List<String> lines = getLines("year2023/day4/example.txt");
 
         Integer result = day.part1(lines);
 
@@ -21,7 +21,7 @@ class Day4Test {
 
     @Test
     void should_solve_part_1() {
-        List<String> lines = getLines("day4/input.txt");
+        List<String> lines = getLines("year2023/day4/input.txt");
 
         Integer result = day.part1(lines);
 
@@ -30,7 +30,7 @@ class Day4Test {
 
     @Test
     void should_solve_part_2_example() {
-        List<String> lines = getLines("day4/example.txt");
+        List<String> lines = getLines("year2023/day4/example.txt");
 
         Integer result = day.part2(lines);
 
@@ -39,11 +39,10 @@ class Day4Test {
 
     @Test
     void should_solve_part_2() {
-        List<String> lines = getLines("day4/input.txt");
+        List<String> lines = getLines("year2023/day4/input.txt");
 
         Integer result = day.part2(lines);
 
         assertThat(result).isEqualTo(5747443);
     }
-
 }

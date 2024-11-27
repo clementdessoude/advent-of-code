@@ -1,4 +1,3 @@
-
 package advent_of_code.year2023.day16;
 
 import static advent_of_code.TestUtils.getLines;
@@ -19,25 +18,25 @@ class Day16Test {
         return Stream.of(
             Arguments.of(
                 """
-                 ...
-                 """,
+                ...
+                """,
                 """
                 >>>
                 """
             ),
             Arguments.of(
                 """
-                 .-.
-                 """,
+                .-.
+                """,
                 """
                 >->
                 """
             ),
             Arguments.of(
                 """
-                 .|.
-                 ...
-                 """,
+                .|.
+                ...
+                """,
                 """
                 >|.
                 .v.
@@ -45,9 +44,9 @@ class Day16Test {
             ),
             Arguments.of(
                 """
-                 .\\.
-                 ...
-                 """,
+                .\\.
+                ...
+                """,
                 """
                 >\\.
                 .v.
@@ -55,10 +54,10 @@ class Day16Test {
             ),
             Arguments.of(
                 """
-                 .\\.
-                 ...
-                 ./.
-                 """,
+                .\\.
+                ...
+                ./.
+                """,
                 """
                 >\\.
                 .v.
@@ -79,11 +78,11 @@ class Day16Test {
             ),
             Arguments.of(
                 """
-                 .|.
-                 ...
-                 .-.
-                 ...
-                 """,
+                .|.
+                ...
+                .-.
+                ...
+                """,
                 """
                 >|.
                 .v.
@@ -93,11 +92,11 @@ class Day16Test {
             ),
             Arguments.of(
                 """
-                 .|.
-                 ...
-                 .|.
-                 ...
-                 """,
+                .|.
+                ...
+                .|.
+                ...
+                """,
                 """
                 >|.
                 .v.
@@ -122,8 +121,8 @@ class Day16Test {
 
     @Test
     void should_show_example_energized() {
-        List<String> lines = getLines("day16/example.txt");
-        List<String> directions = getLines("day16/example_energized.txt");
+        List<String> lines = getLines("year2023/day16/example.txt");
+        List<String> directions = getLines("year2023/day16/example_energized.txt");
 
         var grid = new Grid(lines);
         grid.solve(new Position(0, -1), BeamDirection.RIGHT);
@@ -133,7 +132,7 @@ class Day16Test {
 
     @Test
     void should_solve_example() {
-        List<String> lines = getLines("day16/example.txt");
+        List<String> lines = getLines("year2023/day16/example.txt");
 
         var result = day.part1(lines);
 
@@ -142,21 +141,18 @@ class Day16Test {
 
     @Test
     void should_solve_part_1() {
-        List<String> lines = getLines("day16/input.txt");
+        List<String> lines = getLines("year2023/day16/input.txt");
 
         var grid = new Grid(lines);
         grid.solve(new Position(0, -1), BeamDirection.RIGHT);
-        System.out.println(
-            String.join("\n", grid.showDirections())
-        );
+        System.out.println(String.join("\n", grid.showDirections()));
 
-        assertThat(grid.energizedCount(new Position(0, -1),
-                                       BeamDirection.RIGHT)).isEqualTo(8901);
+        assertThat(grid.energizedCount(new Position(0, -1), BeamDirection.RIGHT)).isEqualTo(8901);
     }
 
     @Test
     void should_solve_part_2_example() {
-        List<String> lines = getLines("day16/example.txt");
+        List<String> lines = getLines("year2023/day16/example.txt");
 
         var result = day.part2(lines);
 
@@ -165,11 +161,10 @@ class Day16Test {
 
     @Test
     void should_solve_part_2() {
-        List<String> lines = getLines("day16/input.txt");
+        List<String> lines = getLines("year2023/day16/input.txt");
 
         var result = day.part2(lines);
 
         assertThat(result).isEqualTo(9064);
     }
 }
-

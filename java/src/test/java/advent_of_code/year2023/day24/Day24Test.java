@@ -1,4 +1,3 @@
-
 package advent_of_code.year2023.day24;
 
 import static advent_of_code.TestUtils.getLines;
@@ -14,7 +13,7 @@ class Day24Test {
 
     @Test
     void should_solve_example() {
-        List<String> lines = getLines("day24/example.txt");
+        List<String> lines = getLines("year2023/day24/example.txt");
 
         var result = day.part1(lines, new Area(7L, 27L));
 
@@ -23,9 +22,9 @@ class Day24Test {
 
     @Test
     void should_solve_part_1() {
-        List<String> lines = getLines("day24/input.txt");
+        List<String> lines = getLines("year2023/day24/input.txt");
 
-        var result = day.part1(lines,  new Area(200_000_000_000_000L, 400_000_000_000_000L));
+        var result = day.part1(lines, new Area(200_000_000_000_000L, 400_000_000_000_000L));
 
         assertThat(result).isEqualTo(29142);
     }
@@ -33,7 +32,7 @@ class Day24Test {
     @Test
     @Disabled
     void should_solve_part_2_example() {
-        List<String> lines = getLines("day24/example.txt");
+        List<String> lines = getLines("year2023/day24/example.txt");
 
         var result = day.part2(lines);
 
@@ -43,11 +42,10 @@ class Day24Test {
     @Test
     @Disabled
     void should_solve_part_2() {
-        List<String> lines = getLines("day24/input.txt");
+        List<String> lines = getLines("year2023/day24/input.txt");
 
         var result = day.part2(lines);
 
         assertThat(result).isEqualTo(977);
     }
 }
-

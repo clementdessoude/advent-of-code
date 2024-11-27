@@ -1,4 +1,3 @@
-
 package advent_of_code.year2023.day18;
 
 import static advent_of_code.TestUtils.getLines;
@@ -18,7 +17,7 @@ class Day18Test {
 
     @Test
     void should_solve_example() {
-        List<String> lines = getLines("day18/example.txt");
+        List<String> lines = getLines("year2023/day18/example.txt");
 
         var result = day.part1(lines);
 
@@ -27,7 +26,7 @@ class Day18Test {
 
     @Test
     void should_solve_part_1() {
-        List<String> lines = getLines("day18/input.txt");
+        List<String> lines = getLines("year2023/day18/input.txt");
 
         var result = day.part1(lines);
 
@@ -63,7 +62,7 @@ class Day18Test {
 
     @Test
     void should_solve_part_2_example_cubic() {
-        List<String> lines = getLines("day18/cubic.txt");
+        List<String> lines = getLines("year2023/day18/cubic.txt");
 
         var result = day.part2(lines);
 
@@ -71,14 +70,9 @@ class Day18Test {
     }
 
     @ParameterizedTest
-    @CsvSource({
-        "one, 41",
-        "two, 26",
-        "three, 48",
-        "four, 50",
-    })
+    @CsvSource({ "one, 41", "two, 26", "three, 48", "four, 50" })
     void should_solve_part_2_example_one(String fileName, long expected) {
-        List<String> lines = getLines("day18/%s.txt".formatted(fileName));
+        List<String> lines = getLines("year2023/day18/%s.txt".formatted(fileName));
 
         var instructions = lines
             .stream()
@@ -95,7 +89,7 @@ class Day18Test {
 
     @Test
     void should_solve_part_2_example() {
-        List<String> lines = getLines("day18/example.txt");
+        List<String> lines = getLines("year2023/day18/example.txt");
 
         var result = day.part2(lines);
 
@@ -104,10 +98,9 @@ class Day18Test {
 
     @Test
     void should_solve_part_2() {
-        List<String> lines = getLines("day18/input.txt");
+        List<String> lines = getLines("year2023/day18/input.txt");
 
         var result = day.part2(lines);
         assertThat(result).isEqualTo(78242031808225L);
     }
 }
-

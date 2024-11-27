@@ -1,4 +1,3 @@
-
 package advent_of_code.year2023.day10;
 
 import static advent_of_code.TestUtils.getLines;
@@ -13,7 +12,7 @@ class Day10Test {
 
     @Test
     void should_solve_example() {
-        List<String> lines = getLines("day10/example.txt");
+        List<String> lines = getLines("year2023/day10/example.txt");
 
         var result = day.part1(lines);
 
@@ -22,7 +21,7 @@ class Day10Test {
 
     @Test
     void should_solve_blurry_example() {
-        List<String> lines = getLines("day10/blurry_example.txt");
+        List<String> lines = getLines("year2023/day10/blurry_example.txt");
 
         var result = day.part1(lines);
 
@@ -31,7 +30,7 @@ class Day10Test {
 
     @Test
     void should_solve_blurry_second_example() {
-        List<String> lines = getLines("day10/blurry_second_example.txt");
+        List<String> lines = getLines("year2023/day10/blurry_second_example.txt");
 
         var result = day.part1(lines);
 
@@ -40,7 +39,7 @@ class Day10Test {
 
     @Test
     void should_solve_part_1() {
-        List<String> lines = getLines("day10/input.txt");
+        List<String> lines = getLines("year2023/day10/input.txt");
 
         var result = day.part1(lines);
 
@@ -49,7 +48,7 @@ class Day10Test {
 
     @Test
     void should_solve_part_2_example_1() {
-        List<String> lines = getLines("day10/part2_example_1.txt");
+        List<String> lines = getLines("year2023/day10/part2_example_1.txt");
 
         var result = day.part2(lines);
 
@@ -58,7 +57,7 @@ class Day10Test {
 
     @Test
     void should_solve_part_2_example_2() {
-        List<String> lines = getLines("day10/part2_example_2.txt");
+        List<String> lines = getLines("year2023/day10/part2_example_2.txt");
 
         var result = day.part2(lines);
 
@@ -67,7 +66,7 @@ class Day10Test {
 
     @Test
     void should_solve_part_2_example_3() {
-        List<String> lines = getLines("day10/part2_example_3.txt");
+        List<String> lines = getLines("year2023/day10/part2_example_3.txt");
 
         var result = day.part2(lines);
 
@@ -76,7 +75,7 @@ class Day10Test {
 
     @Test
     void should_solve_part_2_example_4() {
-        List<String> lines = getLines("day10/part2_example_4.txt");
+        List<String> lines = getLines("year2023/day10/part2_example_4.txt");
 
         var result = day.part2(lines);
 
@@ -85,7 +84,7 @@ class Day10Test {
 
     @Test
     void should_solve_part_2() {
-        List<String> lines = getLines("day10/input.txt");
+        List<String> lines = getLines("year2023/day10/input.txt");
 
         var result = day.part2(lines);
 

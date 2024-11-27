@@ -14,7 +14,7 @@ class Day5Test {
 
     @Test
     void should_solve_example() {
-        List<String> lines = getLines("day5/example.txt");
+        List<String> lines = getLines("year2023/day5/example.txt");
 
         var result = day.part1(lines);
 
@@ -23,7 +23,7 @@ class Day5Test {
 
     @Test
     void should_solve_part_1() {
-        List<String> lines = getLines("day5/input.txt");
+        List<String> lines = getLines("year2023/day5/input.txt");
 
         var result = day.part1(lines);
 
@@ -32,7 +32,7 @@ class Day5Test {
 
     @Test
     void should_solve_part_2_example() {
-        List<String> lines = getLines("day5/example.txt");
+        List<String> lines = getLines("year2023/day5/example.txt");
 
         var result = day.part2(lines);
 
@@ -41,7 +41,7 @@ class Day5Test {
 
     @Test
     void should_solve_part_2() {
-        List<String> lines = getLines("day5/input.txt");
+        List<String> lines = getLines("year2023/day5/input.txt");
 
         var result = day.part2(lines);
 
