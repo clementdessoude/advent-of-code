@@ -11,11 +11,11 @@ import java.util.List;
 
 class Day$1 {
 
-    public Long part1(List<String> lines) {
+    Long part1(List<String> lines) {
         return null;
     }
 
-    public Long part2(List<String> lines) {
+    Long part2(List<String> lines) {
         return null;
     }
 }
