@@ -9,7 +9,7 @@ package advent_of_code.year$year.day$1;
 
 import java.util.List;
 
-public class Day$1 {
+class Day$1 {
 
     public Long part1(List<String> lines) {
         return null;
@@ -22,6 +22,7 @@ public class Day$1 {
 " >> "src/main/java/advent_of_code/year$year/day$1/Day$1.java"
 
 sed -i '' "s/XX/$1/g" "src/main/java/advent_of_code/year$year/day$1/Day$1.java"
+prettier --write "src/main/java/advent_of_code/year$year/day$1/Day$1.java"
 
 # Tests
 mkdir -p "src/test/java/advent_of_code/year$year/day$1"
@@ -77,6 +78,7 @@ class Day$1Test {
 " >> "src/test/java/advent_of_code/year$year/day$1/Day$1Test.java"
 
 sed -i '' "s/XX/$1/g" "src/test/java/advent_of_code/year$year/day$1/Day$1Test.java"
+prettier --write "src/test/java/advent_of_code/year$year/day$1/Day$1Test.java"
 
 # Input files
 mkdir -p "src/test/resources/year$year/day$1"
