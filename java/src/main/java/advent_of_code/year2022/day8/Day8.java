@@ -29,7 +29,8 @@ class Day8 {
         );
     }
 
-    Long part2(List<String> lines) {
-        return null;
+    int part2(List<String> lines) {
+        var forest = forest(lines);
+        return forest.maxScenicView();
     }
 }
