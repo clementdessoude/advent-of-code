@@ -4,13 +4,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Day9 {
+class Day9 {
 
     public Long part1(List<String> lines) {
-        return lines.stream()
-            .map(Day9::parseRow)
-            .mapToLong(Day9::nextVal)
-            .sum();
+        return lines.stream().map(Day9::parseRow).mapToLong(Day9::nextVal).sum();
     }
 
     private static List<Long> parseRow(String row) {
@@ -29,10 +26,7 @@ public class Day9 {
     }
 
     public Long part2(List<String> lines) {
-        return lines.stream()
-            .map(Day9::parseRow)
-            .mapToLong(Day9::prevValue)
-            .sum();
+        return lines.stream().map(Day9::parseRow).mapToLong(Day9::prevValue).sum();
     }
 
     private static long prevValue(List<Long> longs) {
