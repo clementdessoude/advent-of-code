@@ -11,59 +11,59 @@ final class Grid {
 
     private final List<Instruction> instructions;
     private final Set<Location> visitedLocations = new HashSet<>();
-    private Location headLocation = new Location(0, 0);
-    private Location tailLocation = new Location(0, 0);
+    private final List<Location> knotLocations;
 
-    Grid(List<Instruction> instructions) {
+    Grid(List<Instruction> instructions, int ropeSize) {
         this.instructions = new ArrayList<>();
         for (Instruction instruction : instructions) {
             for (int i = 0; i < instruction.count(); i++) {
                 this.instructions.add(new Instruction(instruction.direction(), 1));
             }
         }
+        knotLocations = new ArrayList<>();
+        for (int i = 0; i < ropeSize; i++) {
+            knotLocations.add(new Location(0, 0));
+        }
     }
 
     int process() {
-        visitedLocations.add(tailLocation);
+        visitedLocations.add(knotLocations.getLast());
 
         for (var instruction : instructions) {
             process(instruction);
+            visitedLocations.add(knotLocations.getLast());
         }
 
         return visitedLocations.size();
     }
 
     private void process(Instruction instruction) {
-        switch (instruction.direction()) {
-            case LEFT -> {
-                headLocation = headLocation.left(instruction.count());
-            }
-            case RIGHT -> {
-                headLocation = headLocation.right(instruction.count());
-            }
-            case UP -> {
-                headLocation = headLocation.up(instruction.count());
-            }
-            case DOWN -> {
-                headLocation = headLocation.down(instruction.count());
-            }
+        Location newHeadLocation = moveHead(instruction, knotLocations.getFirst());
+        knotLocations.set(0, newHeadLocation);
+        for (int knotIndex = 0; knotIndex < knotLocations.size() - 1; knotIndex++) {
+            Location newTailLocation = moveTail(newHeadLocation, knotLocations.get(knotIndex + 1));
+            knotLocations.set(knotIndex + 1, newTailLocation);
+            newHeadLocation = newTailLocation;
         }
+    }
 
+    private Location moveTail(Location headLocation, Location tailLocation) {
+        Location newTailLocation = tailLocation;
         if (headLocation.isAdjacent(tailLocation)) {
-            return;
+            return tailLocation;
         }
 
         if (headLocation.isOnSameRow(tailLocation)) {
             if (headLocation.isLeftThan(tailLocation, 2)) {
-                tailLocation = headLocation.right();
+                newTailLocation = headLocation.right();
             } else if (headLocation.isRightThan(tailLocation, 2)) {
-                tailLocation = headLocation.left();
+                newTailLocation = headLocation.left();
             }
         } else if (headLocation.isOnSameColumn(tailLocation)) {
             if (headLocation.isUpThan(tailLocation, 2)) {
-                tailLocation = headLocation.down();
+                newTailLocation = headLocation.down();
             } else if (headLocation.isDownThan(tailLocation, 2)) {
-                tailLocation = headLocation.up();
+                newTailLocation = headLocation.up();
             }
         } else {
             UnaryOperator<Location> verticalDirectionToApply = loc -> loc;
@@ -84,11 +84,20 @@ final class Grid {
                 horizontalDirectionToApply = Location::right;
             }
 
-            tailLocation = horizontalDirectionToApply.apply(
+            newTailLocation = horizontalDirectionToApply.apply(
                 verticalDirectionToApply.apply(tailLocation)
             );
         }
 
-        visitedLocations.add(tailLocation);
+        return newTailLocation;
+    }
+
+    private Location moveHead(Instruction instruction, Location location) {
+        return switch (instruction.direction()) {
+            case LEFT -> location.left(instruction.count());
+            case RIGHT -> location.right(instruction.count());
+            case UP -> location.up(instruction.count());
+            case DOWN -> location.down(instruction.count());
+        };
     }
 }

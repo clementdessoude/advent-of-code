@@ -6,7 +6,7 @@ class Day9 {
 
     int part1(List<String> lines) {
         var instructions = parse(lines);
-        var grid = new Grid(instructions);
+        var grid = new Grid(instructions, 2);
 
         return grid.process();
     }
@@ -29,7 +29,10 @@ class Day9 {
         };
     }
 
-    Long part2(List<String> lines) {
-        return null;
+    int part2(List<String> lines) {
+        var instructions = parse(lines);
+        var grid = new Grid(instructions, 10);
+
+        return grid.process();
     }
 }
