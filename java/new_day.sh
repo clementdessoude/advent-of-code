@@ -1,7 +1,7 @@
 #!/bin/bash
 cd $(dirname $0)
 
-year=2022
+year=2024
 # Source
 mkdir -p "src/main/java/advent_of_code/year$year/day$1"
 echo "
