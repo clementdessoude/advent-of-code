@@ -30,7 +30,7 @@ class Day3Test {
 
     @Test
     void should_solve_part_2_example() {
-        List<String> lines = getLines("year2024/day3/example.txt");
+        List<String> lines = getLines("year2024/day3/example_part2.txt");
 
         var result = day.part2(lines);
 
@@ -43,6 +43,6 @@ class Day3Test {
 
         var result = day.part2(lines);
 
-        assertThat(result).isEqualTo(977);
+        assertThat(result).isEqualTo(63866497);
     }
 }
