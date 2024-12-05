@@ -3,7 +3,7 @@ package advent_of_code.year2022.day7;
 import java.util.ArrayList;
 import java.util.Collection;
 
-sealed interface Instruction permits Instruction.ChangeDirectory, Instruction.ListFiles {
+interface Instruction {
     record ChangeDirectory(String path) implements Instruction {}
 
     final class ListFiles implements Instruction {

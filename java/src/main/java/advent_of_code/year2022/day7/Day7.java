@@ -84,7 +84,10 @@ class Day7 {
                     currentPath.process(cd.path());
                 }
                 case Instruction.ListFiles ls -> {
-                    directories.putIfAbsent(currentPath.current(), new Directory(currentPath.current()));
+                    directories.putIfAbsent(
+                        currentPath.current(),
+                        new Directory(currentPath.current())
+                    );
                     var files = ls.result().stream().filter(File.class::isInstance).toList();
                     var innerDirectories = ls
                         .result()
@@ -92,13 +95,17 @@ class Day7 {
                         .filter(Directory.class::isInstance)
                         .map(dir -> {
                             String innerDirectoryPath = currentPath.with(((Directory) dir).path());
-                            directories.putIfAbsent(innerDirectoryPath, new Directory(innerDirectoryPath));
+                            directories.putIfAbsent(
+                                innerDirectoryPath,
+                                new Directory(innerDirectoryPath)
+                            );
                             return directories.get(innerDirectoryPath);
                         })
                         .toList();
                     directories.get(currentPath.current()).addContent(files);
                     directories.get(currentPath.current()).addContent(innerDirectories);
                 }
+                default -> throw new IllegalStateException("Unexpected value: " + instruction);
             }
         }
         return directories;

@@ -29,6 +29,7 @@ final class Directory implements DirectoryContent {
                 switch (content) {
                     case Directory dir -> cachedSize.getOrDefault(dir.path, dir.size(cachedSize));
                     case File file -> file.size();
+                    default -> throw new IllegalStateException("Unexpected value: " + content);
                 }
             )
             .sum();
