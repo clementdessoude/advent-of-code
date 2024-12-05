@@ -43,6 +43,6 @@ class Day5Test {
 
         var result = day.part2(lines);
 
-        assertThat(result).isEqualTo(977);
+        assertThat(result).isEqualTo(6142);
     }
 }

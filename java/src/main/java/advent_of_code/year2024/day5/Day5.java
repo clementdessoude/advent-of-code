@@ -25,6 +25,15 @@ class Day5 {
     }
 
     Long part2(List<String> lines) {
-        return null;
+        var orderingRules = new PageOrderingRules(lines);
+        var updates = IntStream.range(lines.indexOf("") + 1, lines.size())
+            .mapToObj(i -> lines.get(i).split(","))
+            .map(split -> Arrays.stream(split).map(Integer::parseInt).toList());
+
+        return updates
+            .filter(orderingRules::isNotInCorrectOrder)
+            .map(orderingRules::reorder)
+            .mapToLong(Day5::getMiddlePage)
+            .sum();
     }
 }

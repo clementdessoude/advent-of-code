@@ -32,6 +32,10 @@ final class PageOrderingRules {
         return true;
     }
 
+    boolean isNotInCorrectOrder(List<Integer> update) {
+        return !isInCorrectOrder(update);
+    }
+
     private boolean shouldBePrintedAfter(int number, Collection<Integer> others) {
         if (!shouldBePrintedAfter.containsKey(number)) {
             return false;
@@ -44,5 +48,28 @@ final class PageOrderingRules {
         }
 
         return false;
+    }
+
+    public List<Integer> reorder(List<Integer> update) {
+        Map<Integer, Integer> positions = new HashMap<>();
+        for (int i = 0; i < update.size(); i++) {
+            if (positions.containsKey(update.get(i))) {
+                throw new IllegalArgumentException("update should contains unique elements");
+            }
+
+            positions.put(update.get(i), i);
+        }
+
+        Comparator<Integer> comparator = (a, b) -> {
+            if (shouldBePrintedAfter.getOrDefault(a, new HashSet<>()).contains(b)) {
+                return 1;
+            }
+            if (shouldBePrintedAfter.getOrDefault(b, new HashSet<>()).contains(a)) {
+                return -1;
+            }
+            return positions.get(a) - positions.get(b);
+        };
+
+        return update.stream().sorted(comparator).toList();
     }
 }
