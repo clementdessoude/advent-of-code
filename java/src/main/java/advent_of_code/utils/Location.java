@@ -93,4 +93,13 @@ public record Location(int x, int y) {
     public boolean isInGrid(int minX, int minY, int maxX, int maxY) {
         return this.x() >= minX && this.x() < maxX && this.y() >= minY && this.y() < maxY;
     }
+
+    public Location move(Direction direction) {
+        return switch (direction) {
+            case UP -> up();
+            case DOWN -> down();
+            case LEFT -> left();
+            case RIGHT -> right();
+        };
+    }
 }
