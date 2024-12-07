@@ -34,7 +34,7 @@ class Day7Test {
 
         var result = day.part2(lines);
 
-        assertThat(result).isEqualTo(2);
+        assertThat(result).isEqualTo(11387);
     }
 
     @Test
@@ -43,6 +43,6 @@ class Day7Test {
 
         var result = day.part2(lines);
 
-        assertThat(result).isEqualTo(977);
+        assertThat(result).isEqualTo(37598910447546L);
     }
 }

@@ -2,6 +2,7 @@ package advent_of_code.year2024.day7;
 
 import advent_of_code.utils.StringUtils;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 final class Equation {
@@ -24,43 +25,29 @@ final class Equation {
         this.parts = parts;
     }
 
-    boolean isPossiblyTrue() {
+    boolean isPossiblyTrue(Operator... operators) {
+        return isPossiblyTrue(Arrays.asList(operators));
+    }
+
+    boolean isPossiblyTrue(Collection<Operator> operators) {
         if (parts.size() == 1) {
             return result.equals(parts.getFirst());
         }
-
-        if (isPossiblyTrueWithMultiplication()) {
-            return true;
-        }
-
-        return isPossiblyTrueWithAddition();
+        return operators.stream().anyMatch(operator -> isPossiblyTrue(operator, operators));
     }
 
-    private boolean isPossiblyTrueWithAddition() {
+    private boolean isPossiblyTrue(Operator operator, Collection<Operator> operators) {
         var element = parts.getLast();
 
-        if (element > result) {
+        if (!operator.couldApply(result, element)) {
             return false;
         }
 
-        var reducedResult = result - element;
+        var reducedResult = operator.reducedResult(result, element);
         var reducedParts = parts.subList(0, parts.size() - 1);
         var reducedEquation = new Equation(reducedResult, reducedParts);
 
-        return reducedEquation.isPossiblyTrue();
-    }
-
-    boolean isPossiblyTrueWithMultiplication() {
-        var element = parts.getLast();
-        if (result % element != 0) {
-            return false;
-        }
-
-        var reducedResult = result / element;
-        var reducedParts = parts.subList(0, parts.size() - 1);
-        var reducedEquation = new Equation(reducedResult, reducedParts);
-
-        return reducedEquation.isPossiblyTrue();
+        return reducedEquation.isPossiblyTrue(operators);
     }
 
     public Long result() {
