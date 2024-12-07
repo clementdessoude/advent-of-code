@@ -15,7 +15,7 @@ final class PageOrderingRules {
             int first = Integer.parseInt(split[0]);
             int second = Integer.parseInt(split[1]);
 
-            shouldBePrintedAfter.computeIfAbsent(second, _ -> new HashSet<>()).add(first);
+            shouldBePrintedAfter.computeIfAbsent(second, __ -> new HashSet<>()).add(first);
         }
     }
 
