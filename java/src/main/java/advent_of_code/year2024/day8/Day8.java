@@ -8,7 +8,7 @@ class Day8 {
         return new City(lines).countAntinodesInCity();
     }
 
-    Long part2(List<String> lines) {
-        return null;
+    int part2(List<String> lines) {
+        return new City(lines).countResonantHarmonicsInCity();
     }
 }

@@ -34,7 +34,7 @@ class Day8Test {
 
         var result = day.part2(lines);
 
-        assertThat(result).isEqualTo(2);
+        assertThat(result).isEqualTo(34);
     }
 
     @Test

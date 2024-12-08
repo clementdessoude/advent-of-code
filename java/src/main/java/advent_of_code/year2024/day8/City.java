@@ -40,6 +40,19 @@ final class City {
         return antinodes.size();
     }
 
+    int countResonantHarmonicsInCity() {
+        List<Location> antinodes = antennaByFrequency
+            .values()
+            .stream()
+            .map(antennas -> Antenna.resonantHarmonics(antennas, cityLimitX, cityLimitY))
+            .flatMap(Collection::stream)
+            .distinct()
+            .toList();
+
+        //        display(antinodes);
+        return antinodes.size();
+    }
+
     private void display(List<Location> antinodes) {
         List<List<String>> grid = new ArrayList<>();
         for (int i = 0; i < cityLimitY; i++) {
