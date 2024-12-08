@@ -15,7 +15,8 @@ public final class Display {
     }
 
     public static void display(List<List<String>> grid, String separator) {
-        var result = gridWithIndex(grid);
+        //        var result = gridWithIndex(grid);
+        var result = grid;
         var str = String.join("\n", result.stream().map(r -> String.join(separator, r)).toList());
         System.out.println(str);
     }
