@@ -20,6 +20,11 @@ class Day9 {
     }
 
     Long part2(List<String> lines) {
-        return null;
+        return part2(lines.getFirst());
+    }
+
+    Long part2(String line) {
+        DiskMap diskMap = parse(line).compactKeepingFileCoherence();
+        return diskMap.checksum();
     }
 }

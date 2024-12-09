@@ -1,7 +1,9 @@
 package advent_of_code.year2024.day9;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 final class DiskMap {
 
@@ -52,6 +54,42 @@ final class DiskMap {
         return this;
     }
 
+    public DiskMap compactKeepingFileCoherence() {
+        Map<Integer, Integer> startOfFileChunks = new HashMap<>();
+        for (int i = 0; i < spaces.size(); i++) {
+            if (spaces.get(i) instanceof FileChunk fileChunk) {
+                int finalI = i;
+                startOfFileChunks.computeIfAbsent(fileChunk.fileId(), k -> finalI);
+            }
+        }
+
+        var fileIndexes = startOfFileChunks.values().stream().sorted().toList().reversed();
+        for (var index : fileIndexes) {
+            int fileSize = 0;
+            FileChunk currentFile = (FileChunk) spaces.get(index);
+            Space fileChunk = currentFile;
+            while (fileChunk instanceof FileChunk fc && fc.fileId() == currentFile.fileId()) {
+                fileSize++;
+                if (index + fileSize >= spaces.size()) {
+                    break;
+                }
+                fileChunk = spaces.get(index + fileSize);
+            }
+
+            var firstFreeSpaceOfSizeIndex = firstFreeSpaceOfSizeIndex(fileSize);
+            if (firstFreeSpaceOfSizeIndex == -1 || firstFreeSpaceOfSizeIndex >= index) {
+                continue;
+            }
+            for (int i = 0; i < fileSize; i++) {
+                Space tmp = spaces.get(index + i);
+                spaces.set(index + i, new FreeSpace());
+                spaces.set(firstFreeSpaceOfSizeIndex + i, tmp);
+            }
+        }
+
+        return this;
+    }
+
     private int firstFreeSpaceIndex() {
         return firstFreeSpaceIndex(0);
     }
@@ -60,6 +98,23 @@ final class DiskMap {
         for (int i = start; i < spaces.size(); i++) {
             if (spaces.get(i) instanceof FreeSpace) {
                 return i;
+            }
+        }
+
+        return -1;
+    }
+
+    private int firstFreeSpaceOfSizeIndex(int size) {
+        int availableSpace = 0;
+        for (int i = 0; i < spaces.size(); i++) {
+            if (spaces.get(i) instanceof FreeSpace) {
+                if (availableSpace + 1 >= size) {
+                    return i - availableSpace;
+                } else {
+                    availableSpace++;
+                }
+            } else {
+                availableSpace = 0;
             }
         }
 
