@@ -75,6 +75,12 @@ public record Location(int x, int y) {
             .flatMap(x -> x);
     }
 
+    public Collection<Location> directAdjacentsInGrid(int minX, int minY, int maxX, int maxY) {
+        return Stream.of(this.up(), this.left(), this.right(), this.down())
+            .filter(loc -> loc.isInGrid(minX, minY, maxX, maxY))
+            .collect(Collectors.toSet());
+    }
+
     public Collection<Location> adjacentsInGrid(int minX, int minY, int maxX, int maxY) {
         return Stream.of(
             this.up(),
