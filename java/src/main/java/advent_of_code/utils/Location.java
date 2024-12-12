@@ -1,8 +1,6 @@
 package advent_of_code.utils;
 
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -79,6 +77,10 @@ public record Location(int x, int y) {
         return Stream.of(this.up(), this.left(), this.right(), this.down())
             .filter(loc -> loc.isInGrid(minX, minY, maxX, maxY))
             .collect(Collectors.toSet());
+    }
+
+    public Collection<Location> directAdjacentsInGrid() {
+        return Set.of(this.up(), this.left(), this.right(), this.down());
     }
 
     public Collection<Location> adjacentsInGrid(int minX, int minY, int maxX, int maxY) {

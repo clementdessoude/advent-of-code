@@ -1,9 +1,6 @@
 package advent_of_code.utils;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 public final class CollectionUtils {
 
@@ -28,6 +25,13 @@ public final class CollectionUtils {
                 result.add(element);
             }
         }
+
+        return result;
+    }
+
+    public static <U> Set<U> concat(Set<U> first, Set<U> second) {
+        var result = new HashSet<>(first);
+        result.addAll(second);
 
         return result;
     }
