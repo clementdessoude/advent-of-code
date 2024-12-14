@@ -44,7 +44,7 @@ final class ClawMachine {
 
     private Pair<Long, Long> parse(String input, Pattern pattern, Long adjust) {
         Matcher matcher = pattern.matcher(input);
-        var _ = matcher.matches();
+        var __ = matcher.matches();
 
         var x = adjust + Long.parseLong(matcher.group("x"));
         var y = adjust + Long.parseLong(matcher.group("y"));
