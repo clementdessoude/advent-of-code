@@ -30,7 +30,7 @@ class Day15 {
         return directions;
     }
 
-    private static Warehouse warehouse(List<String> lines, int blankLine) {
+    private static StandardWarehouse warehouse(List<String> lines, int blankLine) {
         Set<Location> walls = new HashSet<>();
         Set<Location> boxes = new HashSet<>();
         Location robot = null;
@@ -46,10 +46,42 @@ class Day15 {
                 }
             }
         }
-        return new Warehouse(walls, boxes, robot, new Pair<>(lines.getFirst().length(), blankLine));
+        return new StandardWarehouse(
+            walls,
+            boxes,
+            robot,
+            new Pair<>(lines.getFirst().length(), blankLine)
+        );
     }
 
     Long part2(List<String> lines) {
-        return null;
+        var blankLine = lines.indexOf("");
+        var directions = getDirections(lines, blankLine);
+        return widerWarehouse(lines, blankLine).move(directions).sumOfGpsCoordinates();
+    }
+
+    private static WiderWarehouse widerWarehouse(List<String> lines, int blankLine) {
+        Set<Location> walls = new HashSet<>();
+        Set<Location> boxes = new HashSet<>();
+        Location robot = null;
+        for (int i = 0; i < blankLine; i++) {
+            for (int j = 0; j < lines.get(i).length(); j++) {
+                char c = lines.get(i).charAt(j);
+                if (c == '#') {
+                    walls.add(new Location(2 * j, i));
+                    walls.add(new Location(2 * j + 1, i));
+                } else if (c == 'O') {
+                    boxes.add(new Location(2 * j, i));
+                } else if (c == '@') {
+                    robot = new Location(2 * j, i);
+                }
+            }
+        }
+        return new WiderWarehouse(
+            walls,
+            boxes,
+            robot,
+            new Pair<>(2 * lines.getFirst().length(), blankLine)
+        );
     }
 }

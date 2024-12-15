@@ -25,7 +25,7 @@ class Day15Test {
 
     @ParameterizedTest
     @MethodSource("part1")
-    void should_solve_example(String inputFile, int expected) {
+    void should_solve_part1(String inputFile, int expected) {
         List<String> lines = getLines(inputFile);
 
         var result = day.part1(lines);
@@ -33,21 +33,23 @@ class Day15Test {
         assertThat(result).isEqualTo(expected);
     }
 
-    @Test
-    void should_solve_part_2_example() {
-        List<String> lines = getLines("year2024/day15/example.txt");
-
-        var result = day.part2(lines);
-
-        assertThat(result).isEqualTo(2);
+    public static Stream<Arguments> part2() {
+        return Stream.of(
+            Arguments.of("year2024/day15/example.txt", 9021),
+            Arguments.of("year2024/day15/small_example_part_2.txt", 618),
+            Arguments.of("year2024/day15/horizontal_move_blocked.txt", 606),
+            Arguments.of("year2024/day15/right_move_blocked.txt", 618),
+            Arguments.of("year2024/day15/input.txt", 1458740)
+        );
     }
 
-    @Test
-    void should_solve_part_2() {
-        List<String> lines = getLines("year2024/day15/input.txt");
+    @ParameterizedTest
+    @MethodSource("part2")
+    void should_solve_part2(String inputFile, int expected) {
+        List<String> lines = getLines(inputFile);
 
         var result = day.part2(lines);
 
-        assertThat(result).isEqualTo(977);
+        assertThat(result).isEqualTo(expected);
     }
 }
