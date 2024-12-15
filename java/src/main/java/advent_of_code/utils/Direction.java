@@ -32,4 +32,14 @@ public enum Direction {
             case RIGHT -> ">";
         };
     }
+
+    public static Direction fromArrow(char c) {
+        return switch (c) {
+            case '<' -> LEFT;
+            case '^' -> UP;
+            case 'v' -> DOWN;
+            case '>' -> RIGHT;
+            default -> throw new IllegalArgumentException();
+        };
+    }
 }
