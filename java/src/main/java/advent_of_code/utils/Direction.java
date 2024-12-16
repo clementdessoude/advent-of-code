@@ -1,5 +1,8 @@
 package advent_of_code.utils;
 
+import java.util.Arrays;
+import java.util.stream.Stream;
+
 public enum Direction {
     UP,
     DOWN,
@@ -33,6 +36,10 @@ public enum Direction {
         };
     }
 
+    public Stream<Direction> allButOpposite() {
+        return Arrays.stream(values()).filter(t -> t.opposite() != this);
+    }
+
     public static Direction fromArrow(char c) {
         return switch (c) {
             case '<' -> LEFT;
@@ -45,5 +52,9 @@ public enum Direction {
 
     public boolean isVertical() {
         return this == UP || this == DOWN;
+    }
+
+    public static Stream<Direction> stream() {
+        return Arrays.stream(values());
     }
 }
