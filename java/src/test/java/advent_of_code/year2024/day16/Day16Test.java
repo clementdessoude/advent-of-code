@@ -18,7 +18,7 @@ class Day16Test {
         return Stream.of(
             Arguments.of("year2024/day16/example.txt", 7036),
             Arguments.of("year2024/day16/example_2.txt", 11048),
-            Arguments.of("year2024/day16/input.txt", 7036)
+            Arguments.of("year2024/day16/input.txt", 85432)
         );
     }
 
