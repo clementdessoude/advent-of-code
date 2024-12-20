@@ -114,4 +114,8 @@ public record Location(int x, int y) {
             case RIGHT -> right();
         };
     }
+
+    public int distanceTo(Location location) {
+        return Math.abs(x - location.x) + Math.abs(y - location.y);
+    }
 }
