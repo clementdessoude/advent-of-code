@@ -118,4 +118,17 @@ public record Location(int x, int y) {
     public int distanceTo(Location location) {
         return Math.abs(x - location.x) + Math.abs(y - location.y);
     }
+
+    public Direction fromAdjacent(Location adjacent) {
+        if (adjacent.down().equals(this)) {
+            return Direction.DOWN;
+        } else if (adjacent.up().equals(this)) {
+            return Direction.UP;
+        } else if (adjacent.left().equals(this)) {
+            return Direction.LEFT;
+        } else if (adjacent.right().equals(this)) {
+            return Direction.RIGHT;
+        }
+        throw new IllegalArgumentException("Invalid adjacent location: " + adjacent);
+    }
 }
