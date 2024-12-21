@@ -1,60 +1,84 @@
 package advent_of_code.year2024.day21;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
+import java.util.*;
+import java.util.stream.Stream;
 
 final class Solver {
 
     private final String code;
     private final Pad numericPad = NumericPad.getPad();
     private final Pad directionPad = DirectionPad.getPad();
+    private final static Map<String, Collection<String>> cacheDirection = new HashMap<>();
 
     Solver(String code) {
         this.code = "A" + code;
     }
 
     int solve() {
-        return minPath() * numericPart();
+        return solve(3);
     }
 
-    int minPath() {
-        return paths().stream().min(Comparator.comparing(String::length)).map(String::length).orElseThrow();
+    int solve(int robotCount) {
+        return minPath(robotCount) * numericPart();
     }
 
-    Collection<String> paths() {
-        return shortestPathRobot2()
-            .stream()
-            .map(val -> "A"+ val)
-            .flatMap(input -> solve(input, directionPad).stream())
-            .toList();
+    int minPath(int robotCount) {
+        var paths = paths(robotCount);
+        return paths.mapToInt(String::length).min().orElseThrow();
     }
 
-    Collection<String> shortestPathRobot1() {
+    Stream<String> paths(int robotCount) {
+        return solve(code, robotCount);
+    }
+
+    Stream<String> shortestPathRobot1() {
         return solve(code, numericPad);
     }
 
-    Collection<String> solve(String input, Pad pad) {
-        Collection<String> currentPaths = new ArrayList<>();
-        currentPaths.add("");
-        for (int i = 1; i < input.length(); i++) {
-            var to = String.valueOf(input.charAt(i));
-            var from = String.valueOf(input.charAt(i - 1));
-            var shortestPaths = pad.shortestMoves(from, to);
-            currentPaths = currentPaths
-                .stream()
-                .flatMap(path -> shortestPaths.stream().map(added -> path + added + "A"))
-                .toList();
+    Stream<String> solve(String input, Pad pad) {
+        if (input.length() == 1) {
+            return Stream.of("");
         }
-        return currentPaths;
+
+//        if (cacheDirection.containsKey(input)) {
+//            return cacheDirection.get(input).parallelStream();
+//        }
+
+        var to = String.valueOf(input.charAt(1));
+        var from = String.valueOf(input.charAt(0));
+        var startPaths = pad.shortestMovesPart2(from, to);
+        var otherPaths = solve(input.substring(1), pad);
+
+        var result = otherPaths
+            .flatMap(added -> startPaths.parallelStream().map(path -> path
+                + "A"
+                + added)).toList();
+
+//        if (input.length() < 10) {
+//            cacheDirection.put(input, result);
+//        }
+
+        return result.parallelStream();
     }
 
-    Collection<String> shortestPathRobot2() {
+    Stream<String> shortestPathRobot2() {
         return shortestPathRobot1()
-            .stream()
             .map(val -> "A"+ val)
-            .flatMap(input -> solve(input, directionPad).stream())
-            .toList();
+            .flatMap(input -> solve(input, directionPad));
+    }
+
+    Stream<String> solve(String code, int robotCount) {
+        System.out.println("Code: " + code);
+        var stream = solve(code, numericPad);
+        for (int i = 0; i < robotCount - 1; i++) {
+            var tmp = stream
+                .map(val -> "A"+ val)
+                .flatMap(input -> solve(input, directionPad));
+            var toto = tmp.toList();
+            System.out.println("Robot: " + i);
+            stream = toto.stream();
+        }
+        return stream;
     }
 
     int numericPart() {

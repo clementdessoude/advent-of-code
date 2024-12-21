@@ -27,7 +27,7 @@ class SolverTest {
         "379A, <v<A>>^AvA^A<vA<AA>>^AAvA<^A>AAvA^A<vA>^AA<A>A<v<A>A>^AAAvA<^A>A",
     })
     void should_compute_shortest_path(String input, String expected) {
-        assertThat(new Solver(input).paths()).contains(expected);
+        assertThat(new Solver(input).paths(3)).contains(expected);
     }
 
     @Test

@@ -16,12 +16,19 @@ class Day19 {
         return possible;
     }
 
-
-    private boolean isPossible(String expected, List<String> towels, Map<String, Integer> resolvedPossibles) {
+    private boolean isPossible(
+        String expected,
+        List<String> towels,
+        Map<String, Integer> resolvedPossibles
+    ) {
         return numberOfArrangements(expected, towels, resolvedPossibles) > 0;
     }
 
-    private int numberOfArrangements(String expected, List<String> towels, Map<String, Integer> resolvedPossibles) {
+    private int numberOfArrangements(
+        String expected,
+        List<String> towels,
+        Map<String, Integer> resolvedPossibles
+    ) {
         if (resolvedPossibles.containsKey(expected)) {
             return resolvedPossibles.get(expected);
         }
@@ -32,7 +39,7 @@ class Day19 {
             }
             if (
                 expected.startsWith(towel) &&
-                    isPossible(expected.substring(towel.length()), towels, resolvedPossibles)
+                isPossible(expected.substring(towel.length()), towels, resolvedPossibles)
             ) {
                 var count = resolvedPossibles.get(expected.substring(towel.length()));
                 resolvedPossibles.compute(expected, (k, v) -> v == null ? count : v + count);
@@ -53,10 +60,7 @@ class Day19 {
         long possible = 0;
         for (int i = 2; i < lines.size(); i++) {
             if (isPossible(lines.get(i), towels, resolvedPossibles)) {
-                possible += resolvedPossibles.getOrDefault(
-                    lines.get(i),
-                    0
-                );
+                possible += resolvedPossibles.getOrDefault(lines.get(i), 0);
             }
         }
         return possible;

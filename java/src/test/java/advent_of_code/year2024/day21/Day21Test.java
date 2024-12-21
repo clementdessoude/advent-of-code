@@ -25,7 +25,7 @@ class Day21Test {
 
         var result = day.part1(lines);
 
-        assertThat(result).isEqualTo(1980437560);
+        assertThat(result).isEqualTo(128962);
     }
 
     @Test

@@ -9,6 +9,6 @@ class Day21 {
     }
 
     Long part2(List<String> lines) {
-        return null;
+        return lines.stream().mapToLong(code -> new Solver(code).solve(26)).sum();
     }
 }
