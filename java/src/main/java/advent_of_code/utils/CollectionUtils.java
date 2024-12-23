@@ -29,6 +29,16 @@ public final class CollectionUtils {
         return result;
     }
 
+    public static <T> Collection<T> intersection(Collection<T> first, Collection<T> second) {
+        var result = new HashSet<T>();
+        for (var element : first) {
+            if (second.contains(element)) {
+                result.add(element);
+            }
+        }
+        return result;
+    }
+
     public static <U> Set<U> concat(Set<U> first, Set<U> second) {
         var result = new HashSet<>(first);
         result.addAll(second);
