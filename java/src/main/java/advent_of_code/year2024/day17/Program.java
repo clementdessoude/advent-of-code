@@ -10,7 +10,6 @@ final class Program {
     private Long registerB;
     private Long registerC;
     private int instructionPointer;
-    private int cycle = 0;
     private final List<Long> instructions;
 
     Program(List<Long> instructions, Long registerA, Long registerB, Long registerC) {
@@ -67,7 +66,7 @@ final class Program {
     }
 
     private void out(List<Long> outputs, Long operand) {
-        outputs.add(comboOperand(operand) % 8);
+        outputs.add(comboOperand(operand) & 7);
     }
 
     private void bxc() {
@@ -84,7 +83,7 @@ final class Program {
     }
 
     private void bst(Long operand) {
-        registerB = comboOperand(operand) % 8;
+        registerB = comboOperand(operand) & 7;
     }
 
     private void bxl(Long operand) {
@@ -103,20 +102,5 @@ final class Program {
             case 6 -> registerC;
             default -> throw new IllegalStateException("Unexpected value: " + operand);
         };
-    }
-
-    public boolean isRecursive(List<Long> out) {
-        List<Long> outputs = new ArrayList<>();
-
-        var keep = registerA;
-        while (instructionPointer < instructions.size()) {
-            cycle++;
-            process(instructionPointer, outputs, out);
-            if (!outputs.isEmpty() && !outputs.getLast().equals(out.get(outputs.size() - 1))) {
-                return false;
-            }
-        }
-
-        return outputs.equals(out);
     }
 }

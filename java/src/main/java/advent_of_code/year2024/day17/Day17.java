@@ -3,7 +3,9 @@ package advent_of_code.year2024.day17;
 import java.time.Instant;
 import java.time.temporal.TemporalField;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 
@@ -34,37 +36,6 @@ class Day17 {
 
     Long part2(List<String> lines) {
         var instructions = parseInstruction(lines.getLast());
-
-        //        var program = new Program(instructions, 92570L, 0L, 0L);
-        //        if (program.isRecursive(instructions)) {
-        //            return null;
-        //        }
-
-        // 6_500_000_000L sans check sur modulo
-        // 11710001171
-        var result = LongStream.range(7_500_000_000L, 367_500_000_000L)
-            .parallel()
-            .filter(i -> {
-                var program = new Program(instructions, i, 0L, 0L);
-                return program.isRecursive(instructions);
-            })
-            .findFirst();
-        //        for (long i = 11710001171L; i < 300_000_000_000L; i++) {
-        //            var c = i % 8;
-        //            if (c == 0 || c >= 4) {
-        //                continue;
-        //            }
-        //            if (i % 10_000_001 == 0) {
-        //                System.out.println(i);
-        //                System.out.println(Instant.now().toEpochMilli() - before.toEpochMilli());
-        //                before = Instant.now();
-        //            }
-        //            var program = new Program(instructions, i, 0L, 0L);
-        //            if (program.isRecursive(instructions)) {
-        //                return i;
-        //            }
-        //        }
-
-        return result.orElseThrow();
+        return new SolverPart2(instructions).solvePart2();
     }
 }

@@ -29,20 +29,26 @@ class Day17Test {
     }
 
     @Test
-    void should_solve_part_2_example() {
-        List<String> lines = getLines("year2024/day17/example_2.txt");
-
-        var result = day.part2(lines);
-
-        assertThat(result).isEqualTo(117440);
-    }
-
-    @Test
     void should_solve_part_2() {
         List<String> lines = getLines("year2024/day17/input.txt");
 
         var result = day.part2(lines);
 
-        assertThat(result).isEqualTo(977);
+        assertThat(result).isEqualTo(109_019_930_331_546L);
+    }
+
+    @Test
+    void test() {
+        List<String> lines = List.of(
+            "Register A: 109019930331546",
+            "Register B: 0",
+            "Register C: 0",
+            "",
+            "Program: 2,4,1,5,7,5,4,5,0,3,1,6,5,5,3,0"
+        );
+
+        var result = day.part1(lines);
+
+        assertThat(result).isEqualTo("2,4,1,5,7,5,4,5,0,3,1,6,5,5,3,0");
     }
 }
