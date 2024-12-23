@@ -34,7 +34,7 @@ class Day23Test {
 
         var result = day.part2(lines);
 
-        assertThat(result).isEqualTo(2);
+        assertThat(result).isEqualTo("co,de,ka,ta");
     }
 
     @Test
@@ -43,6 +43,6 @@ class Day23Test {
 
         var result = day.part2(lines);
 
-        assertThat(result).isEqualTo(977);
+        assertThat(result).isEqualTo("am,aq,by,ge,gf,ie,mr,mt,rw,sn,te,yi,zb");
     }
 }
