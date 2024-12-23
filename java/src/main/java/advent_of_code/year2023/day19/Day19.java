@@ -1,4 +1,3 @@
-
 package advent_of_code.year2023.day19;
 
 import java.util.*;
@@ -8,12 +7,12 @@ public class Day19 {
     public Long part1(List<String> lines) {
         Parse result = parse(lines);
 
-        return result.parts()
-                     .stream()
-                     .filter(p -> filter(p, result.workflows()))
-                     .mapToLong(part ->
-                           Arrays.stream(Category.values()).mapToLong(part::get).sum()
-            ).sum();
+        return result
+            .parts()
+            .stream()
+            .filter(p -> filter(p, result.workflows()))
+            .mapToLong(part -> Arrays.stream(Category.values()).mapToLong(part::get).sum())
+            .sum();
     }
 
     private static Parse parse(List<String> lines) {
@@ -21,7 +20,7 @@ public class Day19 {
         List<Part> parts = new ArrayList<>();
 
         boolean isParts = false;
-        for (var row: lines) {
+        for (var row : lines) {
             if (row.isBlank()) {
                 isParts = true;
                 continue;
@@ -39,8 +38,7 @@ public class Day19 {
         return result;
     }
 
-    private record Parse(Map<String, Workflow> workflows, List<Part> parts) {
-    }
+    private record Parse(Map<String, Workflow> workflows, List<Part> parts) {}
 
     private boolean filter(Part part, Map<String, Workflow> workflows) {
         String currentWorkflow = "in";
@@ -56,16 +54,9 @@ public class Day19 {
 
         String currentWorkflow = "in";
         PartRange partRange = new PartRange();
-        List<PartRange> partRanges = extracted(
-            workflows,
-            currentWorkflow,
-            partRange
-        );
+        List<PartRange> partRanges = extracted(workflows, currentWorkflow, partRange);
 
-        return partRanges
-            .stream()
-            .mapToLong(PartRange::possibilities)
-            .sum();
+        return partRanges.stream().mapToLong(PartRange::possibilities).sum();
     }
 
     private static List<PartRange> extracted(
@@ -99,4 +90,3 @@ public class Day19 {
         return partRanges;
     }
 }
-

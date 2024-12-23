@@ -6,9 +6,15 @@ class Day5 {
 
     String part1(List<String> lines) {
         var splitIndex = getSplitIndex(lines);
-        var cratesCount = Integer.parseInt(Arrays.stream(lines.get(splitIndex - 1).split(" ")).toList().getLast());
+        var cratesCount = Integer.parseInt(
+            Arrays.stream(lines.get(splitIndex - 1).split(" ")).toList().getLast()
+        );
         var crates = new Crates(lines, cratesCount, splitIndex);
-        var instructions = lines.subList(splitIndex + 1, lines.size()).stream().map(Instruction::of).toList();
+        var instructions = lines
+            .subList(splitIndex + 1, lines.size())
+            .stream()
+            .map(Instruction::of)
+            .toList();
 
         crates.apply(instructions);
 
@@ -28,9 +34,15 @@ class Day5 {
 
     public String part2(List<String> lines) {
         var splitIndex = getSplitIndex(lines);
-        var cratesCount = Integer.parseInt(Arrays.stream(lines.get(splitIndex - 1).split(" ")).toList().getLast());
+        var cratesCount = Integer.parseInt(
+            Arrays.stream(lines.get(splitIndex - 1).split(" ")).toList().getLast()
+        );
         var crates = new Crates(lines, cratesCount, splitIndex);
-        var instructions = lines.subList(splitIndex + 1, lines.size()).stream().map(Instruction::of).toList();
+        var instructions = lines
+            .subList(splitIndex + 1, lines.size())
+            .stream()
+            .map(Instruction::of)
+            .toList();
 
         crates.applyKeepingOrder(instructions);
 

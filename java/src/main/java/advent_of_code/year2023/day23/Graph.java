@@ -5,6 +5,7 @@ import java.util.function.Function;
 import java.util.stream.IntStream;
 
 class Graph {
+
     private final Set<Location> nodes = new HashSet<>();
     private final Map<Location, List<Path>> adjacents = new HashMap<>();
 
@@ -15,11 +16,8 @@ class Graph {
     static Graph from(List<String> lines) {
         var graph = new Graph();
 
-        List<Location> nodes = IntStream
-            .range(0, lines.size())
-            .mapToObj(i -> IntStream
-                .range(0, lines.size())
-                .mapToObj(j -> new Location(i, j)))
+        List<Location> nodes = IntStream.range(0, lines.size())
+            .mapToObj(i -> IntStream.range(0, lines.size()).mapToObj(j -> new Location(i, j)))
             .flatMap(Function.identity())
             .filter(l -> lines.get(l.i()).charAt(l.j()) != '#')
             .filter(location -> isIntersection(location, lines))
@@ -27,7 +25,7 @@ class Graph {
 
         nodes.forEach(graph::addNode);
 
-        for (var intersection: nodes) {
+        for (var intersection : nodes) {
             List<Path> paths = pathsFrom(intersection, lines);
             graph.adjacents.put(intersection, paths);
         }
@@ -35,10 +33,7 @@ class Graph {
         return graph;
     }
 
-    private static List<Path> pathsFrom(
-        Location intersection,
-        List<String> lines
-    ) {
+    private static List<Path> pathsFrom(Location intersection, List<String> lines) {
         return intersection
             .adjacent(lines)
             .stream()
@@ -47,11 +42,7 @@ class Graph {
             .toList();
     }
 
-    private static Path toNextIntersection(
-        Location intersection,
-        Location to,
-        List<String> lines
-    ) {
+    private static Path toNextIntersection(Location intersection, Location to, List<String> lines) {
         LinkedList<Location> path = new LinkedList<>();
         path.add(intersection);
         Location from = intersection;
@@ -86,12 +77,15 @@ class Graph {
             return true;
         }
 
-        return location
-            .adjacent(lines)
-            .stream()
-            .map(l -> lines.get(l.i()).charAt(l.j()))
-            .filter(c -> c != '#')
-            .count() > 2;
+        return (
+            location
+                .adjacent(lines)
+                .stream()
+                .map(l -> lines.get(l.i()).charAt(l.j()))
+                .filter(c -> c != '#')
+                .count() >
+            2
+        );
     }
 
     public int longestPathTo(Location location) {
@@ -103,7 +97,7 @@ class Graph {
     private int compute(List<Location> path) {
         Location from = new Location(0, 1);
         int result = 0;
-        for (var to: path) {
+        for (var to : path) {
             Optional<Path> first = adjacents
                 .get(from)
                 .stream()
@@ -113,9 +107,7 @@ class Graph {
             if (first.isEmpty()) {
                 continue;
             }
-            int weight = first
-                .orElseThrow()
-                .weight();
+            int weight = first.orElseThrow().weight();
 
             result += weight;
             from = to;

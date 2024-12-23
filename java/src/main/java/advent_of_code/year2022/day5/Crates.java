@@ -32,7 +32,9 @@ final class Crates {
 
     public void apply(Instruction instruction) {
         for (int i = 0; i < instruction.quantity(); i++) {
-            crates.get(instruction.destination() - 1).add(crates.get(instruction.source() - 1).pop());
+            crates
+                .get(instruction.destination() - 1)
+                .add(crates.get(instruction.source() - 1).pop());
         }
     }
 

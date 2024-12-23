@@ -13,7 +13,6 @@ class PartRange {
         description.put(Category.M, new Range(1, 4000));
         description.put(Category.A, new Range(1, 4000));
         description.put(Category.S, new Range(1, 4000));
-
     }
 
     public PartRange(Map<Category, Range> description) {
@@ -32,6 +31,10 @@ class PartRange {
     }
 
     public Long possibilities() {
-        return description.values().stream().mapToLong(i -> i.end() - i.start() + 1).reduce(1, (a,b) -> a * b);
+        return description
+            .values()
+            .stream()
+            .mapToLong(i -> i.end() - i.start() + 1)
+            .reduce(1, (a, b) -> a * b);
     }
 }

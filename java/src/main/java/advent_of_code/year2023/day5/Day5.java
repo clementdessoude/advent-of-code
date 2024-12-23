@@ -5,6 +5,7 @@ import advent_of_code.year2023.day5.part2.Part2Solver;
 import java.util.*;
 
 public class Day5 {
+
     public Long part1(List<String> lines) {
         return new Part1Solver(lines).solve();
     }

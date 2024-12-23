@@ -5,16 +5,13 @@ import java.util.List;
 import java.util.Objects;
 
 final class Position {
+
     private final int i;
     private final int j;
     private final int heatLossToGetThere;
     private HeatLossPath heatLossPath;
 
-    Position(
-        int i,
-        int j,
-        int heatLossToGetThere
-    ) {
+    Position(int i, int j, int heatLossToGetThere) {
         this.i = i;
         this.j = j;
         this.heatLossToGetThere = heatLossToGetThere;
@@ -50,9 +47,9 @@ final class Position {
         return heatLossToGetThere;
     }
 
-//    public boolean canGo(Direction direction) {
-//        return heatLossPath.canGo(direction);
-//    }
+    //    public boolean canGo(Direction direction) {
+    //        return heatLossPath.canGo(direction);
+    //    }
 
     public Direction direction(Position from) {
         if (i == from.i()) {
@@ -70,19 +67,15 @@ final class Position {
         }
     }
 
-    record HeatLossPath(
-            long heatLoss,
-            List<Position> path
-    ) {
-
-//        boolean canGo(Direction other) {
-//            if (direction == other.opposite()) {
-//                return false;
-//            }
-//            if (times == 3) {
-//                return direction != other;
-//            }
-//            return true;
-//        }
+    record HeatLossPath(long heatLoss, List<Position> path) {
+        //        boolean canGo(Direction other) {
+        //            if (direction == other.opposite()) {
+        //                return false;
+        //            }
+        //            if (times == 3) {
+        //                return direction != other;
+        //            }
+        //            return true;
+        //        }
     }
 }

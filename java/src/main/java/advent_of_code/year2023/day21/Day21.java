@@ -1,4 +1,3 @@
-
 package advent_of_code.year2023.day21;
 
 import java.util.*;
@@ -7,8 +6,12 @@ import java.util.stream.Collectors;
 public class Day21 {
 
     public Long part1(List<String> lines, int stepCount) {
-        List<List<String>> map = lines.stream().map(s -> s.chars().mapToObj(
-            i1 -> String.valueOf((char) i1)).collect(Collectors.toList())).toList();
+        List<List<String>> map = lines
+            .stream()
+            .map(s ->
+                s.chars().mapToObj(i1 -> String.valueOf((char) i1)).collect(Collectors.toList())
+            )
+            .toList();
 
         Location sourceLocation = getSourceLocation(map);
         Set<Location> from = Set.of(sourceLocation);
@@ -17,28 +20,28 @@ public class Day21 {
             from = fillInner(map, from, i);
         }
 
-//        print(map);
+        //        print(map);
 
-        return map.stream().mapToLong(
-            row -> row.stream().mapToLong(s -> s.equals("O") ? 1 : 0).sum()
-        ).sum() + 1;
+        return (
+            map
+                .stream()
+                .mapToLong(row -> row.stream().mapToLong(s -> s.equals("O") ? 1 : 0).sum())
+                .sum() +
+            1
+        );
     }
 
-    private static Set<Location> fillInner(
-        List<List<String>> map,
-        Set<Location> from,
-        int step
-    ) {
+    private static Set<Location> fillInner(List<List<String>> map, Set<Location> from, int step) {
         Set<Location> next = new HashSet<>();
         String mark = step % 2 == 0 ? "O" : "1";
-        for (var location: from){
+        for (var location : from) {
             List<Location> adjacent = location
                 .adjacent(map)
                 .stream()
                 .filter(l -> map.get(l.i()).get(l.j()).charAt(0) == '.')
                 .toList();
 
-            for (var position: adjacent) {
+            for (var position : adjacent) {
                 map.get(position.i()).set(position.j(), mark);
             }
 
@@ -61,15 +64,20 @@ public class Day21 {
     }
 
     static void print(List<List<String>> map) {
-        String printed = map.stream().map(r -> String.join(",", r)).collect(Collectors.joining("\n"));
+        String printed = map
+            .stream()
+            .map(r -> String.join(",", r))
+            .collect(Collectors.joining("\n"));
         System.out.println(printed);
     }
 
     public Long part2(List<String> lines, int stepCount) {
         List<List<String>> map = lines
             .stream()
-            .map(s -> s.chars().mapToObj(i1 -> String.valueOf((char) i1))
-            .collect(Collectors.toList())).toList();
+            .map(s ->
+                s.chars().mapToObj(i1 -> String.valueOf((char) i1)).collect(Collectors.toList())
+            )
+            .toList();
 
         Location tmp = getSourceLocation(map);
         Location sourceLocation = new Location(2 * map.size() + tmp.i(), 2 * map.size() + tmp.j());
@@ -97,9 +105,7 @@ public class Day21 {
                         String start = newMap.get(map.size() + i).get(map.size() + j);
                         long v0 = start.equals("S") ? 0 : Long.parseLong(start);
 
-                        String current = newMap
-                            .get(a * map.size() + i)
-                            .get(b * map.size() + j);
+                        String current = newMap.get(a * map.size() + i).get(b * map.size() + j);
 
                         long v1 = 0;
                         v1 = Long.parseLong(current);
@@ -113,7 +119,7 @@ public class Day21 {
                         }
                         long k = (stepCount - v0) / (v1 - v0);
                         if (v1 % 2 == 1) {
-                            count += k / 2 + (stepCount + v0) % 2;
+                            count += k / 2 + ((stepCount + v0) % 2);
                         } else {
                             count += k;
                         }
@@ -122,7 +128,7 @@ public class Day21 {
             }
         }
 
-//        print(newMap);
+        //        print(newMap);
 
         return count;
     }
@@ -130,7 +136,7 @@ public class Day21 {
     public List<List<String>> multiple(List<List<String>> map, int k) {
         List<List<String>> newMap = new ArrayList<>(k * map.size());
         for (int i = 0; i < k; i++) {
-            for (var row: map) {
+            for (var row : map) {
                 List<String> newRow = new ArrayList<>(k * map.size());
                 for (int j = 0; j < k; j++) {
                     if (i == (k - 1) / 2 && j == i) {
@@ -146,20 +152,16 @@ public class Day21 {
         return newMap;
     }
 
-    private static Set<Location> fillInner2(
-        List<List<String>> map,
-        Set<Location> from,
-        int step
-    ) {
+    private static Set<Location> fillInner2(List<List<String>> map, Set<Location> from, int step) {
         Set<Location> next = new HashSet<>();
-        for (var location: from){
+        for (var location : from) {
             List<Location> adjacent = location
                 .adjacent(map)
                 .stream()
-                .filter(l ->  map.get(l.i()).get(l.j()).charAt(0) == '.')
+                .filter(l -> map.get(l.i()).get(l.j()).charAt(0) == '.')
                 .toList();
 
-            for (var position: adjacent) {
+            for (var position : adjacent) {
                 map.get(position.i()).set(position.j(), step + "");
             }
 
@@ -169,4 +171,3 @@ public class Day21 {
         return next;
     }
 }
-

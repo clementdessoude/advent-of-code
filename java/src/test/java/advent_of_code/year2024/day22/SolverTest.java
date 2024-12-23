@@ -9,12 +9,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 class SolverTest {
 
     @ParameterizedTest
-    @CsvSource({
-        "1, 8685429",
-        "10, 4700978",
-        "100, 15273692",
-        "2024, 8667524",
-    })
+    @CsvSource({ "1, 8685429", "10, 4700978", "100, 15273692", "2024, 8667524" })
     void should_compute_result_after_2000_iterations(long input, long expected) {
         assertThat(Solver.solve(input)).isEqualTo(expected);
     }

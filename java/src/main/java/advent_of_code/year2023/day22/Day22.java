@@ -1,4 +1,3 @@
-
 package advent_of_code.year2023.day22;
 
 import java.util.*;
@@ -20,7 +19,7 @@ public class Day22 {
     private static List<List<Block>> getPile(List<Block> blocks) {
         List<List<Block>> pile = new ArrayList<>();
 
-        for (var block: blocks) {
+        for (var block : blocks) {
             fall(block, pile);
         }
 
@@ -29,7 +28,8 @@ public class Day22 {
 
     private static void fall(Block block, List<List<Block>> pile) {
         for (int i = pile.size() - 1; i >= 0; i--) {
-            List<Block> blockingBlocks = pile.get(i)
+            List<Block> blockingBlocks = pile
+                .get(i)
                 .stream()
                 .filter(b -> b.isBlocking(block))
                 .toList();
@@ -82,16 +82,10 @@ public class Day22 {
 
     private static List<Block> getBlocks(List<String> lines) {
         List<Block> blocks = IntStream.range(0, lines.size())
-                                      .mapToObj(i -> Block.from(
-                                          i + 1,
-                                          lines.get(i)
-                                      ))
-                                      .sorted(Comparator.comparing(block -> block
-                                          .zs()
-                                          .start()))
-                                      .toList();
+            .mapToObj(i -> Block.from(i + 1, lines.get(i)))
+            .sorted(Comparator.comparing(block -> block.zs().start()))
+            .toList();
         var pile = getPile(blocks);
         return blocks;
     }
 }
-

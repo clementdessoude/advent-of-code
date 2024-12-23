@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 class NetworkPart1 {
+
     private final Map<String, String> rights;
     private final Map<String, String> lefts;
 
@@ -15,10 +16,7 @@ class NetworkPart1 {
         for (String row : lines) {
             var split = row.split(" = ");
             var node = split[0];
-            var directions = split[1]
-                .replace("(", "")
-                .replace(")", "")
-                .split(", ");
+            var directions = split[1].replace("(", "").replace(")", "").split(", ");
 
             rights.put(node, directions[1]);
             lefts.put(node, directions[0]);

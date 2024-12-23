@@ -5,12 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-record Step(
-    String step,
-    List<Range> elements,
-    Mappings categoryMappings
-) {
-
+record Step(String step, List<Range> elements, Mappings categoryMappings) {
     Step next() {
         var categoryMapping = categoryMappings.get(step);
 
@@ -21,20 +16,15 @@ record Step(
         );
     }
 
-    private List<Range> nextElements(
-        CategoryMapping categoryMapping,
-        List<Range> elements
-    ) {
-        return elements.stream()
-                       .map(element -> nextElements(categoryMapping, element))
-                       .flatMap(Collection::stream)
-                       .toList();
+    private List<Range> nextElements(CategoryMapping categoryMapping, List<Range> elements) {
+        return elements
+            .stream()
+            .map(element -> nextElements(categoryMapping, element))
+            .flatMap(Collection::stream)
+            .toList();
     }
 
-    private List<Range> nextElements(
-        CategoryMapping categoryMapping,
-        Range element
-    ) {
+    private List<Range> nextElements(CategoryMapping categoryMapping, Range element) {
         List<Mapping> overlappingMappings = categoryMapping
             .mappings()
             .stream()
@@ -51,27 +41,25 @@ record Step(
             long currentMappingPosition = currentMapping.range().start();
 
             if (currentElementPosition < currentMappingPosition) {
-                result.add(new Range(
-                    currentElementPosition,
-                    currentMappingPosition - 1
-                ));
+                result.add(new Range(currentElementPosition, currentMappingPosition - 1));
                 currentElementPosition = currentMappingPosition;
             }
             if (element.end() <= currentMapping.range().end()) {
-                result.add(new Range(
-                    currentElementPosition
-                        + currentMapping.delta(),
-                    element.end() + currentMapping.delta()
-                ));
+                result.add(
+                    new Range(
+                        currentElementPosition + currentMapping.delta(),
+                        element.end() + currentMapping.delta()
+                    )
+                );
                 currentElementPosition = element.end() + 1;
                 break;
             } else {
-                result.add(new Range(
-                    currentElementPosition
-                        + currentMapping.delta(),
-                    currentMapping.range().end()
-                        + currentMapping.delta()
-                ));
+                result.add(
+                    new Range(
+                        currentElementPosition + currentMapping.delta(),
+                        currentMapping.range().end() + currentMapping.delta()
+                    )
+                );
                 currentElementPosition = currentMapping.range().end() + 1;
             }
         }

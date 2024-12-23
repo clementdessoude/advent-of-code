@@ -17,10 +17,7 @@ class SolverPart1 {
         heatLosses = positions
             .stream()
             .flatMap(Collection::stream)
-            .collect(Collectors.toMap(
-                p -> new Location(p.i(), p.j()),
-                p -> new HashMap<>()
-            ));
+            .collect(Collectors.toMap(p -> new Location(p.i(), p.j()), p -> new HashMap<>()));
     }
 
     void calculateShortestPathFromSource() {
@@ -43,8 +40,24 @@ class SolverPart1 {
         secondPath.add(source);
 
         Set<LocationWithDirection> unsettledPositions = new HashSet<>();
-        unsettledPositions.add(new LocationWithDirection(source.down(), Direction.DOWN, 1, heatLossAt(source.down()), firstPath));
-        unsettledPositions.add(new LocationWithDirection(source.right(), Direction.RIGHT, 1, heatLossAt(source.right()), secondPath));
+        unsettledPositions.add(
+            new LocationWithDirection(
+                source.down(),
+                Direction.DOWN,
+                1,
+                heatLossAt(source.down()),
+                firstPath
+            )
+        );
+        unsettledPositions.add(
+            new LocationWithDirection(
+                source.right(),
+                Direction.RIGHT,
+                1,
+                heatLossAt(source.right()),
+                secondPath
+            )
+        );
 
         while (!unsettledPositions.isEmpty()) {
             LocationWithDirection lowestHeatLoss = getLowestHeatLoss(unsettledPositions);
@@ -56,7 +69,9 @@ class SolverPart1 {
         }
     }
 
-    private Collection<LocationWithDirection> getAdjacentPosition(LocationWithDirection locationWithDirection) {
+    private Collection<LocationWithDirection> getAdjacentPosition(
+        LocationWithDirection locationWithDirection
+    ) {
         List<LocationWithDirection> result = new ArrayList<>();
 
         Location location = locationWithDirection.location();
@@ -67,29 +82,45 @@ class SolverPart1 {
         if (location.j() > 0) {
             Location left = location.left();
             int count = currentDirection == Direction.LEFT ? locationWithDirection.count() + 1 : 1;
-            if (!currentPath.contains(left) && currentDirection.opposite() != Direction.LEFT && count <= 3) {
+            if (
+                !currentPath.contains(left) &&
+                currentDirection.opposite() != Direction.LEFT &&
+                count <= 3
+            ) {
                 long heatLoss = locationWithDirection.heatLoss() + heatLossAt(left);
                 List<Location> newPath = new LinkedList<>(locationWithDirection.path());
                 newPath.add(location);
-                result.add(new LocationWithDirection(left, Direction.LEFT, count, heatLoss, newPath));
+                result.add(
+                    new LocationWithDirection(left, Direction.LEFT, count, heatLoss, newPath)
+                );
             }
         }
 
         if (location.j() < maxSize - 1) {
             Location right = location.right();
             int count = currentDirection == Direction.RIGHT ? locationWithDirection.count() + 1 : 1;
-            if (!currentPath.contains(right) && currentDirection.opposite() != Direction.RIGHT && count <= 3) {
+            if (
+                !currentPath.contains(right) &&
+                currentDirection.opposite() != Direction.RIGHT &&
+                count <= 3
+            ) {
                 long heatLoss = locationWithDirection.heatLoss() + heatLossAt(right);
                 List<Location> newPath = new LinkedList<>(locationWithDirection.path());
                 newPath.add(location);
-                result.add(new LocationWithDirection(right, Direction.RIGHT, count, heatLoss, newPath));
+                result.add(
+                    new LocationWithDirection(right, Direction.RIGHT, count, heatLoss, newPath)
+                );
             }
         }
 
         if (location.i() > 0) {
             Location up = location.up();
             int count = currentDirection == Direction.UP ? locationWithDirection.count() + 1 : 1;
-            if (!currentPath.contains(up) && currentDirection.opposite() != Direction.UP && count <= 3) {
+            if (
+                !currentPath.contains(up) &&
+                currentDirection.opposite() != Direction.UP &&
+                count <= 3
+            ) {
                 long heatLoss = locationWithDirection.heatLoss() + heatLossAt(up);
                 List<Location> newPath = new LinkedList<>(locationWithDirection.path());
                 newPath.add(location);
@@ -100,11 +131,17 @@ class SolverPart1 {
         if (location.i() < maxSize - 1) {
             Location down = location.down();
             int count = currentDirection == Direction.DOWN ? locationWithDirection.count() + 1 : 1;
-            if (!currentPath.contains(down) && currentDirection.opposite() != Direction.DOWN && count <= 3) {
+            if (
+                !currentPath.contains(down) &&
+                currentDirection.opposite() != Direction.DOWN &&
+                count <= 3
+            ) {
                 long heatLoss = locationWithDirection.heatLoss() + heatLossAt(down);
                 List<Location> newPath = new LinkedList<>(locationWithDirection.path());
                 newPath.add(location);
-                result.add(new LocationWithDirection(down, Direction.DOWN, count, heatLoss, newPath));
+                result.add(
+                    new LocationWithDirection(down, Direction.DOWN, count, heatLoss, newPath)
+                );
             }
         }
 
@@ -117,13 +154,13 @@ class SolverPart1 {
     ) {
         Map<Integer, LocationWithDirection> newHeatLoss = heatLosses
             .get(locationWithDirection.location())
-            .getOrDefault(
-                locationWithDirection.direction(),
-                new HashMap<>()
-            );
+            .getOrDefault(locationWithDirection.direction(), new HashMap<>());
 
         for (int i = locationWithDirection.count(); i <= 3; i++) {
-            if (newHeatLoss.containsKey(i) && newHeatLoss.get(i).heatLoss() > locationWithDirection.heatLoss()) {
+            if (
+                newHeatLoss.containsKey(i) &&
+                newHeatLoss.get(i).heatLoss() > locationWithDirection.heatLoss()
+            ) {
                 newHeatLoss.remove(i);
             }
         }
@@ -138,158 +175,158 @@ class SolverPart1 {
             .put(locationWithDirection.direction(), newHeatLoss);
     }
 
-////    private boolean takeAccount(Position adjacentPosition, Position current) {
-////        Direction direction = adjacentPosition.direction(current);
-////        Location nextLocation = new Location(
-////            adjacentPosition.heatLoss(),
-////            adjacentPosition.j()
-////        );
-////        Location currentLocation = new Location(current.heatLoss(), current.j());
-////
-////        Map<Direction, Map<Integer, Long>> currentLowest = heatLosses.get(
-////            currentLocation);
-////        Map<Integer, Long> newLowest = new HashMap<>();
-////
-////        var min = currentLowest
-////            .entrySet()
-////            .stream()
-////            .filter(entry -> entry.getKey() != direction)
-////            .flatMapToLong(entry -> entry
-////                .getValue()
-////                .values()
-////                .stream()
-////                .mapToLong(l -> l))
-////            .min();
-////
-////        if (min.isPresent()) {
-////            newLowest.put(
-////                1,
-////                min.getAsLong()
-////                    + adjacentPosition.heatLossToGetThere()
-////            );
-////        }
-////
-////        var sameDirection = currentLowest
-////            .entrySet()
-////            .stream()
-////            .filter(entry -> entry.getKey() == direction)
-////            .findAny();
-////
-////        if (sameDirection.isPresent()) {
-////            Map<Integer, Long> value = sameDirection.get().getValue();
-////            value
-////                .entrySet()
-////                .stream()
-////                .filter(entry -> entry.getKey() != 3)
-////                .filter(entry -> min.isEmpty()
-////                    || entry.getValue() < min.getAsLong())
-////                .map(entry -> Map.entry(
-////                    entry.getKey() + 1,
-////                    entry.getValue()
-////                        + adjacentPosition.heatLossToGetThere()
-////                ))
-////                .forEach(e -> newLowest.put(e.getKey(), e.getValue()));
-////        }
-////
-////        boolean hasAddAdjacent = false;
-////        Map<Integer, Long> longs = heatLosses.get(nextLocation).get(direction);
-////        if (longs == null || longs.isEmpty()) {
-////            heatLosses.get(nextLocation).put(direction, newLowest);
-////            hasAddAdjacent = true;
-////        } else {
-////            Map<Integer, Long> updatedLongs = new HashMap<>();
-////
-////            Long currentMin = longs.getOrDefault(1, Long.MAX_VALUE);
-////
-////            for (int heatLoss = 1; heatLoss <= 3; heatLoss++) {
-////                long min1 = Math.min(
-////                    longs.getOrDefault(heatLoss, Long.MAX_VALUE),
-////                    newLowest.getOrDefault(heatLoss, Long.MAX_VALUE)
-////                );
-////                if (currentMin <= min1) {
-////                    break;
-////                }
-////                updatedLongs.put(heatLoss, min1);
-////                if (min1 != longs.getOrDefault(heatLoss, -1L)) {
-////                    hasAddAdjacent = true;
-////                }
-////                currentMin = min1;
-////            }
-////        }
-////
-////        return hasAddAdjacent;
-////    }
-//
-//    public void displayPath(Position destination) {
-//        List<List<String>> map = new ArrayList<>();
-//        for (var row: positions) {
-//            var rowList = new ArrayList<String>();
-//            for (Position position : row) {
-//                rowList.add(ANSI_RED + String.valueOf(position.heatLossToGetThere() + ANSI_RESET));
-//            }
-//
-//            map.add(rowList);
-//        }
-//
-//        Location destinationLocation = new Location(destination.heatLoss(), destination.j());
-//
-//        Location source = new Location(0, 0);
-//        Direction currentDirection = null;
-//        int times = 0;
-//        while (!destinationLocation.equals(source)) {
-//            var direction = getFrom(destinationLocation, currentDirection, times);
-//            var newDestinationLocation = switch (direction) {
-//                case LEFT -> new Location(destinationLocation.heatLoss(), destinationLocation.j() + 1);
-//                case UP -> new Location(destinationLocation.heatLoss() + 1, destinationLocation.j());
-//                case RIGHT -> new Location(destinationLocation.heatLoss(), destinationLocation.j() - 1);
-//                case DOWN -> new Location(destinationLocation.heatLoss() - 1, destinationLocation.j());
-//            };
-//            String c = switch (direction) {
-//                case LEFT -> ANSI_GREEN + "<" + ANSI_RESET;
-//                case UP -> ANSI_GREEN + "^" + ANSI_RESET;
-//                case RIGHT -> ANSI_GREEN + ">" + ANSI_RESET;
-//                case DOWN -> ANSI_GREEN + "v" + ANSI_RESET;
-//            };
-//            times = currentDirection == direction ? times + 1 : 1;
-//            currentDirection = direction;
-//
-//            map.get(destinationLocation.heatLoss()).set(destinationLocation.j(), c);
-//            destinationLocation = newDestinationLocation;
-//        }
-//
-//        System.out.println(
-//            String.join("\n", map.stream().map(r -> String.join("", r)).toList())
-//        );
-//
-//    }
+    ////    private boolean takeAccount(Position adjacentPosition, Position current) {
+    ////        Direction direction = adjacentPosition.direction(current);
+    ////        Location nextLocation = new Location(
+    ////            adjacentPosition.heatLoss(),
+    ////            adjacentPosition.j()
+    ////        );
+    ////        Location currentLocation = new Location(current.heatLoss(), current.j());
+    ////
+    ////        Map<Direction, Map<Integer, Long>> currentLowest = heatLosses.get(
+    ////            currentLocation);
+    ////        Map<Integer, Long> newLowest = new HashMap<>();
+    ////
+    ////        var min = currentLowest
+    ////            .entrySet()
+    ////            .stream()
+    ////            .filter(entry -> entry.getKey() != direction)
+    ////            .flatMapToLong(entry -> entry
+    ////                .getValue()
+    ////                .values()
+    ////                .stream()
+    ////                .mapToLong(l -> l))
+    ////            .min();
+    ////
+    ////        if (min.isPresent()) {
+    ////            newLowest.put(
+    ////                1,
+    ////                min.getAsLong()
+    ////                    + adjacentPosition.heatLossToGetThere()
+    ////            );
+    ////        }
+    ////
+    ////        var sameDirection = currentLowest
+    ////            .entrySet()
+    ////            .stream()
+    ////            .filter(entry -> entry.getKey() == direction)
+    ////            .findAny();
+    ////
+    ////        if (sameDirection.isPresent()) {
+    ////            Map<Integer, Long> value = sameDirection.get().getValue();
+    ////            value
+    ////                .entrySet()
+    ////                .stream()
+    ////                .filter(entry -> entry.getKey() != 3)
+    ////                .filter(entry -> min.isEmpty()
+    ////                    || entry.getValue() < min.getAsLong())
+    ////                .map(entry -> Map.entry(
+    ////                    entry.getKey() + 1,
+    ////                    entry.getValue()
+    ////                        + adjacentPosition.heatLossToGetThere()
+    ////                ))
+    ////                .forEach(e -> newLowest.put(e.getKey(), e.getValue()));
+    ////        }
+    ////
+    ////        boolean hasAddAdjacent = false;
+    ////        Map<Integer, Long> longs = heatLosses.get(nextLocation).get(direction);
+    ////        if (longs == null || longs.isEmpty()) {
+    ////            heatLosses.get(nextLocation).put(direction, newLowest);
+    ////            hasAddAdjacent = true;
+    ////        } else {
+    ////            Map<Integer, Long> updatedLongs = new HashMap<>();
+    ////
+    ////            Long currentMin = longs.getOrDefault(1, Long.MAX_VALUE);
+    ////
+    ////            for (int heatLoss = 1; heatLoss <= 3; heatLoss++) {
+    ////                long min1 = Math.min(
+    ////                    longs.getOrDefault(heatLoss, Long.MAX_VALUE),
+    ////                    newLowest.getOrDefault(heatLoss, Long.MAX_VALUE)
+    ////                );
+    ////                if (currentMin <= min1) {
+    ////                    break;
+    ////                }
+    ////                updatedLongs.put(heatLoss, min1);
+    ////                if (min1 != longs.getOrDefault(heatLoss, -1L)) {
+    ////                    hasAddAdjacent = true;
+    ////                }
+    ////                currentMin = min1;
+    ////            }
+    ////        }
+    ////
+    ////        return hasAddAdjacent;
+    ////    }
+    //
+    //    public void displayPath(Position destination) {
+    //        List<List<String>> map = new ArrayList<>();
+    //        for (var row: positions) {
+    //            var rowList = new ArrayList<String>();
+    //            for (Position position : row) {
+    //                rowList.add(ANSI_RED + String.valueOf(position.heatLossToGetThere() + ANSI_RESET));
+    //            }
+    //
+    //            map.add(rowList);
+    //        }
+    //
+    //        Location destinationLocation = new Location(destination.heatLoss(), destination.j());
+    //
+    //        Location source = new Location(0, 0);
+    //        Direction currentDirection = null;
+    //        int times = 0;
+    //        while (!destinationLocation.equals(source)) {
+    //            var direction = getFrom(destinationLocation, currentDirection, times);
+    //            var newDestinationLocation = switch (direction) {
+    //                case LEFT -> new Location(destinationLocation.heatLoss(), destinationLocation.j() + 1);
+    //                case UP -> new Location(destinationLocation.heatLoss() + 1, destinationLocation.j());
+    //                case RIGHT -> new Location(destinationLocation.heatLoss(), destinationLocation.j() - 1);
+    //                case DOWN -> new Location(destinationLocation.heatLoss() - 1, destinationLocation.j());
+    //            };
+    //            String c = switch (direction) {
+    //                case LEFT -> ANSI_GREEN + "<" + ANSI_RESET;
+    //                case UP -> ANSI_GREEN + "^" + ANSI_RESET;
+    //                case RIGHT -> ANSI_GREEN + ">" + ANSI_RESET;
+    //                case DOWN -> ANSI_GREEN + "v" + ANSI_RESET;
+    //            };
+    //            times = currentDirection == direction ? times + 1 : 1;
+    //            currentDirection = direction;
+    //
+    //            map.get(destinationLocation.heatLoss()).set(destinationLocation.j(), c);
+    //            destinationLocation = newDestinationLocation;
+    //        }
+    //
+    //        System.out.println(
+    //            String.join("\n", map.stream().map(r -> String.join("", r)).toList())
+    //        );
+    //
+    //    }
 
-//    private Direction getFrom(
-//        Location destination,
-//        Direction direction,
-//        int times
-//    ) {
-//        var entry = heatLosses
-//            .get(destination)
-//            .entrySet()
-//            .stream()
-//            .map(e -> new MinValue(e.getKey(), e
-//                .getValue()
-//                .entrySet()
-//                .stream()
-//                .filter(longEntry -> e.getKey() != direction || (times + longEntry.getKey() < 4))
-//                .mapToLong(Map.Entry::getValue)
-//                .min()
-//                .orElse(Long.MAX_VALUE)))
-//            .min(Comparator.comparing(MinValue::minValue))
-//            .orElseThrow();
-//
-//        return entry.direction;
-//    }
+    //    private Direction getFrom(
+    //        Location destination,
+    //        Direction direction,
+    //        int times
+    //    ) {
+    //        var entry = heatLosses
+    //            .get(destination)
+    //            .entrySet()
+    //            .stream()
+    //            .map(e -> new MinValue(e.getKey(), e
+    //                .getValue()
+    //                .entrySet()
+    //                .stream()
+    //                .filter(longEntry -> e.getKey() != direction || (times + longEntry.getKey() < 4))
+    //                .mapToLong(Map.Entry::getValue)
+    //                .min()
+    //                .orElse(Long.MAX_VALUE)))
+    //            .min(Comparator.comparing(MinValue::minValue))
+    //            .orElseThrow();
+    //
+    //        return entry.direction;
+    //    }
 
-//    record Tmp(Direction direction, Position position) {
-//    }
-//
-//    record MinValue(Direction direction, long minValue) {}
+    //    record Tmp(Direction direction, Position position) {
+    //    }
+    //
+    //    record MinValue(Direction direction, long minValue) {}
 
     private LocationWithDirection getLowestHeatLoss(Set<LocationWithDirection> unsettledPositions) {
         return unsettledPositions
@@ -301,5 +338,4 @@ class SolverPart1 {
     int heatLossAt(Location location) {
         return positions.get(location.i()).get(location.j()).heatLossToGetThere();
     }
-
 }

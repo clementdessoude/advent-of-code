@@ -1,4 +1,3 @@
-
 package advent_of_code.year2023.day11;
 
 import java.util.ArrayList;
@@ -12,18 +11,13 @@ public class Day11 {
     }
 
     private static long solve(List<String> lines, int expansionFactor) {
-        List<Integer> emptyRows = IntStream
-            .range(0, lines.size())
+        List<Integer> emptyRows = IntStream.range(0, lines.size())
             .filter(i -> lines.get(i).matches("\\.*"))
             .boxed()
             .toList();
 
-        List<Integer> emptyColumns = IntStream
-            .range(0, lines.get(0).length())
-            .filter(j -> lines
-                .stream()
-                .map(line -> line.charAt(j))
-                .allMatch(c -> c == '.'))
+        List<Integer> emptyColumns = IntStream.range(0, lines.get(0).length())
+            .filter(j -> lines.stream().map(line -> line.charAt(j)).allMatch(c -> c == '.'))
             .boxed()
             .toList();
 
@@ -37,12 +31,18 @@ public class Day11 {
             }
             int emptyColumnCount = 0;
             for (int j = 0; j < lines.get(0).length(); j++) {
-                if (emptyColumnCount < emptyColumns.size() && emptyColumns.get(emptyColumnCount) == j) {
+                if (
+                    emptyColumnCount < emptyColumns.size() &&
+                    emptyColumns.get(emptyColumnCount) == j
+                ) {
                     emptyColumnCount++;
                     continue;
                 }
                 if (lines.get(i).charAt(j) == '#') {
-                    Galaxy newGalaxy = new Galaxy(i + emptyRowCount * (expansionFactor - 1), j + emptyColumnCount * (expansionFactor - 1));
+                    Galaxy newGalaxy = new Galaxy(
+                        i + emptyRowCount * (expansionFactor - 1),
+                        j + emptyColumnCount * (expansionFactor - 1)
+                    );
                     sum += galaxies.stream().mapToLong(g -> g.distanceTo(newGalaxy)).sum();
                     galaxies.add(newGalaxy);
                 }
@@ -56,4 +56,3 @@ public class Day11 {
         return solve(lines, expansionFactor);
     }
 }
-

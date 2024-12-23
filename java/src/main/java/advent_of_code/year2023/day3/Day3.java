@@ -17,7 +17,7 @@ public class Day3 {
                     var response = getRelatedNumber(i, j, lines);
                     integers.add(response.response);
 
-                    j+= response.decalage;
+                    j += response.decalage;
                 }
             }
         }
@@ -43,11 +43,7 @@ public class Day3 {
         return false;
     }
 
-    private boolean hasSymbolOnRow(
-        int j,
-        int i,
-        List<String> lines
-    ) {
+    private boolean hasSymbolOnRow(int j, int i, List<String> lines) {
         int rowSize = lines.get(0).length();
         if (j >= 1) {
             if (isSymbol(i, j - 1, lines)) {
@@ -71,6 +67,7 @@ public class Day3 {
     }
 
     record GetRelatedNumber(int response, int decalage) {}
+
     private GetRelatedNumber getRelatedNumber(int i, int j, List<String> lines) {
         var row = lines.get(i);
 
@@ -82,15 +79,12 @@ public class Day3 {
         } while (position >= 0 && Character.isDigit(row.charAt(position)));
 
         position = j + 1;
-        while(position < row.length() && Character.isDigit(row.charAt(position))) {
+        while (position < row.length() && Character.isDigit(row.charAt(position))) {
             chars.add(row.charAt(position));
             position += 1;
         }
 
-        int relatedNumber = parseInt(chars
-                              .stream()
-                              .map(String::valueOf)
-                              .collect(joining()));
+        int relatedNumber = parseInt(chars.stream().map(String::valueOf).collect(joining()));
         return new GetRelatedNumber(relatedNumber, position - j);
     }
 
@@ -105,7 +99,7 @@ public class Day3 {
 
                     var isGear = adjacents.size() >= 2;
                     if (isGear) {
-                        integers.add(adjacents.stream().reduce(1, (a,b) -> a * b));
+                        integers.add(adjacents.stream().reduce(1, (a, b) -> a * b));
                     }
                 }
             }
@@ -117,25 +111,21 @@ public class Day3 {
     private List<Integer> getAdjacentNumbers(int i, int j, List<String> lines) {
         List<Integer> adjacents = new ArrayList<>();
         if (i >= 1) {
-            adjacents.addAll(getAdjacentNumbersOnRow( j, i - 1, lines));
+            adjacents.addAll(getAdjacentNumbersOnRow(j, i - 1, lines));
         }
 
         if (hasSymbolOnRow(j, i, lines)) {
-            adjacents.addAll(getAdjacentNumbersOnRow( j, i, lines));
+            adjacents.addAll(getAdjacentNumbersOnRow(j, i, lines));
         }
 
         if (i < lines.size() - 1) {
-            adjacents.addAll(getAdjacentNumbersOnRow( j, i + 1, lines));
+            adjacents.addAll(getAdjacentNumbersOnRow(j, i + 1, lines));
         }
 
         return adjacents;
     }
 
-    private List<Integer> getAdjacentNumbersOnRow(
-        int j,
-        int i,
-        List<String> lines
-    ) {
+    private List<Integer> getAdjacentNumbersOnRow(int j, int i, List<String> lines) {
         int rowSize = lines.get(0).length();
 
         if (Character.isDigit(lines.get(i).charAt(j))) {

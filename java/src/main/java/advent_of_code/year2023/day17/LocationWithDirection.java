@@ -8,5 +8,4 @@ record LocationWithDirection(
     int count,
     long heatLoss,
     List<Location> path
-){
-}
+) {}

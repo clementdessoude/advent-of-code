@@ -1,4 +1,3 @@
-
 package advent_of_code.year2023.day25;
 
 import java.util.*;
@@ -13,7 +12,7 @@ public class Day25 {
 
         String currentNode = connexions.keySet().stream().findAny().orElseThrow();
         currentGroup.add(currentNode);
-        for (var n: connexions.get(currentNode)) {
+        for (var n : connexions.get(currentNode)) {
             if (!currentGroup.contains(n)) {
                 connectedGroup.add(n);
             }
@@ -23,7 +22,7 @@ public class Day25 {
             currentNode = next(connexions, connectedGroup, currentGroup);
             currentGroup.add(currentNode);
             connectedGroup.remove(currentNode);
-            for (var n: connexions.get(currentNode)) {
+            for (var n : connexions.get(currentNode)) {
                 if (!currentGroup.contains(n)) {
                     connectedGroup.add(n);
                 }
@@ -53,14 +52,11 @@ public class Day25 {
     ) {
         long max = -1;
         String maxNode = null;
-        for (var node: connectedNodes) {
+        for (var node : connectedNodes) {
             if (currentGroup.contains(node)) {
                 continue;
             }
-            var count = connexions
-                .get(node)
-                .stream()
-                .filter(currentGroup::contains).count();
+            var count = connexions.get(node).stream().filter(currentGroup::contains).count();
             if (count > max) {
                 max = count;
                 maxNode = node;
@@ -72,7 +68,7 @@ public class Day25 {
     private static Map<String, Set<String>> parse(List<String> lines) {
         Map<String, Set<String>> connexions = new HashMap<>();
 
-        for (var row: lines) {
+        for (var row : lines) {
             var split = row.split(": ");
 
             var first = split[0];
@@ -94,4 +90,3 @@ public class Day25 {
         return null;
     }
 }
-

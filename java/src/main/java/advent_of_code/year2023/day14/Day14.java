@@ -1,4 +1,3 @@
-
 package advent_of_code.year2023.day14;
 
 import java.util.ArrayList;
@@ -10,10 +9,7 @@ import java.util.stream.IntStream;
 public class Day14 {
 
     public int part1(List<String> lines) {
-        return IntStream
-                .range(0, lines.get(0).length())
-                .map(i -> columnLoad(lines, i))
-                .sum();
+        return IntStream.range(0, lines.get(0).length()).map(i -> columnLoad(lines, i)).sum();
     }
 
     private static int columnLoad(List<String> lines, int columnIndex) {
@@ -34,13 +30,17 @@ public class Day14 {
     }
 
     record CycleCache(List<String> result, int setInCacheAt) {}
-    record Cycle(List<String> result, Integer cycleSize) {}
-    private Map<List<String>, CycleCache> roll = new HashMap<>();
 
+    record Cycle(List<String> result, Integer cycleSize) {}
+
+    private Map<List<String>, CycleCache> roll = new HashMap<>();
 
     Cycle cycle(List<String> lines, int cycleNumber) {
         if (roll.containsKey(lines)) {
-            return new Cycle(roll.get(lines).result(), cycleNumber - roll.get(lines).setInCacheAt());
+            return new Cycle(
+                roll.get(lines).result(),
+                cycleNumber - roll.get(lines).setInCacheAt()
+            );
         }
 
         var tmp = lines;
@@ -54,8 +54,7 @@ public class Day14 {
     }
 
     private List<String> roll(List<String> lines) {
-        return IntStream
-            .range(0, lines.get(0).length())
+        return IntStream.range(0, lines.get(0).length())
             .mapToObj(j -> {
                 int currentPosition = 0;
 
@@ -77,7 +76,8 @@ public class Day14 {
                 }
 
                 return String.join("", characters.reversed());
-            }).toList();
+            })
+            .toList();
     }
 
     public Integer part2(List<String> lines) {
@@ -112,4 +112,3 @@ public class Day14 {
         return columnLoad;
     }
 }
-

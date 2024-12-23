@@ -7,17 +7,26 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 final class MemorySpace {
+
     private final Map<Integer, Set<Location>> corruptedCoordinatesAfter;
     private final List<Location> fallingBytes;
     private final Pair<Integer, Integer> dimensions;
-    
-    static MemorySpace atNano(List<Location> fallingBytes, Pair<Integer, Integer> dimension, int nanoseconds) {
+
+    static MemorySpace atNano(
+        List<Location> fallingBytes,
+        Pair<Integer, Integer> dimension,
+        int nanoseconds
+    ) {
         var corruptedCoordinates = fallingBytes.subList(0, nanoseconds);
         var corruptedCoordinatesAfter = Map.of(nanoseconds, Set.copyOf(corruptedCoordinates));
         return new MemorySpace(corruptedCoordinatesAfter, fallingBytes, dimension);
     }
 
-    MemorySpace(List<Location> fallingBytes, Pair<Integer, Integer> dimension, int startingNanoseconds) {
+    MemorySpace(
+        List<Location> fallingBytes,
+        Pair<Integer, Integer> dimension,
+        int startingNanoseconds
+    ) {
         this.dimensions = dimension;
         var corruptedCoordinates = fallingBytes.subList(0, startingNanoseconds);
         corruptedCoordinatesAfter = new HashMap<>();
@@ -26,7 +35,7 @@ final class MemorySpace {
             Location fallingByte = fallingBytes.get(i);
             var newCorruptedCoordinates = new HashSet<>(corruptedCoordinatesAfter.get(i));
             newCorruptedCoordinates.add(fallingByte);
-            corruptedCoordinatesAfter.put(i+1, Set.copyOf(newCorruptedCoordinates));
+            corruptedCoordinatesAfter.put(i + 1, Set.copyOf(newCorruptedCoordinates));
         }
         this.fallingBytes = fallingBytes;
     }
@@ -60,7 +69,7 @@ final class MemorySpace {
     List<Location> shortestPath(int nanoseconds) {
         Map<Location, List<Location>> visited = new HashMap<>();
         Map<Location, List<Location>> available = new HashMap<>();
-        available.put(new Location(0,0), List.of(new Location(0,0)));
+        available.put(new Location(0, 0), List.of(new Location(0, 0)));
         while (!available.isEmpty()) {
             var location = next(available);
             var path = available.get(location);
@@ -94,24 +103,13 @@ final class MemorySpace {
     }
 
     String grid(int nanoseconds) {
-        return Display.grid(
-            dimensions,
-            Map.of(
-                corruptedCoordinatesAfter.get(nanoseconds),
-                "#"
-            )
-        );
+        return Display.grid(dimensions, Map.of(corruptedCoordinatesAfter.get(nanoseconds), "#"));
     }
 
     String grid(int nanoseconds, List<Location> path) {
         return Display.grid(
             dimensions,
-            Map.of(
-                corruptedCoordinatesAfter.get(nanoseconds),
-                "#",
-                path,
-                "O"
-            )
+            Map.of(corruptedCoordinatesAfter.get(nanoseconds), "#", path, "O")
         );
     }
 }

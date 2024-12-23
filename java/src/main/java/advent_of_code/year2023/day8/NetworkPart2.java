@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 class NetworkPart2 {
+
     private final Map<String, String> rights;
     private final Map<String, String> lefts;
 
@@ -15,10 +16,7 @@ class NetworkPart2 {
         for (String row : lines) {
             var split = row.split(" = ");
             var node = split[0];
-            var directions = split[1]
-                    .replace("(", "")
-                    .replace(")", "")
-                    .split(", ");
+            var directions = split[1].replace("(", "").replace(")", "").split(", ");
 
             rights.put(node, directions[1]);
             lefts.put(node, directions[0]);
@@ -27,7 +25,7 @@ class NetworkPart2 {
         this.lefts = lefts;
         this.rights = rights;
     }
-    
+
     public long navigate(char[] instructions) {
         List<String> positions = rights.keySet().stream().filter(s -> s.endsWith("A")).toList();
 
@@ -43,7 +41,7 @@ class NetworkPart2 {
         String position = initialPosition;
         long moves = 0L;
         while (!position.endsWith("Z")) {
-            char instruction = instructions[(int)(moves % instructions.length)];
+            char instruction = instructions[(int) (moves % instructions.length)];
             if (instruction == 'R') {
                 position = rights.get(position);
             } else {

@@ -7,13 +7,12 @@ import java.util.stream.Collectors;
 
 record Area(List<List<Character>> lines) {
     static Area from(List<String> characters) {
-        return new Area(characters
-                            .stream()
-                            .map(row -> row
-                                .chars()
-                                .mapToObj(c -> (char) c)
-                                .collect(Collectors.toList()))
-                            .collect(Collectors.toList()));
+        return new Area(
+            characters
+                .stream()
+                .map(row -> row.chars().mapToObj(c -> (char) c).collect(Collectors.toList()))
+                .collect(Collectors.toList())
+        );
     }
 
     Position getSource() {
@@ -83,18 +82,10 @@ record Area(List<List<Character>> lines) {
     }
 
     void print() {
-        lines.forEach(l -> System.out.println(
-            l
-                .stream()
-                .map(String::valueOf)
-                .collect(joining())
-        ));
+        lines.forEach(l -> System.out.println(l.stream().map(String::valueOf).collect(joining())));
     }
 
     long count(char c) {
-        return lines.stream()
-            .flatMap(Collection::stream)
-            .filter(ch -> ch == c)
-            .count();
+        return lines.stream().flatMap(Collection::stream).filter(ch -> ch == c).count();
     }
 }

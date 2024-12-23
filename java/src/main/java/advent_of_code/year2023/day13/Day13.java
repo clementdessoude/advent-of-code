@@ -1,4 +1,3 @@
-
 package advent_of_code.year2023.day13;
 
 import java.util.ArrayList;
@@ -15,6 +14,7 @@ public class Day13 {
     }
 
     class Pattern {
+
         private final List<String> lines;
 
         public Pattern(List<String> lines) {
@@ -32,15 +32,9 @@ public class Day13 {
             if (horizontalReflexion.size() + verticalReflexion.size() != 1) {
                 throw new RuntimeException();
             }
-            int sumHorizontal = 100 * horizontalReflexion
-                    .stream()
-                    .mapToInt(i -> (i + 1))
-                    .sum();
+            int sumHorizontal = 100 * horizontalReflexion.stream().mapToInt(i -> (i + 1)).sum();
 
-            int sumVertical = verticalReflexion
-                    .stream()
-                    .mapToInt(i -> (i + 1))
-                    .sum();
+            int sumVertical = verticalReflexion.stream().mapToInt(i -> (i + 1)).sum();
 
             return sumHorizontal + sumVertical;
         }
@@ -50,7 +44,7 @@ public class Day13 {
 
             Optional<Integer> similarLine = findSimilarLine(0);
 
-            while(similarLine.isPresent()) {
+            while (similarLine.isPresent()) {
                 boolean isReflexion = checkHorizontalReflexion(similarLine.get());
                 if (isReflexion) {
                     reflexions.add(similarLine.get());
@@ -62,7 +56,7 @@ public class Day13 {
         }
 
         private Optional<Integer> findSimilarLine(int start) {
-            for (int j = start; j < lines.size() - 1 ; j++) {
+            for (int j = start; j < lines.size() - 1; j++) {
                 if (lines.get(j).equals(lines.get(j + 1))) {
                     return Optional.of(j);
                 }
@@ -87,7 +81,7 @@ public class Day13 {
 
             Optional<Integer> similarColumn = findSimilarColumn(0);
 
-            while(similarColumn.isPresent()) {
+            while (similarColumn.isPresent()) {
                 boolean isReflexion = checkVerticalReflexion(similarColumn.get());
                 if (isReflexion) {
                     reflexions.add(similarColumn.get());
@@ -99,7 +93,7 @@ public class Day13 {
         }
 
         private Optional<Integer> findSimilarColumn(int start) {
-            for (int j = start; j < lines.get(0).length() - 1 ; j++) {
+            for (int j = start; j < lines.get(0).length() - 1; j++) {
                 boolean areEquals = true;
                 for (String line : lines) {
                     if (line.charAt(j) != line.charAt(j + 1)) {
@@ -149,9 +143,8 @@ public class Day13 {
         }
 
         Optional<Integer> horizontalReflexionPart2() {
-
             Optional<Integer> similarLine = findSimilarLine(0);
-            while(similarLine.isPresent()) {
+            while (similarLine.isPresent()) {
                 boolean isReflexion = checkHorizontalReflexionPart2(similarLine.get());
                 if (isReflexion) {
                     return similarLine;
@@ -160,7 +153,7 @@ public class Day13 {
             }
 
             Optional<Integer> smudgeSimilarLine = findSmudgedSimilarLine(0);
-            while(smudgeSimilarLine.isPresent()) {
+            while (smudgeSimilarLine.isPresent()) {
                 boolean isReflexion = checkHorizontalReflexion(smudgeSimilarLine.get());
                 if (isReflexion) {
                     return smudgeSimilarLine;
@@ -172,7 +165,7 @@ public class Day13 {
         }
 
         private Optional<Integer> findSmudgedSimilarLine(int start) {
-            for (int j = start; j < lines.size() - 1 ; j++) {
+            for (int j = start; j < lines.size() - 1; j++) {
                 if (potentialHorizontalSmudge(j, j + 1) == 1) {
                     return Optional.of(j);
                 }
@@ -184,34 +177,37 @@ public class Day13 {
         private boolean checkHorizontalReflexionPart2(Integer rowIndex) {
             var count = Math.min(rowIndex, lines.size() - rowIndex - 2);
 
-            return IntStream.range(1, count + 1).map(i -> potentialHorizontalSmudge(rowIndex - i, rowIndex + i + 1)).sum() == 1;
+            return (
+                IntStream.range(1, count + 1)
+                    .map(i -> potentialHorizontalSmudge(rowIndex - i, rowIndex + i + 1))
+                    .sum() ==
+                1
+            );
         }
 
         private int potentialHorizontalSmudge(int firstLine, int secondLine) {
             List<Integer> firsts = lines
-                    .get(firstLine)
-                    .chars()
-                    .mapToObj(c -> c == '#' ? 1 : 0)
-                    .toList();
+                .get(firstLine)
+                .chars()
+                .mapToObj(c -> c == '#' ? 1 : 0)
+                .toList();
             List<Integer> seconds = lines
-                    .get(secondLine)
-                    .chars()
-                    .mapToObj(c -> c == '#' ? 1 : 0)
-                    .toList();
+                .get(secondLine)
+                .chars()
+                .mapToObj(c -> c == '#' ? 1 : 0)
+                .toList();
 
             var sum = 0;
-            for (int j = 0; j < firsts.size() ; j++) {
+            for (int j = 0; j < firsts.size(); j++) {
                 sum += ((firsts.get(j) + seconds.get(j)) % 2);
             }
 
             return sum;
         }
 
-
         Optional<Integer> verticalReflexionPart2() {
-
             Optional<Integer> similarColumn = findSimilarColumn(0);
-            while(similarColumn.isPresent()) {
+            while (similarColumn.isPresent()) {
                 boolean isReflexion = checkVerticalReflexionPart2(similarColumn.get());
                 if (isReflexion) {
                     return similarColumn;
@@ -220,7 +216,7 @@ public class Day13 {
             }
 
             Optional<Integer> smudgeSimilarColumn = findSmudgedSimilarColumn(0);
-            while(smudgeSimilarColumn.isPresent()) {
+            while (smudgeSimilarColumn.isPresent()) {
                 boolean isReflexion = checkVerticalReflexion(smudgeSimilarColumn.get());
                 if (isReflexion) {
                     return smudgeSimilarColumn;
@@ -232,7 +228,7 @@ public class Day13 {
         }
 
         private Optional<Integer> findSmudgedSimilarColumn(int start) {
-            for (int j = start; j < lines.get(0).length() - 1 ; j++) {
+            for (int j = start; j < lines.get(0).length() - 1; j++) {
                 if (potentialVerticalSmudge(j, j + 1) == 1) {
                     return Optional.of(j);
                 }
@@ -244,23 +240,28 @@ public class Day13 {
         private boolean checkVerticalReflexionPart2(Integer columnIndex) {
             var count = Math.min(columnIndex, lines.get(0).length() - columnIndex - 2);
 
-            return IntStream.range(1, count + 1).map(i -> potentialVerticalSmudge(columnIndex - i, columnIndex + i + 1)).sum() == 1;
+            return (
+                IntStream.range(1, count + 1)
+                    .map(i -> potentialVerticalSmudge(columnIndex - i, columnIndex + i + 1))
+                    .sum() ==
+                1
+            );
         }
 
         private int potentialVerticalSmudge(int firstColumn, int secondColumn) {
             List<Integer> firsts = lines
-                    .stream()
-                    .map(row -> row.charAt(firstColumn))
-                    .map(c -> c == '#' ? 1 : 0)
-                    .toList();
+                .stream()
+                .map(row -> row.charAt(firstColumn))
+                .map(c -> c == '#' ? 1 : 0)
+                .toList();
             List<Integer> seconds = lines
-                    .stream()
-                    .map(row -> row.charAt(secondColumn))
-                    .map(c -> c == '#' ? 1 : 0)
-                    .toList();
+                .stream()
+                .map(row -> row.charAt(secondColumn))
+                .map(c -> c == '#' ? 1 : 0)
+                .toList();
 
             var sum = 0;
-            for (int j = 0; j < firsts.size() ; j++) {
+            for (int j = 0; j < firsts.size(); j++) {
                 sum += ((firsts.get(j) + seconds.get(j)) % 2);
             }
 
@@ -291,4 +292,3 @@ public class Day13 {
         return patterns.stream().mapToInt(Pattern::scorePart2).sum();
     }
 }
-

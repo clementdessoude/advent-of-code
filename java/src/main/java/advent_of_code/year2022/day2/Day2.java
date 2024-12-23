@@ -5,7 +5,11 @@ import java.util.List;
 public class Day2 {
 
     public Long part1(List<String> lines) {
-        var rounds = lines.stream().map(s -> s.split(" ")).map(split -> new Round(opponent(split[0]), yours(split[1]))).toList();
+        var rounds = lines
+            .stream()
+            .map(s -> s.split(" "))
+            .map(split -> new Round(opponent(split[0]), yours(split[1])))
+            .toList();
 
         return rounds.stream().mapToLong(Round::score).sum();
     }

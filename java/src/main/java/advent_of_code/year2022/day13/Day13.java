@@ -72,8 +72,6 @@ class Day13 {
         var dividerOne = parse(dividerOneDefinition);
         var dividerTwo = parse(dividerTwoDefinition);
 
-        return (
-            (sorted.indexOf(dividerOne) + 1) * (sorted.indexOf(dividerTwo) + 1)
-        );
+        return ((sorted.indexOf(dividerOne) + 1) * (sorted.indexOf(dividerTwo) + 1));
     }
 }

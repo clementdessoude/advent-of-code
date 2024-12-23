@@ -7,14 +7,12 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 final class ConjonctionModule implements Receiver {
+
     private final String name;
     private final List<String> destinationModules;
     private final Map<String, PulseType> recorded = new HashMap<>();
 
-    ConjonctionModule(
-            String name,
-            List<String> destinationModules
-    ) {
+    ConjonctionModule(String name, List<String> destinationModules) {
         this.name = name;
         this.destinationModules = destinationModules;
     }
@@ -57,11 +55,11 @@ final class ConjonctionModule implements Receiver {
             return false;
         }
         var that = (ConjonctionModule) obj;
-        return Objects.equals(this.name, that.name)
-                &&
-                Objects.equals(this.destinationModules, that.destinationModules)
-                &&
-                Objects.equals(this.recorded, that.recorded);
+        return (
+            Objects.equals(this.name, that.name) &&
+            Objects.equals(this.destinationModules, that.destinationModules) &&
+            Objects.equals(this.recorded, that.recorded)
+        );
     }
 
     @Override
@@ -71,7 +69,11 @@ final class ConjonctionModule implements Receiver {
 
     @Override
     public String toString() {
-        return recorded.values().stream().map(v -> v == PulseType.LOW ? "0" : "1").collect(Collectors.joining());
+        return recorded
+            .values()
+            .stream()
+            .map(v -> v == PulseType.LOW ? "0" : "1")
+            .collect(Collectors.joining());
     }
 
     public boolean hasHigh() {

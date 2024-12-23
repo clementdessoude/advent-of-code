@@ -13,7 +13,13 @@ public class Day1 {
     public Long part2(List<String> lines) {
         var elves = parse(lines);
 
-        return elves.stream().map(Elf::totalCalories).sorted((a, b) -> Long.compare(b, a)).limit(3).mapToLong(Long::longValue).sum();
+        return elves
+            .stream()
+            .map(Elf::totalCalories)
+            .sorted((a, b) -> Long.compare(b, a))
+            .limit(3)
+            .mapToLong(Long::longValue)
+            .sum();
     }
 
     private static List<Elf> parse(List<String> lines) {

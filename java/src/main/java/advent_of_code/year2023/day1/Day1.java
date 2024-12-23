@@ -7,15 +7,10 @@ import java.util.Optional;
 class Day1 {
 
     public Integer solve(List<String> lines) {
-        return lines
-            .stream()
-            .filter(s -> !s.isBlank())
-            .mapToInt(Day1::getCalibrationValue)
-            .sum();
+        return lines.stream().filter(s -> !s.isBlank()).mapToInt(Day1::getCalibrationValue).sum();
     }
 
     private static int getCalibrationValue(String row) {
-
         var result = row
             .chars()
             .mapToObj(c -> (char) c)
@@ -71,6 +66,7 @@ class Day1 {
     }
 
     record Index(String key, int index) {}
+
     private static Optional<Index> indexOfFirstNumberInLetters(String row) {
         return mapping
             .keySet()

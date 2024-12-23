@@ -8,7 +8,7 @@ final class Solver {
     private final String code;
     private final Pad numericPad = NumericPad.getPad();
     private final Pad directionPad = DirectionPad.getPad();
-    private final static Map<String, Collection<String>> cacheDirection = new HashMap<>();
+    private static final Map<String, Collection<String>> cacheDirection = new HashMap<>();
 
     Solver(String code) {
         this.code = "A" + code;
@@ -40,9 +40,9 @@ final class Solver {
             return Stream.of("");
         }
 
-//        if (cacheDirection.containsKey(input)) {
-//            return cacheDirection.get(input).parallelStream();
-//        }
+        //        if (cacheDirection.containsKey(input)) {
+        //            return cacheDirection.get(input).parallelStream();
+        //        }
 
         var to = String.valueOf(input.charAt(1));
         var from = String.valueOf(input.charAt(0));
@@ -50,20 +50,19 @@ final class Solver {
         var otherPaths = solve(input.substring(1), pad);
 
         var result = otherPaths
-            .flatMap(added -> startPaths.parallelStream().map(path -> path
-                + "A"
-                + added)).toList();
+            .flatMap(added -> startPaths.parallelStream().map(path -> path + "A" + added))
+            .toList();
 
-//        if (input.length() < 10) {
-//            cacheDirection.put(input, result);
-//        }
+        //        if (input.length() < 10) {
+        //            cacheDirection.put(input, result);
+        //        }
 
         return result.parallelStream();
     }
 
     Stream<String> shortestPathRobot2() {
         return shortestPathRobot1()
-            .map(val -> "A"+ val)
+            .map(val -> "A" + val)
             .flatMap(input -> solve(input, directionPad));
     }
 
@@ -71,9 +70,7 @@ final class Solver {
         System.out.println("Code: " + code);
         var stream = solve(code, numericPad);
         for (int i = 0; i < robotCount - 1; i++) {
-            var tmp = stream
-                .map(val -> "A"+ val)
-                .flatMap(input -> solve(input, directionPad));
+            var tmp = stream.map(val -> "A" + val).flatMap(input -> solve(input, directionPad));
             var toto = tmp.toList();
             System.out.println("Robot: " + i);
             stream = toto.stream();

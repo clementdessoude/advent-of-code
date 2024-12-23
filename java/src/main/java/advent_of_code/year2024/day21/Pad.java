@@ -31,10 +31,11 @@ abstract class Pad {
         return pairs
             .stream()
             .flatMap(p -> Stream.of(p, new Pair<>(p.second(), p.first())))
-            .collect(Collectors.toMap(
-                Function.identity(),
-                move -> getShortestMovesDescription(move, pad, reversePad)
-            ));
+            .collect(
+                Collectors.toMap(Function.identity(), move ->
+                    getShortestMovesDescription(move, pad, reversePad)
+                )
+            );
     }
 
     private static Collection<String> getShortestMovesDescription(
@@ -58,7 +59,10 @@ abstract class Pad {
             var next = available
                 .entrySet()
                 .stream()
-                .min(Comparator.comparing(e -> e.getValue().stream().findFirst().orElseThrow().size()))
+                .min(
+                    Comparator.comparing(e -> e.getValue().stream().findFirst().orElseThrow().size()
+                    )
+                )
                 .get();
             var key = next.getKey();
             var paths = next.getValue();
@@ -72,36 +76,43 @@ abstract class Pad {
                 .stream()
                 .filter(reversePad::containsKey)
                 .filter(loc -> !visited.containsKey(reversePad.get(loc)))
-                .flatMap(adjacent -> paths
-                    .stream()
-                    .map(path -> {
-                        var newPath = new ArrayList<>(path);
-                        newPath.add(adjacent);
-                        return newPath;
-                    })
+                .flatMap(adjacent ->
+                    paths
+                        .stream()
+                        .map(path -> {
+                            var newPath = new ArrayList<>(path);
+                            newPath.add(adjacent);
+                            return newPath;
+                        })
                 )
-                .collect(Collectors.toMap(
-                    List::getLast,
-                    l -> {
-                        Set<List<Location>> set = new HashSet<>();
-                        set.add(l);
-                        return set;
-                    },
-                    CollectionUtils::concat
-                ));
+                .collect(
+                    Collectors.toMap(
+                        List::getLast,
+                        l -> {
+                            Set<List<Location>> set = new HashSet<>();
+                            set.add(l);
+                            return set;
+                        },
+                        CollectionUtils::concat
+                    )
+                );
 
             updatedPaths.forEach((loc, updatedPath) -> {
-               available.putIfAbsent(reversePad.get(loc), Set.of());
-               available.computeIfPresent(reversePad.get(loc), (__, v) -> {
-                   int firstSize = v.stream().findFirst().map(List::size).orElse(Integer.MAX_VALUE);
-                   int secondSize = updatedPath.stream().findFirst().orElseThrow().size();
-                   if (firstSize == secondSize) {
-                       return CollectionUtils.concat(v, updatedPath);
-                   } else if (firstSize < secondSize) {
-                       return v;
-                   }
-                   return updatedPath;
-               });
+                available.putIfAbsent(reversePad.get(loc), Set.of());
+                available.computeIfPresent(reversePad.get(loc), (__, v) -> {
+                    int firstSize = v
+                        .stream()
+                        .findFirst()
+                        .map(List::size)
+                        .orElse(Integer.MAX_VALUE);
+                    int secondSize = updatedPath.stream().findFirst().orElseThrow().size();
+                    if (firstSize == secondSize) {
+                        return CollectionUtils.concat(v, updatedPath);
+                    } else if (firstSize < secondSize) {
+                        return v;
+                    }
+                    return updatedPath;
+                });
             });
         }
 

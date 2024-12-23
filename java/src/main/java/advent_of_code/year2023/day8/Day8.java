@@ -3,6 +3,7 @@ package advent_of_code.year2023.day8;
 import java.util.List;
 
 public class Day8 {
+
     public int part1(List<String> lines) {
         String instructions = lines.get(0);
         NetworkPart1 network = new NetworkPart1(lines.subList(2, lines.size()));

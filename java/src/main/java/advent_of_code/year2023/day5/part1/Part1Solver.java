@@ -13,16 +13,11 @@ public final class Part1Solver {
     }
 
     public Long solve() {
-        return seeds
-            .stream()
-            .mapToLong(start -> location(start, mappings))
-            .min()
-            .orElseThrow();
+        return seeds.stream().mapToLong(start -> location(start, mappings)).min().orElseThrow();
     }
 
     private static List<Long> parseSeeds(List<String> lines) {
-        return Arrays
-            .stream(lines.get(0).split(":")[1].split(" "))
+        return Arrays.stream(lines.get(0).split(":")[1].split(" "))
             .filter(s -> !s.isBlank())
             .map(Long::parseLong)
             .toList();
@@ -59,9 +54,15 @@ public final class Part1Solver {
         while (!category.equals("location")) {
             final long currentLocation = location;
             CategoryMapping categoryMapping = mappings.get(category);
-            Optional<Mapping> matchingMapping = categoryMapping.mappings().stream().filter(
-                mapping -> currentLocation >= mapping.source() && currentLocation < mapping.source() + mapping.range()
-            ).findFirst();
+            Optional<Mapping> matchingMapping = categoryMapping
+                .mappings()
+                .stream()
+                .filter(
+                    mapping ->
+                        currentLocation >= mapping.source() &&
+                        currentLocation < mapping.source() + mapping.range()
+                )
+                .findFirst();
 
             if (matchingMapping.isPresent()) {
                 var mapping = matchingMapping.get();

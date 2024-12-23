@@ -35,16 +35,12 @@ final class Maze {
         var distances = djikstra.first();
         var paths = djikstra.second();
 
-        var result = Direction
-            .stream()
+        var result = Direction.stream()
             .map(direction -> new Pair<>(end, direction))
-            .min(Comparator.comparing(pair -> distances.getOrDefault(
-                pair,
-                Integer.MAX_VALUE
-            )))
+            .min(Comparator.comparing(pair -> distances.getOrDefault(pair, Integer.MAX_VALUE)))
             .orElseThrow();
 
-//        display(maze, paths.get(result).stream().findAny().orElseThrow());
+        //        display(maze, paths.get(result).stream().findAny().orElseThrow());
         return distances.get(result);
     }
 
@@ -53,18 +49,13 @@ final class Maze {
         var distances = djikstra.first();
         var paths = djikstra.second();
 
-        var shortestPath = Direction
-            .stream()
+        var shortestPath = Direction.stream()
             .map(direction -> new Pair<>(end, direction))
-            .mapToInt(pair -> distances.getOrDefault(
-                pair,
-                Integer.MAX_VALUE
-            ))
+            .mapToInt(pair -> distances.getOrDefault(pair, Integer.MAX_VALUE))
             .min()
             .orElseThrow();
 
-        var locationsOnShortestPath = Direction
-            .stream()
+        var locationsOnShortestPath = Direction.stream()
             .map(direction -> new Pair<>(end, direction))
             .filter(pair -> distances.getOrDefault(pair, Integer.MAX_VALUE) == shortestPath)
             .map(paths::get)
@@ -72,7 +63,7 @@ final class Maze {
             .flatMap(Collection::stream)
             .collect(Collectors.toSet());
 
-//        display(maze, locationsOnShortestPath);
+        //        display(maze, locationsOnShortestPath);
 
         return locationsOnShortestPath.size();
     }
@@ -86,12 +77,13 @@ final class Maze {
         Map<Pair<Location, Direction>, Integer> distances = new HashMap<>();
         Map<Pair<Location, Direction>, Set<List<Location>>> paths = new HashMap<>();
 
-        Direction.stream().forEach(direction -> {
-            var pair = new Pair<>(start, direction);
-            availables.add(pair);
-            distances.put(pair, 1000);
-            paths.put(pair, Set.of(List.of(start)));
-        });
+        Direction.stream()
+            .forEach(direction -> {
+                var pair = new Pair<>(start, direction);
+                availables.add(pair);
+                distances.put(pair, 1000);
+                paths.put(pair, Set.of(List.of(start)));
+            });
 
         while (!availables.isEmpty()) {
             var pair = getNext(distances, availables);
@@ -136,14 +128,8 @@ final class Maze {
                     }
 
                     if (currentDistance + valueToAdd < actualNextDistance) {
-                        distances.put(
-                            adjacentPair,
-                            currentDistance + valueToAdd
-                        );
-                        paths.put(
-                            adjacentPair,
-                            pathsToGetToAdjacent
-                        );
+                        distances.put(adjacentPair, currentDistance + valueToAdd);
+                        paths.put(adjacentPair, pathsToGetToAdjacent);
                     }
                 });
         }

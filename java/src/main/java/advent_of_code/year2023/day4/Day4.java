@@ -7,16 +7,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Day4 {
+
     public Integer part1(List<String> lines) {
-        return lines
-            .stream()
-            .map(Day4::parse)
-            .mapToInt(Card::score)
-            .sum();
+        return lines.stream().map(Day4::parse).mapToInt(Card::score).sum();
     }
 
     record Card(Set<Integer> winnings, List<Integer> owned, int count) {
-
         Card(Set<Integer> winnings, List<Integer> owned) {
             this(winnings, owned, 1);
         }
@@ -47,16 +43,13 @@ public class Day4 {
 
     private static List<Integer> parseNumbers(String row) {
         return Arrays.stream(row.split(" "))
-                     .filter(s -> !s.isBlank())
-                     .map(Integer::parseInt)
-                     .toList();
+            .filter(s -> !s.isBlank())
+            .map(Integer::parseInt)
+            .toList();
     }
 
     public Integer part2(List<String> lines) {
-        var cards = lines
-            .stream()
-            .map(Day4::parse)
-            .collect(Collectors.toList());
+        var cards = lines.stream().map(Day4::parse).collect(Collectors.toList());
 
         for (int i = 0; i < lines.size(); i++) {
             var current = cards.get(i);

@@ -19,7 +19,7 @@ final class Solver {
         var sorted = countBySequence
             .entrySet()
             .stream()
-            .sorted((a,b) -> b.getValue().compareTo(a.getValue()))
+            .sorted((a, b) -> b.getValue().compareTo(a.getValue()))
             .limit(10)
             .toList();
         System.out.println(sorted);
@@ -42,14 +42,11 @@ final class Solver {
 
         Set<List<Long>> visited = new HashSet<>();
         for (int i = 4; i < differences.size(); i++) {
-            List<Long> sequence = differences.subList(i-4, i);
+            List<Long> sequence = differences.subList(i - 4, i);
             if (!visited.contains(sequence)) {
                 visited.add(sequence);
                 var price = prices.get(i);
-                countBySequence.compute(
-                    sequence,
-                    (k,v) -> (v == null ? 0 : v) + price
-                );
+                countBySequence.compute(sequence, (k, v) -> (v == null ? 0 : v) + price);
             }
         }
     }
@@ -79,7 +76,7 @@ final class Solver {
     }
 
     private static Function<Long, Long> operate(Function<Long, Long> operation) {
-        return (input) -> prune(mix(input, operation.apply(input)));
+        return input -> prune(mix(input, operation.apply(input)));
     }
 
     private static long mix(long input, long value) {

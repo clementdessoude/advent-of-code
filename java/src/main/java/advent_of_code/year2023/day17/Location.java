@@ -1,7 +1,6 @@
 package advent_of_code.year2023.day17;
 
 record Location(int i, int j) {
-
     Location down() {
         return new Location(i + 1, j);
     }

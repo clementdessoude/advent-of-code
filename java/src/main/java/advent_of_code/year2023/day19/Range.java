@@ -24,5 +24,4 @@ public record Range(int start, int end) {
 
         return new Range(start, value - 1);
     }
-
 }

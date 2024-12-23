@@ -1,4 +1,3 @@
-
 package advent_of_code.year2023.day18;
 
 import java.util.*;
@@ -7,10 +6,7 @@ import java.util.stream.Collectors;
 public class Day18 {
 
     public Long part1(List<String> lines) {
-        var instructions = lines
-            .stream()
-            .map(Day18::parse)
-            .toList();
+        var instructions = lines.stream().map(Day18::parse).toList();
 
         return holesCount(instructions);
     }
@@ -22,6 +18,7 @@ public class Day18 {
     }
 
     private record Map(List<Long> xs, List<Long> ys, List<List<String>> map) {}
+
     private static Map getMap(List<Instruction> instructions) {
         List<Long> xs = new ArrayList<>();
         List<Long> ys = new ArrayList<>();
@@ -30,7 +27,7 @@ public class Day18 {
         long currentY = 0;
         xs.add(currentX);
         ys.add(currentY);
-        for (var instruction: instructions) {
+        for (var instruction : instructions) {
             switch (instruction.direction()) {
                 case 'U' -> currentY -= instruction.count();
                 case 'D' -> currentY += instruction.count();
@@ -38,10 +35,10 @@ public class Day18 {
                 case 'L' -> currentX -= instruction.count();
             }
 
-            if(!xs.contains(currentX)) {
+            if (!xs.contains(currentX)) {
                 xs.add(currentX);
             }
-            if(!ys.contains(currentY)) {
+            if (!ys.contains(currentY)) {
                 ys.add(currentY);
             }
         }
@@ -49,7 +46,7 @@ public class Day18 {
         ys.sort(Comparator.comparing(l -> l));
 
         List<List<String>> map = new ArrayList<>(2 * ys.size());
-        for (int i = 0; i <  2 * ys.size(); i++) {
+        for (int i = 0; i < 2 * ys.size(); i++) {
             map.add(new ArrayList<>(xs.size()));
             for (int j = 0; j < 2 * xs.size(); j++) {
                 map.get(i).add(".");
@@ -58,18 +55,20 @@ public class Day18 {
 
         currentX = -1;
         currentY = 0;
-        for (var instruction: instructions) {
-            var newY = switch (instruction.direction()) {
-                case 'U' -> currentY - instruction.count();
-                case 'D' -> currentY + instruction.count();
-                default -> currentY;
-            };
+        for (var instruction : instructions) {
+            var newY =
+                switch (instruction.direction()) {
+                    case 'U' -> currentY - instruction.count();
+                    case 'D' -> currentY + instruction.count();
+                    default -> currentY;
+                };
 
-            var newX = switch (instruction.direction()) {
-                case 'R' -> currentX + instruction.count();
-                case 'L' -> currentX - instruction.count();
-                default -> currentX;
-            };
+            var newX =
+                switch (instruction.direction()) {
+                    case 'R' -> currentX + instruction.count();
+                    case 'L' -> currentX - instruction.count();
+                    default -> currentX;
+                };
 
             var indexX = xs.indexOf(currentX);
             var indexY = ys.indexOf(currentY);
@@ -77,16 +76,25 @@ public class Day18 {
             var indexNextX = xs.indexOf(newX);
             var indexNextY = ys.indexOf(newY);
 
-            String sign = switch (instruction.direction()) {
-                case 'U' -> "^";
-                case 'D' -> "v";
-                case 'L' -> "<";
-                case 'R' -> ">";
-                default -> throw new RuntimeException();
-            };
+            String sign =
+                switch (instruction.direction()) {
+                    case 'U' -> "^";
+                    case 'D' -> "v";
+                    case 'L' -> "<";
+                    case 'R' -> ">";
+                    default -> throw new RuntimeException();
+                };
 
-            for (int i = 2 * Math.min(indexY, indexNextY); i <= 2 * Math.max(indexY, indexNextY); i++) {
-                for (int j = 2 * Math.min(indexX, indexNextX); j <= 2 * Math.max(indexX, indexNextX); j++) {
+            for (
+                int i = 2 * Math.min(indexY, indexNextY);
+                i <= 2 * Math.max(indexY, indexNextY);
+                i++
+            ) {
+                for (
+                    int j = 2 * Math.min(indexX, indexNextX);
+                    j <= 2 * Math.max(indexX, indexNextX);
+                    j++
+                ) {
                     map.get(i).set(j, sign);
                 }
             }
@@ -124,7 +132,7 @@ public class Day18 {
                 .filter(l -> map.get(l.i()).get(l.j()).equals("."))
                 .toList();
 
-            for (var position: adjacent) {
+            for (var position : adjacent) {
                 map.get(position.i()).set(position.j(), "O");
             }
 
@@ -155,15 +163,15 @@ public class Day18 {
     }
 
     static void print(List<List<String>> map) {
-        String printed = map.stream().map(r -> String.join("", r)).collect(Collectors.joining("\n"));
+        String printed = map
+            .stream()
+            .map(r -> String.join("", r))
+            .collect(Collectors.joining("\n"));
         System.out.println(printed);
     }
 
     public Long part2(List<String> lines) {
-        var instructions = lines
-            .stream()
-            .map(Day18::parsePart2)
-            .toList();
+        var instructions = lines.stream().map(Day18::parsePart2).toList();
 
         return holesCount(instructions);
     }
@@ -172,13 +180,14 @@ public class Day18 {
         var split = row.split(" ");
         var instruction = split[2].replace("(", "").replace(")", "");
 
-        var direction = switch (instruction.charAt(instruction.length() - 1)) {
-            case '0' -> 'R';
-            case '1' -> 'D';
-            case '2' -> 'L';
-            case '3' -> 'U';
-            default -> throw new RuntimeException();
-        };
+        var direction =
+            switch (instruction.charAt(instruction.length() - 1)) {
+                case '0' -> 'R';
+                case '1' -> 'D';
+                case '2' -> 'L';
+                case '3' -> 'U';
+                default -> throw new RuntimeException();
+            };
 
         var hexadecimalString = instruction.substring(1, instruction.length() - 1);
         long hexadecimal = Long.parseLong(hexadecimalString, 16);
@@ -186,4 +195,3 @@ public class Day18 {
         return new Instruction(direction, hexadecimal);
     }
 }
-

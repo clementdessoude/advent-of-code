@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 final class Grid {
+
     private final List<String> lines;
     private final BeamDirections beamDirections = new BeamDirections();
 
@@ -31,14 +32,13 @@ final class Grid {
     public Long energizedCount(Position startupPosition, BeamDirection startupDirection) {
         solve(startupPosition, startupDirection);
 
-        return IntStream
-            .range(0, lines.size())
-            .mapToLong(i -> IntStream.range(0, lines.get(0).length())
-                                     .map(j -> beamDirections
-                                         .get(new Position(i, j))
-                                         .isEmpty() ? 0 : 1)
-                                     .sum()
-            ).sum();
+        return IntStream.range(0, lines.size())
+            .mapToLong(i ->
+                IntStream.range(0, lines.get(0).length())
+                    .map(j -> beamDirections.get(new Position(i, j)).isEmpty() ? 0 : 1)
+                    .sum()
+            )
+            .sum();
     }
 
     record WaitingBeam(Position position, BeamDirection direction) {
@@ -79,25 +79,16 @@ final class Grid {
                             waitingBeam.direction()
                         );
                         if (hasBeenAdded) {
-                            next = nextPosition.next(
-                                waitingBeam.direction,
-                                this
-                            );
+                            next = nextPosition.next(waitingBeam.direction, this);
                         } else {
                             next = Optional.empty();
                         }
                         continue;
                     }
 
-                    boolean hasBeenAddedLeft = beamDirections.add(
-                        nextPosition,
-                        BeamDirection.LEFT
-                    );
+                    boolean hasBeenAddedLeft = beamDirections.add(nextPosition, BeamDirection.LEFT);
                     if (hasBeenAddedLeft) {
-                        waitingBeams.add(new WaitingBeam(
-                            nextPosition,
-                            BeamDirection.LEFT
-                        ));
+                        waitingBeams.add(new WaitingBeam(nextPosition, BeamDirection.LEFT));
                     }
 
                     boolean hasBeenAddedRight = beamDirections.add(
@@ -105,10 +96,7 @@ final class Grid {
                         BeamDirection.RIGHT
                     );
                     if (hasBeenAddedRight) {
-                        waitingBeams.add(new WaitingBeam(
-                            nextPosition,
-                            BeamDirection.RIGHT
-                        ));
+                        waitingBeams.add(new WaitingBeam(nextPosition, BeamDirection.RIGHT));
                     }
 
                     next = Optional.empty();
@@ -117,15 +105,9 @@ final class Grid {
 
                 if (obj == '|') {
                     if (waitingBeam.direction.isHorizontal()) {
-                        boolean hasBeenAddedUp = beamDirections.add(
-                            nextPosition,
-                            BeamDirection.UP
-                        );
+                        boolean hasBeenAddedUp = beamDirections.add(nextPosition, BeamDirection.UP);
                         if (hasBeenAddedUp) {
-                            waitingBeams.add(new WaitingBeam(
-                                nextPosition,
-                                BeamDirection.UP
-                            ));
+                            waitingBeams.add(new WaitingBeam(nextPosition, BeamDirection.UP));
                         }
 
                         boolean hasBeenAddedDown = beamDirections.add(
@@ -133,10 +115,7 @@ final class Grid {
                             BeamDirection.DOWN
                         );
                         if (hasBeenAddedDown) {
-                            waitingBeams.add(new WaitingBeam(
-                                nextPosition,
-                                BeamDirection.DOWN
-                            ));
+                            waitingBeams.add(new WaitingBeam(nextPosition, BeamDirection.DOWN));
                         }
 
                         next = Optional.empty();
@@ -161,16 +140,14 @@ final class Grid {
                         waitingBeam.direction()
                     );
                     if (hasBeenAdded) {
-                        var newBeamDirection = switch (waitingBeam.direction()) {
-                            case UP -> BeamDirection.LEFT;
-                            case DOWN -> BeamDirection.RIGHT;
-                            case LEFT -> BeamDirection.UP;
-                            case RIGHT -> BeamDirection.DOWN;
-                        };
-                        waitingBeam = new WaitingBeam(
-                            nextPosition,
-                            newBeamDirection
-                        );
+                        var newBeamDirection =
+                            switch (waitingBeam.direction()) {
+                                case UP -> BeamDirection.LEFT;
+                                case DOWN -> BeamDirection.RIGHT;
+                                case LEFT -> BeamDirection.UP;
+                                case RIGHT -> BeamDirection.DOWN;
+                            };
+                        waitingBeam = new WaitingBeam(nextPosition, newBeamDirection);
                         next = nextPosition.next(newBeamDirection, this);
                     } else {
                         next = Optional.empty();
@@ -184,16 +161,14 @@ final class Grid {
                         waitingBeam.direction()
                     );
                     if (hasBeenAdded) {
-                        var newBeamDirection = switch (waitingBeam.direction()) {
-                            case UP -> BeamDirection.RIGHT;
-                            case DOWN -> BeamDirection.LEFT;
-                            case LEFT -> BeamDirection.DOWN;
-                            case RIGHT -> BeamDirection.UP;
-                        };
-                        waitingBeam = new WaitingBeam(
-                            nextPosition,
-                            newBeamDirection
-                        );
+                        var newBeamDirection =
+                            switch (waitingBeam.direction()) {
+                                case UP -> BeamDirection.RIGHT;
+                                case DOWN -> BeamDirection.LEFT;
+                                case LEFT -> BeamDirection.DOWN;
+                                case RIGHT -> BeamDirection.UP;
+                            };
+                        waitingBeam = new WaitingBeam(nextPosition, newBeamDirection);
                         next = nextPosition.next(newBeamDirection, this);
                     } else {
                         next = Optional.empty();
@@ -208,50 +183,47 @@ final class Grid {
 
     List<String> showDirections() {
         return IntStream.range(0, lines.size())
-                        .mapToObj(i -> IntStream
-                            .range(0, lines.get(0).length())
-                            .mapToObj(j -> {
-                                if (charAt(i, j) != '.') {
-                                    return String.valueOf(charAt(i, j));
-                                }
-                                Set<BeamDirection> directions = beamDirections.get(
-                                    new Position(i, j));
-                                if (directions.size() > 1) {
-                                    return String.valueOf(directions.size());
-                                }
-                                if (directions.isEmpty()) {
-                                    return ".";
-                                }
+            .mapToObj(i ->
+                IntStream.range(0, lines.get(0).length())
+                    .mapToObj(j -> {
+                        if (charAt(i, j) != '.') {
+                            return String.valueOf(charAt(i, j));
+                        }
+                        Set<BeamDirection> directions = beamDirections.get(new Position(i, j));
+                        if (directions.size() > 1) {
+                            return String.valueOf(directions.size());
+                        }
+                        if (directions.isEmpty()) {
+                            return ".";
+                        }
 
-                                BeamDirection beamDirection = directions
-                                    .stream()
-                                    .findAny()
-                                    .get();
-                                return switch (beamDirection) {
-                                    case UP -> "^";
-                                    case DOWN -> "v";
-                                    case LEFT -> "<";
-                                    case RIGHT -> ">";
-                                };
-                            })
-                            .collect(Collectors.joining()))
-                        .toList();
+                        BeamDirection beamDirection = directions.stream().findAny().get();
+                        return switch (beamDirection) {
+                            case UP -> "^";
+                            case DOWN -> "v";
+                            case LEFT -> "<";
+                            case RIGHT -> ">";
+                        };
+                    })
+                    .collect(Collectors.joining())
+            )
+            .toList();
     }
 
     List<String> showEnergized() {
         return IntStream.range(0, lines.size())
-                        .mapToObj(i -> IntStream
-                            .range(0, lines.get(0).length())
-                            .mapToObj(j -> {
-                                Set<BeamDirection> directions = beamDirections.get(
-                                    new Position(i, j));
-                                if (directions.isEmpty()) {
-                                    return ".";
-                                }
+            .mapToObj(i ->
+                IntStream.range(0, lines.get(0).length())
+                    .mapToObj(j -> {
+                        Set<BeamDirection> directions = beamDirections.get(new Position(i, j));
+                        if (directions.isEmpty()) {
+                            return ".";
+                        }
 
-                                return "#";
-                            })
-                            .collect(Collectors.joining()))
-                        .toList();
+                        return "#";
+                    })
+                    .collect(Collectors.joining())
+            )
+            .toList();
     }
 }

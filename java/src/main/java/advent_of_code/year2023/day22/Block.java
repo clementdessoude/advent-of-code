@@ -4,6 +4,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 final class Block {
+
     private final int id;
     private final Range xs;
     private final Range ys;
@@ -27,12 +28,7 @@ final class Block {
         this.supports = supports;
     }
 
-    private Block(
-            int id,
-            Range xs,
-            Range ys,
-            Range zs
-    ) {
+    private Block(int id, Range xs, Range ys, Range zs) {
         this.id = id;
         this.xs = xs;
         this.ys = ys;
@@ -43,20 +39,14 @@ final class Block {
 
     public static Block from(int idx, String row) {
         var split = row.split("~");
-        var start = Arrays
-                .stream(split[0].split(","))
-                .map(Integer::parseInt)
-                .toList();
-        var end = Arrays
-                .stream(split[1].split(","))
-                .map(Integer::parseInt)
-                .toList();
+        var start = Arrays.stream(split[0].split(",")).map(Integer::parseInt).toList();
+        var end = Arrays.stream(split[1].split(",")).map(Integer::parseInt).toList();
 
         return new Block(
-                idx,
-                new Range(start.get(0), end.get(0)),
-                new Range(start.get(1), end.get(1)),
-                new Range(start.get(2), end.get(2))
+            idx,
+            new Range(start.get(0), end.get(0)),
+            new Range(start.get(1), end.get(1)),
+            new Range(start.get(2), end.get(2))
         );
     }
 
@@ -119,11 +109,7 @@ final class Block {
             .filter(b -> b.supportedBy.isEmpty())
             .collect(Collectors.toSet());
 
-
-        return fallingBlocks
-            .stream()
-            .map(b -> fall(pile, b))
-            .reduce(fallingBlocks, Utils::union);
+        return fallingBlocks.stream().map(b -> fall(pile, b)).reduce(fallingBlocks, Utils::union);
     }
 
     private void removeSupportedBy(Block block) {
@@ -131,13 +117,11 @@ final class Block {
     }
 
     private List<Block> copy(List<Block> pile) {
-        return pile.stream().map(block -> new Block(
-            id,
-            xs,
-            ys,
-            zs,
-            new HashSet<>(supportedBy),
-            new HashSet<>(supports)
-        )).toList();
+        return pile
+            .stream()
+            .map(block ->
+                new Block(id, xs, ys, zs, new HashSet<>(supportedBy), new HashSet<>(supports))
+            )
+            .toList();
     }
 }

@@ -14,28 +14,31 @@ class MemorySpaceTest {
     void should_compute_memory_space_after_a_few_nanoseconds() {
         var space = exampleMemorySpaceAtNano(12);
 
-        assertThat(space.grid(12)).isEqualTo("""
-         ...#...
-         ..#..#.
-         ....#..
-         ...#..#
-         ..#..#.
-         .#..#..
-         #.#....""");
+        assertThat(space.grid(12)).isEqualTo(
+            """
+            ...#...
+            ..#..#.
+            ....#..
+            ...#..#
+            ..#..#.
+            .#..#..
+            #.#...."""
+        );
     }
 
     @Test
     void should_print_shortest_path_after_nanoseconds() {
         var space = exampleMemorySpaceAtNano(12);
 
-        assertThat(space.grid(12, space.shortestPath(12))).isEqualTo("""
-             O..#OOO
-             O.#OO#O
-             OOOO#OO
-             ...#OO#
-             ..#OO#.
-             .#.O#..
-             #.#OOOO"""
+        assertThat(space.grid(12, space.shortestPath(12))).isEqualTo(
+            """
+            O..#OOO
+            O.#OO#O
+            OOOO#OO
+            ...#OO#
+            ..#OO#.
+            .#.O#..
+            #.#OOOO"""
         );
     }
 

@@ -14,16 +14,18 @@ public class TestUtils {
     }
 
     public static List<String> getLines(String fileName) {
-        return new BufferedReader(new InputStreamReader(
-            getFileAsStream(fileName),
-            StandardCharsets.UTF_8
-        )).lines().toList();
+        return new BufferedReader(
+            new InputStreamReader(getFileAsStream(fileName), StandardCharsets.UTF_8)
+        )
+            .lines()
+            .toList();
     }
 
     public static String getContent(String fileName) {
-        return new BufferedReader(new InputStreamReader(
-            getFileAsStream(fileName),
-            StandardCharsets.UTF_8
-        )).lines().collect(Collectors.joining("\n"));
+        return new BufferedReader(
+            new InputStreamReader(getFileAsStream(fileName), StandardCharsets.UTF_8)
+        )
+            .lines()
+            .collect(Collectors.joining("\n"));
     }
 }

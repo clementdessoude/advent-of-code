@@ -1,4 +1,3 @@
-
 package advent_of_code.year2023.day24;
 
 import java.util.List;
@@ -42,4 +41,3 @@ class Day24 {
         return null;
     }
 }
-

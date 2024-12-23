@@ -11,9 +11,6 @@ class NumericPadTest {
         var pad = NumericPad.getPad();
         var shortestMove = pad.shortestMoves("A", "4");
 
-        assertThat(shortestMove)
-            .hasSize(5)
-            .contains("^<^<", "^^<<");
+        assertThat(shortestMove).hasSize(5).contains("^<^<", "^^<<");
     }
-
 }

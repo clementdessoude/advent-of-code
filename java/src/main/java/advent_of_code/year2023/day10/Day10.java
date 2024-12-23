@@ -1,4 +1,3 @@
-
 package advent_of_code.year2023.day10;
 
 import java.util.*;
@@ -106,7 +105,7 @@ public class Day10 {
         Queue<Position> enclosingNonPipes = curated.findEnclosingNonPipes();
         Set<Position> visited = new HashSet<>(enclosingNonPipes.stream().toList());
 
-        while(!enclosingNonPipes.isEmpty()) {
+        while (!enclosingNonPipes.isEmpty()) {
             var source = enclosingNonPipes.poll();
             curated.set(source.i(), source.j(), 'O');
 
@@ -141,13 +140,14 @@ public class Day10 {
 
         int count = 0;
         while (!next.equals(pipeElement)) {
-            for (var lk: lookups) {
-                var lookedPosition = switch (lk) {
-                    case DOWN -> goDown(next, curated);
-                    case UP -> goUp(next, curated);
-                    case LEFT -> goLeft(next, curated);
-                    case RIGHT -> goRight(next, curated);
-                };
+            for (var lk : lookups) {
+                var lookedPosition =
+                    switch (lk) {
+                        case DOWN -> goDown(next, curated);
+                        case UP -> goUp(next, curated);
+                        case LEFT -> goLeft(next, curated);
+                        case RIGHT -> goRight(next, curated);
+                    };
                 if (lookedPosition.c() == '.') {
                     toClean.add(lookedPosition);
                 }
@@ -159,7 +159,7 @@ public class Day10 {
             lookups = nextLookups(current, next, lookups);
         }
 
-        while(!toClean.isEmpty()) {
+        while (!toClean.isEmpty()) {
             var source = toClean.poll();
             curated.set(source.i(), source.j(), 'O');
 
@@ -200,16 +200,9 @@ public class Day10 {
         }
     }
 
-    private List<Direction> nextLookups(
-        Position adjacent,
-        Position next,
-        List<Direction> lookups
-    ) {
+    private List<Direction> nextLookups(Position adjacent, Position next, List<Direction> lookups) {
         if (next.c() == '|') {
-            List<Direction> list = lookups
-                .stream()
-                .filter(Direction::isHorizontal)
-                .toList();
+            List<Direction> list = lookups.stream().filter(Direction::isHorizontal).toList();
 
             if (!list.isEmpty()) {
                 return list;
@@ -222,10 +215,7 @@ public class Day10 {
         }
 
         if (next.c() == '-') {
-            List<Direction> list = lookups
-                .stream()
-                .filter(Direction::isVertical)
-                .toList();
+            List<Direction> list = lookups.stream().filter(Direction::isVertical).toList();
 
             if (!list.isEmpty()) {
                 return list;
@@ -239,10 +229,7 @@ public class Day10 {
 
         if (next.c() == 'F') {
             if (isBelow(adjacent, next)) {
-                var first = lookups
-                    .stream()
-                    .filter(Direction::isHorizontal)
-                    .findFirst();
+                var first = lookups.stream().filter(Direction::isHorizontal).findFirst();
 
                 if (first.isEmpty()) {
                     return List.of();
@@ -254,10 +241,7 @@ public class Day10 {
                     return List.of(Direction.DOWN);
                 }
             } else {
-                var first = lookups
-                    .stream()
-                    .filter(Direction::isVertical)
-                    .findFirst();
+                var first = lookups.stream().filter(Direction::isVertical).findFirst();
 
                 if (first.isEmpty()) {
                     return List.of();
@@ -273,10 +257,7 @@ public class Day10 {
 
         if (next.c() == '7') {
             if (isBelow(adjacent, next)) {
-                var first = lookups
-                    .stream()
-                    .filter(Direction::isHorizontal)
-                    .findFirst();
+                var first = lookups.stream().filter(Direction::isHorizontal).findFirst();
 
                 if (first.isEmpty()) {
                     return List.of();
@@ -289,10 +270,7 @@ public class Day10 {
                     return List.of(Direction.RIGHT, Direction.UP);
                 }
             } else {
-                var first = lookups
-                    .stream()
-                    .filter(Direction::isVertical)
-                    .findFirst();
+                var first = lookups.stream().filter(Direction::isVertical).findFirst();
 
                 if (first.isEmpty()) {
                     return List.of();
@@ -309,10 +287,7 @@ public class Day10 {
 
         if (next.c() == 'J') {
             if (isAbove(adjacent, next)) {
-                var first = lookups
-                    .stream()
-                    .filter(Direction::isHorizontal)
-                    .findFirst();
+                var first = lookups.stream().filter(Direction::isHorizontal).findFirst();
                 if (first.isEmpty()) {
                     return List.of();
                 }
@@ -344,10 +319,7 @@ public class Day10 {
 
         if (next.c() == 'L') {
             if (isAbove(adjacent, next)) {
-                var first = lookups
-                    .stream()
-                    .filter(Direction::isHorizontal)
-                    .findFirst();
+                var first = lookups.stream().filter(Direction::isHorizontal).findFirst();
                 if (first.isEmpty()) {
                     return List.of();
                 }
@@ -358,10 +330,7 @@ public class Day10 {
                     return List.of(Direction.UP);
                 }
             } else {
-                var first = lookups
-                    .stream()
-                    .filter(Direction::isVertical)
-                    .findFirst();
+                var first = lookups.stream().filter(Direction::isVertical).findFirst();
 
                 if (first.isEmpty()) {
                     return List.of();
@@ -381,32 +350,33 @@ public class Day10 {
     private Area curated(Area area, List<Position> loop) {
         List<List<Character>> characters = new ArrayList<>();
 
-        characters.add(IntStream.range(0, area.lines().get(0).size() + 2).mapToObj(i -> 'O').collect(Collectors.toList()));
+        characters.add(
+            IntStream.range(0, area.lines().get(0).size() + 2)
+                .mapToObj(i -> 'O')
+                .collect(Collectors.toList())
+        );
 
-        for (var chars: area.lines()) {
+        for (var chars : area.lines()) {
             List<Character> row = new ArrayList<>();
             row.add('O');
-            for (char c: chars) {
+            for (char c : chars) {
                 row.add('.');
             }
             row.add('O');
             characters.add(row);
         }
 
-        characters.add(IntStream.range(0, area.lines().get(0).size() + 2).mapToObj(i -> 'O').collect(Collectors.toList()));
+        characters.add(
+            IntStream.range(0, area.lines().get(0).size() + 2)
+                .mapToObj(i -> 'O')
+                .collect(Collectors.toList())
+        );
 
-        for (var pos: loop) {
+        for (var pos : loop) {
             characters.get(pos.i() + 1).set(pos.j() + 1, pos.c());
         }
 
-        Set<Character> availableOptions = new HashSet<>(List.of(
-                '-',
-                '|',
-                '7',
-                'L',
-                'F',
-                'J'
-        ));
+        Set<Character> availableOptions = new HashSet<>(List.of('-', '|', '7', 'L', 'F', 'J'));
         Position source = loop.get(0);
         Position next = loop.get(1);
         Position previous = loop.get(loop.size() - 2);
@@ -438,10 +408,11 @@ public class Day10 {
             throw new RuntimeException();
         }
 
-        characters.get(source.i() + 1).set(source.j() + 1, availableOptions.stream().findFirst().orElseThrow());
+        characters
+            .get(source.i() + 1)
+            .set(source.j() + 1, availableOptions.stream().findFirst().orElseThrow());
 
         return new Area(characters);
     }
 }
-
 // 107:123

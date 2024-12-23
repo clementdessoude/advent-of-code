@@ -1,25 +1,22 @@
-
 package advent_of_code.year2023.day17;
 
 import java.util.*;
 import java.util.stream.IntStream;
 
 public class Day17 {
+
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_GREEN = "\u001B[32m";
 
     public Long part1(List<String> lines) {
-        List<List<Position>> positions = IntStream
-            .range(0, lines.size())
-            .mapToObj(i -> IntStream
-                .range(0, lines.get(0).length())
-                .mapToObj(j -> new Position(
-                    i,
-                    j,
-                    Integer.parseInt(String.valueOf(lines.get(i).charAt(j))))
-                )
-                .toList()
+        List<List<Position>> positions = IntStream.range(0, lines.size())
+            .mapToObj(i ->
+                IntStream.range(0, lines.get(0).length())
+                    .mapToObj(j ->
+                        new Position(i, j, Integer.parseInt(String.valueOf(lines.get(i).charAt(j))))
+                    )
+                    .toList()
             )
             .toList();
 
@@ -27,7 +24,7 @@ public class Day17 {
         solverPart1.calculateShortestPathFromSource();
 
         var destination = positions.getLast().getLast();
-//        var destination = new Location(0, 5);
+        //        var destination = new Location(0, 5);
 
         LocationWithDirection locationWithDirection = solverPart1.heatLosses
             .get(new Location(destination.i(), destination.j()))
@@ -57,33 +54,28 @@ public class Day17 {
             var to = path.get(i);
             var from = path.get(i - 1);
             var direction = Direction.direction(from, to);
-            String c = switch (direction) {
-                case LEFT -> ANSI_GREEN + "<" + ANSI_RESET;
-                case UP -> ANSI_GREEN + "^" + ANSI_RESET;
-                case RIGHT -> ANSI_GREEN + ">" + ANSI_RESET;
-                case DOWN -> ANSI_GREEN + "v" + ANSI_RESET;
-            };
+            String c =
+                switch (direction) {
+                    case LEFT -> ANSI_GREEN + "<" + ANSI_RESET;
+                    case UP -> ANSI_GREEN + "^" + ANSI_RESET;
+                    case RIGHT -> ANSI_GREEN + ">" + ANSI_RESET;
+                    case DOWN -> ANSI_GREEN + "v" + ANSI_RESET;
+                };
 
             map.get(to.i()).set(to.j(), c);
         }
 
-        System.out.println(
-            String.join("\n", map.stream().map(r -> String.join("", r)).toList())
-        );
-
+        System.out.println(String.join("\n", map.stream().map(r -> String.join("", r)).toList()));
     }
 
     public Long part2(List<String> lines) {
-        List<List<Position>> positions = IntStream
-            .range(0, lines.size())
-            .mapToObj(i -> IntStream
-                .range(0, lines.get(0).length())
-                .mapToObj(j -> new Position(
-                    i,
-                    j,
-                    Integer.parseInt(String.valueOf(lines.get(i).charAt(j))))
-                )
-                .toList()
+        List<List<Position>> positions = IntStream.range(0, lines.size())
+            .mapToObj(i ->
+                IntStream.range(0, lines.get(0).length())
+                    .mapToObj(j ->
+                        new Position(i, j, Integer.parseInt(String.valueOf(lines.get(i).charAt(j))))
+                    )
+                    .toList()
             )
             .toList();
 
@@ -107,4 +99,3 @@ public class Day17 {
         return locationWithDirection.heatLoss();
     }
 }
-

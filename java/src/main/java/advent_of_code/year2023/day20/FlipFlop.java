@@ -4,15 +4,12 @@ import java.util.List;
 import java.util.Objects;
 
 final class FlipFlop implements Receiver {
+
     private final String name;
     private final List<String> destinationModules;
     public boolean isOn;
 
-    FlipFlop(
-            String name,
-            List<String> destinationModules,
-            boolean isOn
-    ) {
+    FlipFlop(String name, List<String> destinationModules, boolean isOn) {
         this.name = name;
         this.destinationModules = destinationModules;
         this.isOn = isOn;
@@ -49,11 +46,11 @@ final class FlipFlop implements Receiver {
             return false;
         }
         var that = (FlipFlop) obj;
-        return Objects.equals(this.name, that.name)
-                &&
-                Objects.equals(this.destinationModules, that.destinationModules)
-                &&
-                this.isOn == that.isOn;
+        return (
+            Objects.equals(this.name, that.name) &&
+            Objects.equals(this.destinationModules, that.destinationModules) &&
+            this.isOn == that.isOn
+        );
     }
 
     @Override
@@ -65,5 +62,4 @@ final class FlipFlop implements Receiver {
     public String toString() {
         return name + ": " + isOn;
     }
-
 }

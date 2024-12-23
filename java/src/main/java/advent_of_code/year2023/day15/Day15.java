@@ -1,4 +1,3 @@
-
 package advent_of_code.year2023.day15;
 
 import java.util.ArrayList;
@@ -30,6 +29,7 @@ public class Day15 {
             return (long) focal * (lensIndex + 1);
         }
     }
+
     record Box(List<Lens> lenses) {
         Box() {
             this(List.of());
@@ -41,15 +41,17 @@ public class Day15 {
 
         public Box add(String label, short focal) {
             if (lenses.stream().anyMatch(lens -> lens.label.equals(label))) {
-                return new Box(lenses
-                                   .stream()
-                                   .map(lens -> {
-                                       if (lens.label.equals(label)) {
-                                           return new Lens(label, focal);
-                                       }
-                                       return lens;
-                                   })
-                                   .toList());
+                return new Box(
+                    lenses
+                        .stream()
+                        .map(lens -> {
+                            if (lens.label.equals(label)) {
+                                return new Lens(label, focal);
+                            }
+                            return lens;
+                        })
+                        .toList()
+                );
             }
 
             var updated = new ArrayList<>(lenses);
@@ -59,9 +61,12 @@ public class Day15 {
         }
 
         public long focusingPower(int boxIndex) {
-            return (1 + boxIndex) * IntStream.range(0, lenses.size())
-                .mapToLong(i -> lenses.get(i).focusingPower(i))
-                .sum();
+            return (
+                (1 + boxIndex) *
+                IntStream.range(0, lenses.size())
+                    .mapToLong(i -> lenses.get(i).focusingPower(i))
+                    .sum()
+            );
         }
     }
 
@@ -112,8 +117,7 @@ public class Day15 {
         }
 
         public Long focusingPower() {
-            return IntStream
-                .range(0, boxes.size())
+            return IntStream.range(0, boxes.size())
                 .mapToLong(i -> boxes.get(i).focusingPower(i))
                 .sum();
         }
@@ -124,11 +128,10 @@ public class Day15 {
         List<String> instructions = Arrays.stream(input.split(",")).toList();
 
         Step step = new Step();
-        for (String instruction: instructions) {
+        for (String instruction : instructions) {
             step = step.next(instruction);
         }
 
         return step.focusingPower();
     }
 }
-

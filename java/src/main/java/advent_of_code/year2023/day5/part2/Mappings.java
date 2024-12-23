@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 final class Mappings {
+
     private final Map<String, CategoryMapping> value;
 
     Mappings(List<String> lines) {
@@ -14,10 +15,12 @@ final class Mappings {
         this.value = linesGroupedByCategory
             .stream()
             .map(CategoryMapping::from)
-            .collect(Collectors.toMap(
-                categoryMapping -> categoryMapping.description().source(),
-                categoryMapping -> categoryMapping
-            ));
+            .collect(
+                Collectors.toMap(
+                    categoryMapping -> categoryMapping.description().source(),
+                    categoryMapping -> categoryMapping
+                )
+            );
     }
 
     CategoryMapping get(String key) {

@@ -15,18 +15,13 @@ public class Day7 {
         List<Hand> hands = parse(lines)
             .stream()
             .sorted(
-                Comparator
-                        .comparing((Hand hand) -> hand.rank(isPart1))
-                        .thenComparing((hand1, other) -> hand1.compare(other,
-                                                                       isPart1
-                        ))
+                Comparator.comparing((Hand hand) -> hand.rank(isPart1)).thenComparing(
+                    (hand1, other) -> hand1.compare(other, isPart1)
+                )
             )
             .toList();
 
-        return IntStream
-            .range(0, hands.size())
-            .mapToLong(i -> hands.get(i).bid() * (i + 1))
-            .sum();
+        return IntStream.range(0, hands.size()).mapToLong(i -> hands.get(i).bid() * (i + 1)).sum();
     }
 
     public Long part2(List<String> lines) {
@@ -34,7 +29,6 @@ public class Day7 {
     }
 
     record Card(Character c) {
-
         public int rank(boolean part1) {
             return part1 ? rankPart1() : rankPart2();
         }
@@ -54,8 +48,7 @@ public class Day7 {
                 case 'Q' -> 11;
                 case 'K' -> 12;
                 case 'A' -> 13;
-                default ->
-                    throw new IllegalStateException("Unexpected value: " + c);
+                default -> throw new IllegalStateException("Unexpected value: " + c);
             };
         }
 
@@ -70,13 +63,12 @@ public class Day7 {
             return c == 'J';
         }
     }
+
     record Hand(List<Card> cards, long bid) {
         short rank(boolean isPart1) {
-            Map<Card, Long> result = cards().stream()
-               .collect(Collectors.groupingBy(
-                   Function.identity(),
-                   Collectors.counting()
-               ));
+            Map<Card, Long> result = cards()
+                .stream()
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
             List<Map.Entry<Card, Long>> list = result
                 .entrySet()
                 .stream()
@@ -96,8 +88,7 @@ public class Day7 {
                 return 6;
             }
 
-            if (list.get(cardNumber).getValue() == 3 && list
-                .get(cardNumber - 1).getValue() == 2) {
+            if (list.get(cardNumber).getValue() == 3 && list.get(cardNumber - 1).getValue() == 2) {
                 return 5;
             }
 
@@ -105,7 +96,7 @@ public class Day7 {
                 return 4;
             }
 
-            if (list.get(cardNumber).getValue() == 2 && list.get(cardNumber -1).getValue() == 2) {
+            if (list.get(cardNumber).getValue() == 2 && list.get(cardNumber - 1).getValue() == 2) {
                 return 3;
             }
 
@@ -123,28 +114,41 @@ public class Day7 {
             }
 
             if (list.get(cardNumber).getValue() == 4) {
-                if (list.get(cardNumber).getKey().isJoker() || list.get(cardNumber - 1).getKey().isJoker()) {
+                if (
+                    list.get(cardNumber).getKey().isJoker() ||
+                    list.get(cardNumber - 1).getKey().isJoker()
+                ) {
                     return 7;
                 }
                 return 6;
             }
 
             if (list.get(cardNumber).getValue() == 3 && list.get(cardNumber - 1).getValue() == 2) {
-                if (list.get(cardNumber).getKey().isJoker() || list.get(cardNumber - 1).getKey().isJoker()) {
+                if (
+                    list.get(cardNumber).getKey().isJoker() ||
+                    list.get(cardNumber - 1).getKey().isJoker()
+                ) {
                     return 7;
                 }
                 return 5;
             }
 
             if (list.get(cardNumber).getValue() == 3) {
-                if (list.get(cardNumber).getKey().isJoker() || list.get(cardNumber - 1).getKey().isJoker() || list.get(cardNumber - 2).getKey().isJoker()) {
+                if (
+                    list.get(cardNumber).getKey().isJoker() ||
+                    list.get(cardNumber - 1).getKey().isJoker() ||
+                    list.get(cardNumber - 2).getKey().isJoker()
+                ) {
                     return 6;
                 }
                 return 4;
             }
 
-            if (list.get(cardNumber).getValue() == 2 && list.get(cardNumber -1).getValue() == 2) {
-                if (list.get(cardNumber).getKey().isJoker() || list.get(cardNumber - 1).getKey().isJoker()) {
+            if (list.get(cardNumber).getValue() == 2 && list.get(cardNumber - 1).getValue() == 2) {
+                if (
+                    list.get(cardNumber).getKey().isJoker() ||
+                    list.get(cardNumber - 1).getKey().isJoker()
+                ) {
                     return 6;
                 }
                 if (list.get(cardNumber - 2).getKey().isJoker()) {
@@ -167,10 +171,10 @@ public class Day7 {
 
             if (
                 list.get(cardNumber).getKey().isJoker() ||
-                    list.get(cardNumber - 1).getKey().isJoker() ||
-                    list.get(cardNumber - 2).getKey().isJoker() ||
-                    list.get(cardNumber - 3).getKey().isJoker() ||
-                    list.get(cardNumber - 4).getKey().isJoker()
+                list.get(cardNumber - 1).getKey().isJoker() ||
+                list.get(cardNumber - 2).getKey().isJoker() ||
+                list.get(cardNumber - 3).getKey().isJoker() ||
+                list.get(cardNumber - 4).getKey().isJoker()
             ) {
                 return 2;
             }
@@ -194,21 +198,14 @@ public class Day7 {
     }
 
     private static List<Hand> parse(List<String> lines) {
-        return lines
-            .stream()
-            .map(Day7::parse)
-            .toList();
+        return lines.stream().map(Day7::parse).toList();
     }
 
     private static Hand parse(String row) {
         String[] split = row.split(" ");
         var bid = Long.parseLong(split[1]);
 
-        var cards = split[0]
-            .chars()
-            .mapToObj(c -> (char) c)
-            .map(Card::new)
-            .toList();
+        var cards = split[0].chars().mapToObj(c -> (char) c).map(Card::new).toList();
 
         return new Hand(cards, bid);
     }

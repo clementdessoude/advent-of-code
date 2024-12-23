@@ -24,9 +24,9 @@ public class Part2Solver {
     private static List<Range> parseSeeds(List<String> lines) {
         List<Range> seeds = new ArrayList<>();
         String[] seedStrings = lines.get(0).split(":")[1].split(" ");
-        for (int i = 1; i < seedStrings.length; i+=2) {
+        for (int i = 1; i < seedStrings.length; i += 2) {
             long start = Long.parseLong(seedStrings[i]);
-            long range = Long.parseLong(seedStrings[i+1]);
+            long range = Long.parseLong(seedStrings[i + 1]);
             seeds.add(new Range(start, start + range - 1));
         }
         return seeds;

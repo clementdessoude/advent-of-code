@@ -1,4 +1,3 @@
-
 package advent_of_code.year2023.day20;
 
 import java.util.*;
@@ -10,15 +9,12 @@ public class Day20 {
         Map<String, Receiver> receivers = lines
             .stream()
             .map(Day20::parseRow)
-            .collect(Collectors.toMap(
-                Receiver::name,
-                receiver -> receiver
-            ));
+            .collect(Collectors.toMap(Receiver::name, receiver -> receiver));
 
         receivers
             .values()
             .forEach(receiver -> {
-                for (var destination: receiver.destinationModules()) {
+                for (var destination : receiver.destinationModules()) {
                     if (receivers.get(destination) instanceof ConjonctionModule conjonctionModule) {
                         conjonctionModule.addInput(receiver.name());
                     }
@@ -42,7 +38,9 @@ public class Day20 {
         System.out.println("Pushed " + cycle);
 
         long factor = 1000L / cycle;
-        return factor * factor * pulseTypeCount.get(PulseType.LOW) * pulseTypeCount.get(PulseType.HIGH);
+        return (
+            factor * factor * pulseTypeCount.get(PulseType.LOW) * pulseTypeCount.get(PulseType.HIGH)
+        );
     }
 
     private static boolean pushButton(
@@ -60,8 +58,7 @@ public class Day20 {
             if (currentPulse.destination().equals("rx") && currentPulse.type() == PulseType.LOW) {
                 countPulseSentToRx++;
             }
-            Receiver receiver = receivers
-                .get(currentPulse.destination());
+            Receiver receiver = receivers.get(currentPulse.destination());
 
             if (receiver == null) {
                 continue;
@@ -93,15 +90,12 @@ public class Day20 {
         Map<String, Receiver> receivers = lines
             .stream()
             .map(Day20::parseRow)
-            .collect(Collectors.toMap(
-                Receiver::name,
-                receiver -> receiver
-            ));
+            .collect(Collectors.toMap(Receiver::name, receiver -> receiver));
 
         receivers
             .values()
             .forEach(receiver -> {
-                for (var destination: receiver.destinationModules()) {
+                for (var destination : receiver.destinationModules()) {
                     if (receivers.get(destination) instanceof ConjonctionModule conjonctionModule) {
                         conjonctionModule.addInput(receiver.name());
                     }
@@ -118,32 +112,25 @@ public class Day20 {
             .values()
             .stream()
             .filter(receiver -> receiver instanceof FlipFlop)
-//            .filter(receiver -> Set.of("lm", "nf", "jd", "nk").contains(receiver.name()))
+            //            .filter(receiver -> Set.of("lm", "nf", "jd", "nk").contains(receiver.name()))
             .map(e -> (FlipFlop) e)
             .toList();
 
-
-        System.out.println(list
-                               .stream()
-                               .map(m -> m.name())
-                               .collect(Collectors.joining(",")));
+        System.out.println(list.stream().map(m -> m.name()).collect(Collectors.joining(",")));
 
         long cycle = 1;
         while (!pushButton(pulseTypeCount, receivers)) {
-//            for (var module: receivers.values()) {
-//                states.putIfAbsent(module.name(), new ArrayList<>());
-//                states.get(module.name()).add(module.toString());
-//            }
-//            boolean b = list
-//                .stream().allMatch(flipFlop -> flipFlop.isOn);
+            //            for (var module: receivers.values()) {
+            //                states.putIfAbsent(module.name(), new ArrayList<>());
+            //                states.get(module.name()).add(module.toString());
+            //            }
+            //            boolean b = list
+            //                .stream().allMatch(flipFlop -> flipFlop.isOn);
 
-                var printed = list
-                    .stream()
-                    .mapToInt(m -> m.isOn ? 1 : 0)
-                    .sum();
+            var printed = list.stream().mapToInt(m -> m.isOn ? 1 : 0).sum();
 
             if (printed > 44) {
-//                System.out.println(printed);
+                //                System.out.println(printed);
                 System.out.println(cycle);
             }
             cycle++;
@@ -157,12 +144,11 @@ public class Day20 {
         // sk => 7
         // sv => 2
 
-
         return cycle;
     }
 
     public long test() {
-        List<Long> ints = List.of(2025L,1863L,1691L,1955L);
+        List<Long> ints = List.of(2025L, 1863L, 1691L, 1955L);
 
         for (long i = 1; i < 1_000_000_000; i++) {
             long value = 2048 * i;
@@ -189,4 +175,3 @@ public class Day20 {
         return i % (2048 + value) == 0 ? l : l + 1;
     }
 }
-

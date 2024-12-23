@@ -30,12 +30,7 @@ class Day22Test {
 
     @Test
     void should_solve_part_2_example() {
-        List<String> lines = List.of(
-            "1",
-            "2",
-            "3",
-            "2024"
-        );
+        List<String> lines = List.of("1", "2", "3", "2024");
 
         var result = day.part2(lines);
 

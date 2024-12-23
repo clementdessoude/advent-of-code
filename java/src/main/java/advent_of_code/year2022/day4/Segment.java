@@ -10,6 +10,10 @@ record Segment(int start, int end) {
     }
 
     boolean overlaps(Segment other) {
-        return (start >= other.start && start <= other.end) || (end >= other.start && end <= other.end) || containsOrIsContainedBy(other);
+        return (
+            (start >= other.start && start <= other.end) ||
+            (end >= other.start && end <= other.end) ||
+            containsOrIsContainedBy(other)
+        );
     }
 }

@@ -15,13 +15,20 @@ class DirectionPad extends Pad {
     private static Pad PAD;
 
     private DirectionPad() {
-        super(Map.of(
-            "^", new Location(1, 0),
-            "A", new Location(2, 0),
-            "<", new Location(0, 1),
-            "v", new Location(1, 1),
-            ">", new Location(2, 1)
-        ));
+        super(
+            Map.of(
+                "^",
+                new Location(1, 0),
+                "A",
+                new Location(2, 0),
+                "<",
+                new Location(0, 1),
+                "v",
+                new Location(1, 1),
+                ">",
+                new Location(2, 1)
+            )
+        );
     }
 
     static Pad getPad() {
