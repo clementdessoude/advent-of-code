@@ -29,23 +29,12 @@ class Day21Test {
         assertThat(result).isEqualTo(128962);
     }
 
-    @Disabled
-    @Test
-    void should_solve_part_2_example() {
-        List<String> lines = getLines("year2024/day21/example.txt");
-
-        var result = day.part2(lines);
-
-        assertThat(result).isEqualTo(2);
-    }
-
-    @Disabled
     @Test
     void should_solve_part_2() {
         List<String> lines = getLines("year2024/day21/input.txt");
 
         var result = day.part2(lines);
 
-        assertThat(result).isEqualTo(977);
+        assertThat(result).isEqualTo(159684145150108L);
     }
 }

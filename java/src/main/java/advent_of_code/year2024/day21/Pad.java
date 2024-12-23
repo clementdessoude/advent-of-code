@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.jetbrains.annotations.NotNull;
 
 abstract class Pad {
 
@@ -132,18 +131,6 @@ abstract class Pad {
             return List.of("");
         }
         return shortestMoves.get(new Pair<>(from, to));
-    }
-
-    public Collection<String> shortestMovesPart2(String from, String to) {
-        if (from.equals(to)) {
-            return List.of("");
-        }
-        return shortestMoves
-            .get(new Pair<>(from, to))
-            .stream()
-            .sorted(Comparator.comparing(this::score))
-            .limit(5)
-            .toList();
     }
 
     private int score(String s) {
