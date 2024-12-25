@@ -18,6 +18,16 @@ public final class CollectionUtils {
         return result;
     }
 
+    public static <T, U> List<Pair<T, U>> pairOf(Collection<T> first, Collection<U> second) {
+        List<Pair<T, U>> result = new ArrayList<>();
+        for (T t : first) {
+            for (U u : second) {
+                result.add(new Pair<>(t, u));
+            }
+        }
+        return result;
+    }
+
     public static <T> Collection<T> notIn(Collection<T> first, Collection<T> second) {
         var result = new HashSet<T>();
         for (var element : first) {
