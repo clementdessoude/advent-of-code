@@ -124,12 +124,12 @@ class Day23 {
             .collect(Collectors.toSet());
 
         Set<Set<String>> smallerGroup = groupsOfThree(connexionPairs);
-//        System.out.println("Size: " + smallerGroup.size());
+        //        System.out.println("Size: " + smallerGroup.size());
         Set<Set<String>> nextGroup = biggerGroup(connexionPairs, connexions, smallerGroup, nodes);
         int i = 4;
         while (!nextGroup.isEmpty()) {
-//            System.out.println(i++);
-//            System.out.println("Size: " + nextGroup.size());
+            //            System.out.println(i++);
+            //            System.out.println("Size: " + nextGroup.size());
             smallerGroup = nextGroup;
             nextGroup = biggerGroup(connexionPairs, connexions, nextGroup, nodes);
         }

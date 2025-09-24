@@ -59,7 +59,10 @@ final class Solver {
         var path = "A" + input;
         var count = 0L;
         for (int i = 1; i < path.length(); i++) {
-            var pair = new Pair<>(String.valueOf(path.charAt(i - 1)), String.valueOf(path.charAt(i)));
+            var pair = new Pair<>(
+                String.valueOf(path.charAt(i - 1)),
+                String.valueOf(path.charAt(i))
+            );
             var toAdd = buttonPressForPair(pair, cache, robotCount);
             count += toAdd;
         }
@@ -71,9 +74,8 @@ final class Solver {
         Map<Pair<String, String>, Map<Integer, Long>> cache,
         int robotCount
     ) {
-        Map<Integer, Long> buttonPressForPairCache = cache.computeIfAbsent(
-            pair,
-            k -> new HashMap<>()
+        Map<Integer, Long> buttonPressForPairCache = cache.computeIfAbsent(pair, k ->
+            new HashMap<>()
         );
 
         if (buttonPressForPairCache.containsKey(robotCount)) {
@@ -85,8 +87,7 @@ final class Solver {
             return 1L;
         }
 
-        Collection<String> moves = directionPad
-            .shortestMoves(pair.first(), pair.second());
+        Collection<String> moves = directionPad.shortestMoves(pair.first(), pair.second());
 
         var min = moves
             .stream()

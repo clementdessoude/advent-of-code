@@ -18,14 +18,22 @@ final class Solver {
     private final Map<String, Supplier<Boolean>> operations = new HashMap<>();
     private final Map<Set<String>, String> outputs = new HashMap<>();
     private final Map<String, String> swaps = Map.of(
-        "dbp", "fdv",
-        "fdv", "dbp",
-        "ckj", "z15",
-        "z15", "ckj",
-        "kdf", "z23",
-        "z23", "kdf",
-        "rpp", "z39",
-        "z39", "rpp"
+        "dbp",
+        "fdv",
+        "fdv",
+        "dbp",
+        "ckj",
+        "z15",
+        "z15",
+        "ckj",
+        "kdf",
+        "z23",
+        "z23",
+        "kdf",
+        "rpp",
+        "z39",
+        "z39",
+        "rpp"
     );
 
     public Solver(List<String> lines) {
@@ -51,14 +59,7 @@ final class Solver {
             String second = matcher.group("second");
 
             operations.put(output, getOutputValueProvider(first, second, operation, output));
-            outputs.put(
-                Set.of(
-                    first,
-                    second,
-                    operation
-                ),
-                swaps.getOrDefault(output, output)
-            );
+            outputs.put(Set.of(first, second, operation), swaps.getOrDefault(output, output));
         }
     }
 
@@ -82,17 +83,23 @@ final class Solver {
         return result;
     }
 
-    private Supplier<Boolean> getOutputValueProvider(String first, String second, String operation, String output) {
+    private Supplier<Boolean> getOutputValueProvider(
+        String first,
+        String second,
+        String operation,
+        String output
+    ) {
         return () -> {
             Boolean firstValue = getValue(first);
             Boolean secondValue = getValue(second);
 
-            var result = switch (operation) {
-                case "AND" -> firstValue && secondValue;
-                case "OR" -> firstValue || secondValue;
-                case "XOR" -> firstValue != secondValue;
-                default -> throw new IllegalStateException("Unexpected value: " + operation);
-            };
+            var result =
+                switch (operation) {
+                    case "AND" -> firstValue && secondValue;
+                    case "OR" -> firstValue || secondValue;
+                    case "XOR" -> firstValue != secondValue;
+                    default -> throw new IllegalStateException("Unexpected value: " + operation);
+                };
 
             wires.put(output, result);
             return result;
@@ -108,11 +115,7 @@ final class Solver {
             String y = String.format("y%02d", i);
             String xor = getOutput(x, y, "XOR");
             String previousCarry = carries.get(i - 1);
-            String output = getOutput(
-                previousCarry,
-                xor,
-                "XOR"
-            );
+            String output = getOutput(previousCarry, xor, "XOR");
             if (!z.equals(output)) {
                 System.out.println("%s - %s".formatted(output, z));
                 throw new IllegalStateException(z);

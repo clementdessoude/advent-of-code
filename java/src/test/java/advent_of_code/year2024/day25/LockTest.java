@@ -9,7 +9,8 @@ class LockTest {
 
     @Test
     void should_parse_lock() {
-        var description = """
+        var description =
+            """
             #####
             .####
             .####
@@ -20,6 +21,6 @@ class LockTest {
             """;
         var lock = Lock.of(Arrays.stream(description.split("\\n")).toList());
 
-        assertThat(lock.heights()).containsExactly(0,5,3,4,3);
+        assertThat(lock.heights()).containsExactly(0, 5, 3, 4, 3);
     }
 }

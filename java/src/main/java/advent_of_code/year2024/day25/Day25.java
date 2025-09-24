@@ -10,7 +10,7 @@ class Day25 {
     Long part1(List<String> lines) {
         Set<Key> keys = new HashSet<>();
         Set<Lock> locks = new HashSet<>();
-        for (int i = 0; i < lines.size(); i+=8) {
+        for (int i = 0; i < lines.size(); i += 8) {
             boolean isKey = lines.get(i).startsWith(".");
             if (isKey) {
                 keys.add(Key.of(lines.subList(i, i + 7)));
@@ -18,11 +18,14 @@ class Day25 {
                 locks.add(Lock.of(lines.subList(i, i + 7)));
             }
         }
-        return CollectionUtils.pairOf(keys, locks).stream().filter(pair -> {
-            var key = pair.first();
-            var lock = pair.second();
+        return CollectionUtils.pairOf(keys, locks)
+            .stream()
+            .filter(pair -> {
+                var key = pair.first();
+                var lock = pair.second();
 
-            return key.fit(lock);
-        }).count();
+                return key.fit(lock);
+            })
+            .count();
     }
 }

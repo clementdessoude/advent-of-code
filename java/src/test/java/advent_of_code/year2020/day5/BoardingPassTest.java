@@ -1,8 +1,8 @@
 package advent_of_code.year2020.day5;
 
-import org.junit.jupiter.api.Test;
-
 import static org.assertj.core.api.Assertions.assertThat;
+
+import org.junit.jupiter.api.Test;
 
 class BoardingPassTest {
 
@@ -26,5 +26,4 @@ class BoardingPassTest {
 
         assertThat(boardingPass.seatId()).isEqualTo(357);
     }
-
 }

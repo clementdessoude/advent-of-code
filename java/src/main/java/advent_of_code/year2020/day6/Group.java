@@ -2,7 +2,6 @@ package advent_of_code.year2020.day6;
 
 import advent_of_code.utils.CollectionUtils;
 import advent_of_code.utils.StringUtils;
-
 import java.util.*;
 
 class Group {

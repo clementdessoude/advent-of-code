@@ -29,11 +29,13 @@ class SolverTest {
     }
 
     @ParameterizedTest
-    @CsvSource({
-        "3,<vA<AA>>^AvAA<^A>A<v<A>>^AvA^A<vA>^A<v<A>^A>AAvA^A<v<A>A>^AAAvA<^A>A",
-        "2,v<<A>>^A<A>AvA<^AA>A<vAAA>^A",
-        "1,<A^A>^^AvvvA"
-    })
+    @CsvSource(
+        {
+            "3,<vA<AA>>^AvAA<^A>A<v<A>>^AvA^A<vA>^A<v<A>^A>AAvA^A<v<A>A>^AAAvA<^A>A",
+            "2,v<<A>>^A<A>AvA<^AA>A<vAAA>^A",
+            "1,<A^A>^^AvvvA"
+        }
+    )
     void test(int robotCount, String expected) {
         HashMap<Pair<String, String>, Map<Integer, Long>> cache = new HashMap<>();
         long actual = new Solver("029A").minPath(robotCount, cache);

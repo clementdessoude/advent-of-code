@@ -9,7 +9,8 @@ class KeyTest {
 
     @Test
     void should_parse_key() {
-        var description = """
+        var description =
+            """
             .....
             #....
             #....
@@ -20,6 +21,6 @@ class KeyTest {
             """;
         var key = Key.of(Arrays.stream(description.split("\\n")).toList());
 
-        assertThat(key.heights()).containsExactly(5,0,2,1,3);
+        assertThat(key.heights()).containsExactly(5, 0, 2, 1, 3);
     }
 }
