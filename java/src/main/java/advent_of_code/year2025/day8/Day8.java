@@ -101,7 +101,70 @@ class Day8 {
     }
 
     Long part2(List<String> lines) {
-        return null;
+        var points = lines
+            .stream()
+            .map(line -> line.split(","))
+            .map(split ->
+                new Point(
+                    Integer.parseInt(split[0]),
+                    Integer.parseInt(split[1]),
+                    Integer.parseInt(split[2])
+                )
+            )
+            .toList();
+
+        var distances = distances(lines, points);
+
+        List<Set<Point>> networks = new ArrayList<>();
+        while (true) {
+            var segment = distances.getFirst().getFirst();
+
+            var matchingStartAndEndNetwork = networks
+                .stream()
+                .anyMatch(
+                    network -> network.contains(segment.start) && network.contains(segment.end)
+                );
+
+            if (matchingStartAndEndNetwork) {
+                distances.getFirst().removeFirst();
+                distances = sortDistances(distances);
+                continue;
+            }
+
+            var matchingStartNetwork = networks
+                .stream()
+                .filter(network -> network.contains(segment.start))
+                .findFirst();
+
+            var matchingEndNetwork = networks
+                .stream()
+                .filter(network -> network.contains(segment.end))
+                .findFirst();
+
+            if (matchingStartNetwork.isEmpty() && matchingEndNetwork.isEmpty()) {
+                Set<Point> newNetwork = new HashSet<>();
+                newNetwork.add(segment.start);
+                newNetwork.add(segment.end);
+                networks.add(newNetwork);
+            } else if (matchingStartNetwork.isPresent() && matchingEndNetwork.isPresent()) {
+                matchingStartNetwork.get().addAll(matchingEndNetwork.get());
+                networks.remove(matchingEndNetwork.get());
+            } else if (matchingStartNetwork.isPresent()) {
+                matchingStartNetwork.get().add(segment.end);
+            } else {
+                matchingEndNetwork.get().add(segment.start);
+            }
+
+            if (
+                matchingStartNetwork.map(Set::size).orElse(0) == points.size() ||
+                matchingEndNetwork.map(Set::size).orElse(0) == points.size()
+            ) {
+                return (long) (segment.start.x * segment.end.x);
+            }
+
+            distances.getFirst().removeFirst();
+            distances = sortDistances(distances);
+        }
     }
 
     record Point(int x, int y, int z) {
